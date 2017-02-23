@@ -1,0 +1,5 @@
+/*login*/
+.login input{margin: 0px!important;}
+.login .item .alert{float: inherit;margin: 0px;}
+.login .form-group{margin-bottom: 20px;}
+.login .item .alert::after{display: none;}
