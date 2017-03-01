@@ -19,6 +19,12 @@
         <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+        <!-- Datatables -->
+        <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -182,97 +188,35 @@
                 <div class="right_col" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New Agent</h2>
+                            <h2>House List</h2>
+                            <div class="text-right">
+                                <button id="new" class="btn btn-success">New</button>
+                                <button id="export" class="btn btn-success">Export</button>
+                                <button id="import" class="btn btn-success">Import</button>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form class="form-horizontal form-label-left" novalidate>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userName" class="control-label col-md-3 col-sm-3 col-xs-12">User Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="userName" name="username" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="wechatName" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatName" name="wechat_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="wechatId" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat ID <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatId" name="wechat_id" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="realName" class="control-label col-md-3 col-sm-3 col-xs-12">Real Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="realName" name="real_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="cell" class="control-label col-md-3 col-sm-3 col-xs-12">Cell <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="cell" name="cell" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="officeTelephone" class="control-label col-md-3">Office Telephone <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="officeTelephone" name="office_telephone" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="brokerageName" class="control-label col-md-3 col-sm-3 col-xs-12">Brokerage Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="brokerageName" name="brokerage_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userRole" class="control-label col-md-3 col-sm-3 col-xs-12">User Role <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control" id="userRole" name="user_role" required="required">
-                                                    <option value=""></option>
-                                                    <option value="1">Super Admin</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Bay Street Agent</option>
-                                                    <option value="4">Other Brokerage Agent</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ln_solid"></div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancel</button>
-                                        <button id="send" type="submit" class="btn btn-success">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
+                            <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Project name</th>
+                                        <th>I have agent</th>
+                                        <th>I want agent</th>
+                                        <th>Unit type</th>
+                                        <th>Floor Level</th>
+                                        <th>Price</th>
+                                        <th>Exposure</th>
+                                        <th>Coop</th>
+                                        <th>Action</th>
+                                        <th>Unit status</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableData">
+                                    
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -297,52 +241,94 @@
         <script src="../vendors/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
         <script src="../vendors/nprogress/nprogress.js"></script>
-        <!-- validator -->
-        <script src="../vendors/validator/validator.js"></script>
         <!-- PNotify -->
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
+        <!-- Datatables -->
+        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+        <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+        <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+        <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+        <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+        <script src="../vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+        <script src="../vendors/jszip/dist/jszip.min.js"></script>
+        <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+        <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
 
         <script>
-            // initialize the validator function
-            validator.message.date = 'not a real date';
+            $(document).ready(function(){
+                var username = localStorage.getItem('username');
+                var token = localStorage.getItem('token');
+                var role = localStorage.getItem('role');
+                $('.username').text(username);
 
-            // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
-            $('form')
-                .on('blur', 'input[required], input.optional, select.required', validator.checkField)
-                .on('change', 'select.required', validator.checkField)
-                .on('keypress', 'input[required][pattern]', validator.keypress);
+                requestData();
 
-            // $('.multi.required').on('keyup blur', 'input', function() {
-            //     validator.checkField.apply($(this).siblings().last()[0]);
-            // });
+                //log out
+                $('#logOut').click(function(){
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    location.href = "louhua_login.html";
+                });
 
-            $('form').submit(function(e) {
-                e.preventDefault();
-                var submit = true;
+                //new
+                $('#new').click(function(){
+                    location.href = 'louhua_newAdmin.html';
+                });
 
-                // evaluate the form using generic validaing
-                if (!validator.checkAll($(this))) {
-                    submit = false;
-                }
+                //export
+                $('#export').click(function(){
+                    location.href = apiUrl + '/crmapi/exportadmins';
+                });
 
-                if (submit){
+                //import
+                $('#import').click(function(){
+                    location.href = 'louhua_adminImport.html';
+                });
+
+                function requestData(){
                     $.ajax({
-                        type: 'post',
-                        url: apiUrl + '/crmapi/agentregist',
-                        data: $('form').serializeArray(),
+                        type: 'get',
+                        url: apiUrl + '/crmapi/searchhouse',
                         success: function(res){
                             if(res.status == 'ok'){
-                                new PNotify({
-                                  title: 'Success',
-                                  text: 'Update success',
-                                  type: 'success',
-                                  styling: 'bootstrap3'
-                                });
+                                var list = res.results.list;
+                                var tableHtml = '';
+                                if(list != null){
+                                    if(list.length > 0 ){
+                                        for(var i = 0; i < list.length; i++){
+                                            tableHtml += '<tr>\
+                                                    <td>' + list[i].projectName + '</td>\
+                                                    <td>' + list[i].userHaveName + '</td>\
+                                                    <td>' + list[i].userWantName + '</td>\
+                                                    <td>' + list[i].unitType + '</td>\
+                                                    <td>' + list[i].brokerageName + '</td>\
+                                                    <td>' + list[i].price + '</td>\
+                                                    <td>' + list[i].exposure + '</td>\
+                                                    <td>' + list[i].coop + '</td>\
+                                                    <td>' + list[i].action + '</td>\
+                                                    <td>' + list[i].unitStatus + '</td>\
+                                                    <td>\
+                                                        <a class="update" data-id="' + list[i].userId + '" role="button">update</a>\
+                                                        <a class="delete" data-id="' + list[i].userId + '" role="button">delete</a>\
+                                                    </td>\
+                                                </tr>';
+                                        }
+                                    }
+                                }
+                                $('#tableData').html(tableHtml);
+                                readyPage();
                             }else{
                                 new PNotify({
                                     title: 'Oh No!',
@@ -359,21 +345,43 @@
                     });
                 }
 
-                return false;
-            });
-            var username = localStorage.getItem('username');
-            var token = localStorage.getItem('token');
-            var role = localStorage.getItem('role');
-            $('.username').text(username);
+                function readyPage(){
+                    $('#datatable-fixed-header').DataTable({
+                        fixedHeader: true
+                    });
+                    $('.update').click(function(){
+                        location.href = 'louhua_updateAdmin.html?id=' + $(this).attr('data-id');
+                    });
+                    $('.delete').click(function(){
+                        $.ajax({
+                            type: 'delete',
+                            url: apiUrl + '/crmapi/deleteadmin/' + $(this).attr('data-id'),
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    requestData();
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Delete success',
+                                        type: 'success',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(res){
 
-            requestData();
-
-            //log out
-            $('#logOut').click(function(){
-                localStorage.removeItem('username');
-                localStorage.removeItem('token');
-                localStorage.removeItem('role');
-                location.href = "louhua_login.html";
+                            }
+                        });
+                    });
+                }
             });
         </script>
     </body>

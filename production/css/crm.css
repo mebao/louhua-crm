@@ -3,3 +3,11 @@
 .login .item .alert{float: inherit;margin: 0px;}
 .login .form-group{margin-bottom: 20px;}
 .login .item .alert::after{display: none;}
+
+/*updateproject*/
+.updateproject-page select{
+	padding: 6px 0;
+}
+.projectViewPicture-page .thumbnail{
+	height: 210px;
+}

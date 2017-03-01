@@ -80,6 +80,9 @@
                                     <li><a><i class="fa fa-edit"></i> House Manage <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li>
+                                                <a href="louhua_houseList.html">House List</a>
+                                            </li>
+                                            <li>
                                                 <a href="louhua_newIhave.html">Add I have</a>
                                             </li>
                                             <li>
@@ -182,7 +185,7 @@
                 <div class="right_col" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New Agent</h2>
+                            <h2>New I want</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -194,73 +197,6 @@
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
                                                 <input type="text" id="userName" name="username" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="wechatName" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatName" name="wechat_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="wechatId" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat ID <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatId" name="wechat_id" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="realName" class="control-label col-md-3 col-sm-3 col-xs-12">Real Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="realName" name="real_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="cell" class="control-label col-md-3 col-sm-3 col-xs-12">Cell <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="cell" name="cell" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="officeTelephone" class="control-label col-md-3">Office Telephone <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="officeTelephone" name="office_telephone" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="brokerageName" class="control-label col-md-3 col-sm-3 col-xs-12">Brokerage Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="brokerageName" name="brokerage_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userRole" class="control-label col-md-3 col-sm-3 col-xs-12">User Role <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control" id="userRole" name="user_role" required="required">
-                                                    <option value=""></option>
-                                                    <option value="1">Super Admin</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Bay Street Agent</option>
-                                                    <option value="4">Other Brokerage Agent</option>
-                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -333,7 +269,7 @@
                 if (submit){
                     $.ajax({
                         type: 'post',
-                        url: apiUrl + '/crmapi/agentregist',
+                        url: apiUrl + '/crmapi/adminregist',
                         data: $('form').serializeArray(),
                         success: function(res){
                             if(res.status == 'ok'){

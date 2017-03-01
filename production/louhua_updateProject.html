@@ -15,6 +15,8 @@
         <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
         <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+        <!-- bootstrap-daterangepicker -->
+        <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
         <!-- PNotify -->
         <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
@@ -22,6 +24,10 @@
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
+
+
+        <link href="css/common.css" rel="stylesheet">
+        <link href="css/crm.css" rel="stylesheet">
     </head>
 
     <body class="nav-md">
@@ -179,10 +185,10 @@
                 <!-- /top navigation -->
 
                 <!-- page content -->
-                <div class="right_col" role="main">
+                <div class="right_col updateproject-page" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New Agent</h2>
+                            <h2>Update Agent</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -190,77 +196,153 @@
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="item form-group">
-                                            <label for="userName" class="control-label col-md-3 col-sm-3 col-xs-12">User Name <span class="required">*</span>
+                                            <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Project Name <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="userName" name="username" class="form-control col-md-7 col-xs-12" required="required">
+                                                <input type="text" id="name" name="name" class="form-control col-md-7 col-xs-12" required="required">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="item form-group">
-                                            <label for="wechatName" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat Name <span class="required">*</span>
+                                            <label for="levelLimits" class="control-label col-md-3 col-sm-3 col-xs-12">Level Limits(highest) <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatName" name="wechat_name" class="form-control col-md-7 col-xs-12" required="required">
+                                                <input type="text" id="levelLimits" name="level_limits" class="form-control col-md-7 col-xs-12" required="required">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="item form-group">
-                                            <label for="wechatId" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat ID <span class="required">*</span>
+                                            <label for="unitType" class="control-label col-md-3 col-sm-3 col-xs-12">Unit Type <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatId" name="wechat_id" class="form-control col-md-7 col-xs-12" required="required">
+                                                <input type="text" id="unitType" name="unit_type" class="form-control col-md-7 col-xs-12" required="required">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="item form-group">
-                                            <label for="realName" class="control-label col-md-3 col-sm-3 col-xs-12">Real Name <span class="required">*</span>
+                                            <label for="totalUnits" class="control-label col-md-3 col-sm-3 col-xs-12">Total Units <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="realName" name="real_name" class="form-control col-md-7 col-xs-12" required="required">
+                                                <input type="text" id="totalUnits" name="total_units" class="form-control col-md-7 col-xs-12" required="required">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="item form-group">
-                                            <label for="cell" class="control-label col-md-3 col-sm-3 col-xs-12">Cell <span class="required">*</span>
+                                            <label for="openTime" class="control-label col-md-3">Open Time <span class="required">*</span></label>
+                                            <input type="hidden" id="openTime" name="open_time">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <input type="text" name="startDate" id="startDate" class="form-control" value="" required="required">
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                                        <select id="startHour" class="form-control" required="required">
+                                                            <option value=""></option>
+                                                            <option value="00">00</option>
+                                                            <option value="01">01</option>
+                                                            <option value="02">02</option>
+                                                            <option value="03">03</option>
+                                                            <option value="04">04</option>
+                                                            <option value="05">05</option>
+                                                            <option value="06">06</option>
+                                                            <option value="07">07</option>
+                                                            <option value="08">08</option>
+                                                            <option value="09">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                            <option value="13">13</option>
+                                                            <option value="14">14</option>
+                                                            <option value="15">15</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
+                                                            <option value="18">18</option>
+                                                            <option value="19">19</option>
+                                                            <option value="20">20</option>
+                                                            <option value="21">21</option>
+                                                            <option value="22">22</option>
+                                                            <option value="23">23</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                                        <select id="startTime" class="form-control" required="required">
+                                                            <option value=""></option>
+                                                            <option value="00">00</option>
+                                                            <option value="10">10</option>
+                                                            <option value="20">20</option>
+                                                            <option value="30">30</option>
+                                                            <option value="40">40</option>
+                                                            <option value="50">50</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="item form-group">
+                                            <label for="closeTime" class="control-label col-md-3 col-sm-3 col-xs-12">Close Time <span class="required">*</span>
+                                            </label>
+                                            <input type="hidden" id="closeTime" name="close_time">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                                        <input type="text" name="closeDate" id="closeDate" class="form-control" value="" required="required">
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                                        <select id="closeHour" class="form-control" required="required">
+                                                            <option value=""></option>
+                                                            <option value="00">00</option>
+                                                            <option value="01">01</option>
+                                                            <option value="02">02</option>
+                                                            <option value="03">03</option>
+                                                            <option value="04">04</option>
+                                                            <option value="05">05</option>
+                                                            <option value="06">06</option>
+                                                            <option value="07">07</option>
+                                                            <option value="08">08</option>
+                                                            <option value="09">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                            <option value="13">13</option>
+                                                            <option value="14">14</option>
+                                                            <option value="15">15</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
+                                                            <option value="18">18</option>
+                                                            <option value="19">19</option>
+                                                            <option value="20">20</option>
+                                                            <option value="21">21</option>
+                                                            <option value="22">22</option>
+                                                            <option value="23">23</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                                        <select id="closeTimeSelect" class="form-control" required="required">
+                                                            <option value=""></option>
+                                                            <option value="00">00</option>
+                                                            <option value="10">10</option>
+                                                            <option value="20">20</option>
+                                                            <option value="30">30</option>
+                                                            <option value="40">40</option>
+                                                            <option value="50">50</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="item form-group">
+                                            <label for="message" class="control-label col-md-3 col-sm-3 col-xs-12">Customization <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="cell" name="cell" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="officeTelephone" class="control-label col-md-3">Office Telephone <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="officeTelephone" name="office_telephone" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="brokerageName" class="control-label col-md-3 col-sm-3 col-xs-12">Brokerage Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="brokerageName" name="brokerage_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userRole" class="control-label col-md-3 col-sm-3 col-xs-12">User Role <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control" id="userRole" name="user_role" required="required">
-                                                    <option value=""></option>
-                                                    <option value="1">Super Admin</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Bay Street Agent</option>
-                                                    <option value="4">Other Brokerage Agent</option>
-                                                </select>
+                                                <input type="text" id="message" name="message" class="form-control col-md-7 col-xs-12" required="required">
                                             </div>
                                         </div>
                                     </div>
@@ -299,6 +381,9 @@
         <script src="../vendors/nprogress/nprogress.js"></script>
         <!-- validator -->
         <script src="../vendors/validator/validator.js"></script>
+        <!-- bootstrap-daterangepicker -->
+        <script src="../vendors/moment/min/moment.min.js"></script>
+        <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
         <!-- PNotify -->
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
@@ -331,9 +416,11 @@
                 }
 
                 if (submit){
+                    $('#openTime').val(structure_submit_date($('#startDate').val()) + ' ' + $('#startHour').val() + ':' + $('#startTime').val() + ':00');
+                    $('#closeTime').val(structure_submit_date($('#closeDate').val()) + ' ' + $('#closeHour').val() + ':' + $('#closeTimeSelect').val() + ':00');
                     $.ajax({
                         type: 'post',
-                        url: apiUrl + '/crmapi/agentregist',
+                        url: apiUrl + '/crmapi/updateproject/' + GetQueryString('id'),
                         data: $('form').serializeArray(),
                         success: function(res){
                             if(res.status == 'ok'){
@@ -375,6 +462,83 @@
                 localStorage.removeItem('role');
                 location.href = "louhua_login.html";
             });
+
+            function requestData(){
+                $.ajax({
+                    type: 'get',
+                    url: apiUrl + '/crmapi/projectlist?id=' + GetQueryString('id'),
+                    success: function(res){
+                        if(res.status == 'ok'){
+                            if(res.results.list.length > 0){
+                                var project = res.results.list[0];
+                                $('#name').val(project.name);
+                                $('#levelLimits').val(project.levelLimits);
+                                $('#unitType').val(project.unitType);
+                                $('#totalUnits').val(project.totalUnits);
+                                $('#message').val(project.message);
+                                var openTime = structure_date(project.openTime);
+                                $('#startDate').val(openTime[0]);
+                                $('#startHour').val(openTime[1]);
+                                $('#startTime').val(openTime[2]);
+                                var closeTime = structure_date(project.closeTime);
+                                console.log(closeTime);
+                                $('#closeDate').val(closeTime[0]);
+                                $('#closeHour').val(closeTime[1]);
+                                $('#closeTimeSelect').val(closeTime[2]);
+                                init_date();
+                            }
+                        }else{
+                            new PNotify({
+                                title: 'Oh No!',
+                                text: res.errorMsg,
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                timerHide: '20',
+                            });
+                        }
+                    },
+                    error: function(res){
+
+                    }
+                });
+            }
+
+            function structure_date(date){
+                var returnArray = new Array();
+                var year = date.substring(0, date.indexOf('-'));
+                var month = date.substring((date.indexOf('-') + 1), (date.lastIndexOf('-')));
+                var day = date.substring((date.lastIndexOf('-') + 1), date.indexOf(' '));
+                var hour = date.substring((date.indexOf(' ') + 1), date.indexOf(':'));
+                var time = date.substring((date.indexOf(':') + 1), date.lastIndexOf(':'));
+                returnArray.push(month + '/' + day + '/' + year);
+                returnArray.push(hour);
+                returnArray.push(time);
+                return returnArray;
+            }
+
+            function structure_submit_date(date){
+                var month = date.substring(0, date.indexOf('/'));
+                var day = date.substring((date.indexOf('/') + 1), (date.lastIndexOf('/')));
+                var year = date.substring((date.lastIndexOf('/') + 1));
+                return year + '-' + month + '-' + day;
+            }
+
+            function init_date(){
+                $('#startDate').daterangepicker({
+                    format : 'YYYY-MM-DD',
+                    singleDatePicker: true,
+                    singleClasses: "picker_2"
+                }, function(start, end, label) {
+                    console.log(start.toISOString(), end.toISOString(), label);
+                });
+                $('#closeDate').daterangepicker({
+                    format : 'YYYY-MM-DD',
+                    singleDatePicker: true,
+                    singleClasses: "picker_2"
+                }, function(start, end, label) {
+                    console.log(start.toISOString(), end.toISOString(), label);
+                });
+            }
         </script>
     </body>
 </html>

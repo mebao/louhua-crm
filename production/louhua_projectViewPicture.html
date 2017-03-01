@@ -22,6 +22,12 @@
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
+
+        <link href="js/qiniu/css/main.css" rel="stylesheet">
+        <link href="js/qiniu/css/highlight.css" rel="stylesheet">
+
+        <link href="css/common.css" rel="stylesheet">
+        <link href="css/crm.css" rel="stylesheet">
     </head>
 
     <body class="nav-md">
@@ -179,100 +185,56 @@
                 <!-- /top navigation -->
 
                 <!-- page content -->
-                <div class="right_col" role="main">
+                <div class="right_col projectViewPicture-page" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New Agent</h2>
+                            <h2>Picture List</h2>
+                            <div class="text-right">
+                                <button id="pickfiles" class="btn btn-success">Add Picture</button>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form class="form-horizontal form-label-left" novalidate>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userName" class="control-label col-md-3 col-sm-3 col-xs-12">User Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="userName" name="username" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
+                            <div id="pictureList">
+                                
+                            </div>
+                            <div class="container">
+                                <div class="text-left col-md-12 wrapper">
+                                    <input type="hidden" id="domain" value="http://ojasdr1sv.bkt.clouddn.com/"> 
+                                    <input type="hidden" id="uptoken_url" value="http://192.168.1.3/xinlouhua/crmapi/uploadtoken">
+                                </div>
+                                <div class="body">
+                                    <div class='col-md-12'>
+                                    </div>
+                                    <div class="col-md-12 hide" style='margin-top:10px;'>
+                                        <div id="container">
+                                            <a class="btn btn-default btn-lg " id="" href="#" >
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                                <span>选择文件</span>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="wechatName" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatName" name="wechat_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
+
+                                    <div style="display:none" id="success" class="col-md-12">
+                                        <div class="alert-success">
+                                            队列全部文件处理完毕
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="wechatId" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat ID <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatId" name="wechat_id" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="realName" class="control-label col-md-3 col-sm-3 col-xs-12">Real Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="realName" name="real_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="cell" class="control-label col-md-3 col-sm-3 col-xs-12">Cell <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="cell" name="cell" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="officeTelephone" class="control-label col-md-3">Office Telephone <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="officeTelephone" name="office_telephone" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="brokerageName" class="control-label col-md-3 col-sm-3 col-xs-12">Brokerage Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="brokerageName" name="brokerage_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userRole" class="control-label col-md-3 col-sm-3 col-xs-12">User Role <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control" id="userRole" name="user_role" required="required">
-                                                    <option value=""></option>
-                                                    <option value="1">Super Admin</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Bay Street Agent</option>
-                                                    <option value="4">Other Brokerage Agent</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-12 ">
+                                        <table class="table table-striped table-hover text-left"   style="margin-top:40px;display:none">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-md-4">Filename</th>
+                                                    <th class="col-md-2">Size</th>
+                                                    <th class="col-md-6">Detail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="fsUploadProgress">
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="ln_solid"></div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancel</button>
-                                        <button id="send" type="submit" class="btn btn-success">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -297,8 +259,6 @@
         <script src="../vendors/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
         <script src="../vendors/nprogress/nprogress.js"></script>
-        <!-- validator -->
-        <script src="../vendors/validator/validator.js"></script>
         <!-- PNotify -->
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
@@ -307,42 +267,66 @@
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
 
+        <script src="js/qiniu/js/plupload.full.min.js"></script>
+        <script src="js/qiniu/js/zh_CN.js"></script>
+        <script src="js/qiniu/js/ui.js"></script>
+        <script src="js/qiniu/js/qiniu.min.js"></script>
+        <script src="js/qiniu/js/highlight.js"></script>
+        <script src="js/qiniu/js/main.js"></script>
+
         <script>
-            // initialize the validator function
-            validator.message.date = 'not a real date';
+            $(document).ready(function(){
+                var username = localStorage.getItem('username');
+                var token = localStorage.getItem('token');
+                var role = localStorage.getItem('role');
+                $('.username').text(username);
 
-            // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
-            $('form')
-                .on('blur', 'input[required], input.optional, select.required', validator.checkField)
-                .on('change', 'select.required', validator.checkField)
-                .on('keypress', 'input[required][pattern]', validator.keypress);
+                //log out
+                $('#logOut').click(function(){
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    location.href = "louhua_login.html";
+                });
 
-            // $('.multi.required').on('keyup blur', 'input', function() {
-            //     validator.checkField.apply($(this).siblings().last()[0]);
-            // });
+                requestData();
 
-            $('form').submit(function(e) {
-                e.preventDefault();
-                var submit = true;
+                //log out
+                $('#logOut').click(function(){
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    location.href = "louhua_login.html";
+                });
 
-                // evaluate the form using generic validaing
-                if (!validator.checkAll($(this))) {
-                    submit = false;
-                }
-
-                if (submit){
+                function requestData(){
                     $.ajax({
-                        type: 'post',
-                        url: apiUrl + '/crmapi/agentregist',
-                        data: $('form').serializeArray(),
+                        type: 'get',
+                        url: apiUrl + '/crmapi/projectlist?id=' + GetQueryString('id'),
                         success: function(res){
                             if(res.status == 'ok'){
-                                new PNotify({
-                                  title: 'Success',
-                                  text: 'Update success',
-                                  type: 'success',
-                                  styling: 'bootstrap3'
-                                });
+                                if(res.results.list.length > 0){
+                                    var pictures = res.results.list[0].pictures;
+                                    var pictureHtml = '';
+                                    if(!jQuery.isArray(pictures)){
+                                        pictureHtml += '<div class="row">';
+                                        for(var key in pictures){
+                                            pictureHtml += '<div class="col-sm-6 col-md-4">\
+                                                                <div class="thumbnail">\
+                                                                    <img src="' + pictures[key] + '" class="h150p">\
+                                                                    <div class="caption">\
+                                                                    <p><a href="javascript:;" data-id="' + key + '" class="btn btn-primary deletePic"  role="button">delete</a></p>\
+                                                                    </div>\
+                                                                </div>\
+                                                            </div>';
+                                        }
+                                        pictureHtml += '</div>';
+                                    }else{
+                                        pictureHtml += '<h3>Not upload pictures.</h3>';
+                                    }
+                                    $('#pictureList').html(pictureHtml);
+                                    readyPage();
+                                }
                             }else{
                                 new PNotify({
                                     title: 'Oh No!',
@@ -359,21 +343,35 @@
                     });
                 }
 
-                return false;
-            });
-            var username = localStorage.getItem('username');
-            var token = localStorage.getItem('token');
-            var role = localStorage.getItem('role');
-            $('.username').text(username);
-
-            requestData();
-
-            //log out
-            $('#logOut').click(function(){
-                localStorage.removeItem('username');
-                localStorage.removeItem('token');
-                localStorage.removeItem('role');
-                location.href = "louhua_login.html";
+                function readyPage(){
+                    $('.deletePic').click(function(){
+                        $.ajax({
+                            type: 'delete',
+                            url: apiUrl + '/crmapi/deletepicture/' + $(this).attr('data-id'),
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    new PNotify({
+                                      title: 'Success',
+                                      text: 'Delete success',
+                                      type: 'success',
+                                      styling: 'bootstrap3'
+                                    });
+                                    setTimeout(function(){
+                                        location.reload();
+                                    }, 500);
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            }
+                        });
+                    });
+                }
             });
         </script>
     </body>

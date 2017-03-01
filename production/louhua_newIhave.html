@@ -15,6 +15,8 @@
         <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
         <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+        <!-- Select2 -->
+        <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
         <!-- PNotify -->
         <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
@@ -79,6 +81,9 @@
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> House Manage <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li>
+                                                <a href="louhua_houseList.html">House List</a>
+                                            </li>
                                             <li>
                                                 <a href="louhua_newIhave.html">Add I have</a>
                                             </li>
@@ -182,87 +187,117 @@
                 <div class="right_col" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New Agent</h2>
+                            <h2>New I have</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
                             <form class="form-horizontal form-label-left" novalidate>
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-md-2 col-md-offset-3 col-sm-2 col-sm-offset-3 col-xs-6 col-xs-offset-6">
                                         <div class="item form-group">
-                                            <label for="userName" class="control-label col-md-3 col-sm-3 col-xs-12">User Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="userName" name="username" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
+                                            <select id="projectType" class="form-control" required="required">
+                                                <option value="1">Current Project</option>
+                                                <option value="2">Archive Project</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
                                         <div class="item form-group">
-                                            <label for="wechatName" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatName" name="wechat_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
+                                            <input type="hidden" name="project_name">
+                                            <select id="projectList" name="project_id" class="form-control" required="required">
+                                                <option value=""></option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
                                         <div class="item form-group">
-                                            <label for="wechatId" class="control-label col-md-3 col-sm-3 col-xs-12">WeChat ID <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="wechatId" name="wechat_id" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
+                                            <select id="postType" class="form-control" name="post_type" required="required">
+                                                <option value="have">I have</option>
+                                                <option value="want">I want</option>
+                                            </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="iHaveAgent" class="control-label col-md-3 col-sm-3 col-xs-12">I have agent <span class="required">*</span>
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="realName" class="control-label col-md-3 col-sm-3 col-xs-12">Real Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="realName" name="real_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
+                                        <input type="hidden" name="user_have_name">
+                                        <select id="iHaveAgent" class="select2_user form-control" name="user_have_id" tabindex="-1" required="required">
+                                        </select>
                                     </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="iWantAgent" class="control-label col-md-3 col-sm-3 col-xs-12">I want agent <span class="required">*</span>
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="cell" class="control-label col-md-3 col-sm-3 col-xs-12">Cell <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="cell" name="cell" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
+                                        <input type="hidden" name="user_want_name">
+                                        <select id="iWantAgent" class="select2_user form-control" name="user_want_id" tabindex="-1" required="required">
+                                        </select>
                                     </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="unitType" class="control-label col-md-3 col-sm-3 col-xs-12">Unit Type <span class="required">*</span>
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="officeTelephone" class="control-label col-md-3">Office Telephone <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="officeTelephone" name="office_telephone" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
+                                        <select class="form-control" id="unitType" name="unit_type" required="required">
+                                            
+                                        </select>
                                     </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="floorLow" class="control-label col-md-3 col-sm-3 col-xs-12">Floor Low <span class="required">*</span>
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="brokerageName" class="control-label col-md-3 col-sm-3 col-xs-12">Brokerage Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="brokerageName" name="brokerage_name" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
+                                        <input type="number" id="floorLow" name="expect_floor_low" class="form-control col-md-7 col-xs-12" required="required">
                                     </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="floorHigh" class="control-label col-md-3 col-sm-3 col-xs-12">Floor High <span class="required">*</span>
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userRole" class="control-label col-md-3 col-sm-3 col-xs-12">User Role <span class="required">*</span></label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control" id="userRole" name="user_role" required="required">
-                                                    <option value=""></option>
-                                                    <option value="1">Super Admin</option>
-                                                    <option value="2">Admin</option>
-                                                    <option value="3">Bay Street Agent</option>
-                                                    <option value="4">Other Brokerage Agent</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <input type="number" id="floorHigh" name="expect_floor_high" class="form-control col-md-7 col-xs-12" required="required">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="price" class="control-label col-md-3 col-sm-3 col-xs-12">Price <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="number" id="price" name="price" class="form-control col-md-7 col-xs-12" required="required">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="exposure" class="control-label col-md-3 col-sm-3 col-xs-12">Exposure <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="exposure" name="exposure" required="required">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="coopTab" class="item form-group">
+                                    <label for="coop" class="control-label col-md-3 col-sm-3 col-xs-12">Coop <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="number" id="coop" name="coop" class="form-control col-md-7 col-xs-12" required="required">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="action" class="control-label col-md-3 col-sm-3 col-xs-12">Action <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="action" name="action" required="required">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="unitStatus" class="control-label col-md-3 col-sm-3 col-xs-12">Unit Status <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="unitStatus" name="unit_status" required="required">
+                                            
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="ln_solid"></div>
@@ -299,6 +334,8 @@
         <script src="../vendors/nprogress/nprogress.js"></script>
         <!-- validator -->
         <script src="../vendors/validator/validator.js"></script>
+        <!-- Select2 -->
+        <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
         <!-- PNotify -->
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
@@ -331,9 +368,19 @@
                 }
 
                 if (submit){
+                    if($('#floorHigh').val() < $('#floorLow').val()){
+                        new PNotify({
+                            title: 'Oh No!',
+                            text: 'this Floor high must greater than Floor low',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            timerHide: '20',
+                        });
+                        return;
+                    }
                     $.ajax({
                         type: 'post',
-                        url: apiUrl + '/crmapi/agentregist',
+                        url: apiUrl + '/crmapi/addhouse',
                         data: $('form').serializeArray(),
                         success: function(res){
                             if(res.status == 'ok'){
@@ -366,7 +413,7 @@
             var role = localStorage.getItem('role');
             $('.username').text(username);
 
-            requestData();
+            getData();
 
             //log out
             $('#logOut').click(function(){
@@ -374,6 +421,115 @@
                 localStorage.removeItem('token');
                 localStorage.removeItem('role');
                 location.href = "louhua_login.html";
+            });
+
+            function getData(){
+                $.ajax({
+                    type: 'get',
+                    url: apiUrl + '/crmapi/optionsuser',
+                    success: function(res){
+                        var user = res.results.user;
+                        var userHtml = '<option></option>';
+                        for(var key in user){
+                            userHtml += '<option value="' + key + '">' + user[key] + '</option>';
+                        }
+                        $('.select2_user').html(userHtml);
+                        $(".select2_user").select2({
+                            placeholder: "Select a state",
+                            allowClear: true
+                        });
+
+                        $('#iHaveAgent').change(function(){
+                            if($(this).val() != ''){
+                                $('input[name="user_have_name"]').val(user[$(this).val()]);
+                            }
+                        });
+                        $('#iWantAgent').change(function(){
+                            if($(this).val() != ''){
+                                $('input[name="user_want_name"]').val(user[$(this).val()]);
+                            }
+                        });
+                    },
+                    error: function(res){
+
+                    }
+                });
+                $.ajax({
+                    type: 'get',
+                    url: apiUrl + '/crmapi/otheroptions',
+                    success: function(res){
+                        var optionsExposure = res.results.optionsExposure;
+                        var optionsUnitType = res.results.optionsUnitType;
+                        var optionsAction = res.results.optionsAction;
+                        var optionsUnitStatus = res.results.optionsUnitStatus;
+                        var exposureHtml = '<option value=""></option>';
+                        for(var key in optionsExposure){
+                            exposureHtml += '<option value="' + key + '">' + optionsExposure[key] + '</option>';
+                        }
+                        $('#exposure').html(exposureHtml);
+                        var unitTypeHtml = '<option value=""></option>';
+                        for(var key in optionsUnitType){
+                            unitTypeHtml += '<option value="' + key + '">' + optionsUnitType[key] + '</option>';
+                        }
+                        $('#unitType').html(unitTypeHtml);
+                        var actionHtml = '<option value=""></option>';
+                        for(var key in optionsAction){
+                            actionHtml += '<option value="' + key + '">' + optionsAction[key] + '</option>';
+                        }
+                        $('#action').html(actionHtml);
+                        var unitStatusHtml = '<option value=""></option>';
+                        for(var key in optionsUnitStatus){
+                            unitStatusHtml += '<option value="' + key + '">' + optionsUnitStatus[key] + '</option>';
+                        }
+                        $('#unitStatus').html(unitStatusHtml);
+                    },
+                    error: function(res){
+
+                    }
+                });
+                $.ajax({
+                    type: 'get',
+                    url: apiUrl + '/crmapi/optionproject',
+                    success: function(res){
+                        var currentList = res.results.currentList;
+                        var otherList = res.results.otherList;
+                        var projectList = currentList;
+                        $('#projectType').change(function(){
+                            if($(this).val() == 1){
+                                projectList = currentList;
+                            }else{
+                                projectList = otherList;
+                            }
+                            readyProjectList(projectList)
+                        });
+                        readyProjectList(projectList);
+                    },
+                    error: function(res){
+
+                    }
+                });
+            }
+            function readyProjectList(projectList){
+                var projectHtml = '<option value=""></option>';
+                for(var key in projectList){
+                    projectHtml += '<option value="' + key + '">' + projectList[key] + '</option>';
+                }
+                $('#projectList').html(projectHtml);
+            }
+            $('#projectList').change(function(){
+                if($(this).val() != ''){
+                    $('input[name="project_name"]').val($(this).text());
+                }
+            });
+            //post type更换
+            $('#postType').change(function(){
+                if($(this).val() == 'want'){
+                    $('#coopTab').addClass('hide');
+                    $('#coop').attr('type', 'hidden');
+                }else{
+                    $('#coopTab').removeClass('hide');
+                    $('#coop').attr('type', 'number');
+                }
             });
         </script>
     </body>
