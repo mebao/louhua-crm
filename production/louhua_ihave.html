@@ -19,6 +19,8 @@
         <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
         <!-- Select2 -->
         <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+        <!-- bootstrap-daterangepicker -->
+        <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
         <!-- PNotify -->
         <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
@@ -74,24 +76,21 @@
                                             <li><a href="louhua_agentlist.html">agentlist</a></li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-edit"></i> List <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li>
                                                 <a href="louhua_projectList.html">project list</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_iwant.html">I want</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_ihave.html">I have</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_match.html">match</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> House Manage <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li>
+                                                <a href="louhua_ihave.html">I have</a>
+                                            </li>
+                                            <li>
+                                                <a href="louhua_iwant.html">I want</a>
+                                            </li>
                                             <li>
                                                 <a href="louhua_newIhave.html">Add I have</a>
                                             </li>
@@ -286,7 +285,7 @@
                                     <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="time" class="">Time
                                         </label>
-                                        <input type="text" id="time" name="wechat_name" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" name="startDate" id="startDate" class="form-control" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -318,7 +317,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="myModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -370,7 +369,6 @@
                 <!-- /footer content -->
             </div>
         </div>
-        <script src="js/main.js"></script>
         <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->
@@ -383,6 +381,9 @@
         <script src="../vendors/iCheck/icheck.min.js"></script>
         <!-- Select2 -->
         <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+        <!-- bootstrap-daterangepicker -->
+        <script src="../vendors/moment/min/moment.min.js"></script>
+        <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
         <!-- PNotify -->
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
@@ -407,8 +408,10 @@
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
 
+        <script src="js/main.js"></script>
+
         <script>
-            $(document).ready(function(){
+            if(signIn){
                 $('#search').click(function(e) {
                     e.preventDefault();
                     if($('#floorHigh').val() < $('#floorLow').val()){
@@ -522,7 +525,7 @@
                                                     </td>\
                                                     <td>\
                                                         <a class="update" data-id="' + list[i].id + '" role="button">update</a>\
-                                                        <a class="delete" data-id="' + list[i].id + '" role="button">delete</a>\
+                                                        <a class="delete" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>\
                                                     </td>\
                                                 </tr>';
                                         }
@@ -657,6 +660,13 @@
 
                         }
                     });
+                    $('#startDate').daterangepicker({
+                        format : 'YYYY-MM-DD',
+                        singleDatePicker: true,
+                        singleClasses: "picker_2"
+                    }, function(start, end, label) {
+                        console.log(start.toISOString(), end.toISOString(), label);
+                    });
                 }
                 function readyProjectList(projectList){
                     var projectHtml = '<option value=""></option>';
@@ -676,7 +686,7 @@
                     //     fixedHeader: true
                     // });
                     $('.update').click(function(){
-                        location.href = 'louhua_updateAdmin.html?id=' + $(this).attr('data-id');
+                        location.href = 'louhua_updateIhave.html?id=' + $(this).attr('data-id');
                     });
                     $('.send').click(function(){
                         $('#sendNotice').modal('show');
@@ -707,40 +717,47 @@
                         });
                     });
                     $('.delete').click(function(){
-                        $('#myModal').modal('show');
-                        $('#confirmDelete').click(function(){
-                            $('#myModal').modal('hide');
-                            // $.ajax({
-                            //     type: 'delete',
-                            //     url: apiUrl + '/crmapi/deleteadmin/' + $(this).attr('data-id'),
-                            //     success: function(res){
-                            //         if(res.status == 'ok'){
-                            //             requestData();
-                            //             new PNotify({
-                            //                 title: 'Success',
-                            //                 text: 'Delete success',
-                            //                 type: 'success',
-                            //                 styling: 'bootstrap3',
-                            //                 timerHide: '20',
-                            //             });
-                            //         }else{
-                            //             new PNotify({
-                            //                 title: 'Oh No!',
-                            //                 text: res.errorMsg,
-                            //                 type: 'error',
-                            //                 styling: 'bootstrap3',
-                            //                 timerHide: '20',
-                            //             });
-                            //         }
-                            //     },
-                            //     error: function(res){
-
-                            //     }
-                            // });
-                        });
+                        var type = $(this).attr('data-type');
+                        if(type == 'have'){
+                            $('#confirmDelete').attr('data-id', $(this).attr('data-haveId'));
+                        }else{
+                            $('#confirmDelete').attr('data-id', $(this).attr('data-wantId'));
+                        }
+                        $('#confirmDelete').attr('data-type', type);
+                        $('#deleteModal').modal('show');
                     });
                 }
-            });
+                $('#confirmDelete').click(function(){
+                    $('#deleteModal').modal('hide');
+                    $.ajax({
+                        type: 'delete',
+                        url: apiUrl + '/crmapi/deletehouse/' + $(this).attr('data-id') + '?type=' + $(this).attr('data-type'),
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
+                                new PNotify({
+                                    title: 'Success',
+                                    text: 'Delete success',
+                                    type: 'success',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        },
+                        error: function(res){
+
+                        }
+                    });
+                });
+            }
         </script>
     </body>
 </html>

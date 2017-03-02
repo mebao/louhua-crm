@@ -61,24 +61,21 @@
                                             <li><a href="louhua_agentlist.html">agentlist</a></li>
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-edit"></i> List <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li>
                                                 <a href="louhua_projectList.html">project list</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_iwant.html">I want</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_ihave.html">I have</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_match.html">match</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> House Manage <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li>
+                                                <a href="louhua_ihave.html">I have</a>
+                                            </li>
+                                            <li>
+                                                <a href="louhua_iwant.html">I want</a>
+                                            </li>
                                             <li>
                                                 <a href="louhua_newIhave.html">Add I have</a>
                                             </li>
@@ -288,7 +285,6 @@
                 <!-- /footer content -->
             </div>
         </div>
-        <script src="js/main.js"></script>
         <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->
@@ -307,74 +303,78 @@
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
 
+        <script src="js/main.js"></script>
+
         <script>
-            // initialize the validator function
-            validator.message.date = 'not a real date';
+            if(signIn){
+                // initialize the validator function
+                validator.message.date = 'not a real date';
 
-            // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
-            $('form')
-                .on('blur', 'input[required], input.optional, select.required', validator.checkField)
-                .on('change', 'select.required', validator.checkField)
-                .on('keypress', 'input[required][pattern]', validator.keypress);
+                // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+                $('form')
+                    .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+                    .on('change', 'select.required', validator.checkField)
+                    .on('keypress', 'input[required][pattern]', validator.keypress);
 
-            // $('.multi.required').on('keyup blur', 'input', function() {
-            //     validator.checkField.apply($(this).siblings().last()[0]);
-            // });
+                // $('.multi.required').on('keyup blur', 'input', function() {
+                //     validator.checkField.apply($(this).siblings().last()[0]);
+                // });
 
-            $('form').submit(function(e) {
-                e.preventDefault();
-                var submit = true;
+                $('form').submit(function(e) {
+                    e.preventDefault();
+                    var submit = true;
 
-                // evaluate the form using generic validaing
-                if (!validator.checkAll($(this))) {
-                    submit = false;
-                }
+                    // evaluate the form using generic validaing
+                    if (!validator.checkAll($(this))) {
+                        submit = false;
+                    }
 
-                if (submit){
-                    $.ajax({
-                        type: 'post',
-                        url: apiUrl + '/crmapi/agentregist',
-                        data: $('form').serializeArray(),
-                        success: function(res){
-                            if(res.status == 'ok'){
-                                new PNotify({
-                                  title: 'Success',
-                                  text: 'Update success',
-                                  type: 'success',
-                                  styling: 'bootstrap3'
-                                });
-                            }else{
-                                new PNotify({
-                                    title: 'Oh No!',
-                                    text: res.errorMsg,
-                                    type: 'error',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
+                    if (submit){
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/agentregist',
+                            data: $('form').serializeArray(),
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    new PNotify({
+                                      title: 'Success',
+                                      text: 'Update success',
+                                      type: 'success',
+                                      styling: 'bootstrap3'
+                                    });
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(res){
+
                             }
-                        },
-                        error: function(res){
+                        });
+                    }
 
-                        }
-                    });
-                }
+                    return false;
+                });
+                var username = localStorage.getItem('username');
+                var token = localStorage.getItem('token');
+                var role = localStorage.getItem('role');
+                $('.username').text(username);
 
-                return false;
-            });
-            var username = localStorage.getItem('username');
-            var token = localStorage.getItem('token');
-            var role = localStorage.getItem('role');
-            $('.username').text(username);
+                requestData();
 
-            requestData();
-
-            //log out
-            $('#logOut').click(function(){
-                localStorage.removeItem('username');
-                localStorage.removeItem('token');
-                localStorage.removeItem('role');
-                location.href = "louhua_login.html";
-            });
+                //log out
+                $('#logOut').click(function(){
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    location.href = "louhua_login.html";
+                });
+            }
         </script>
     </body>
 </html>

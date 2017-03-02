@@ -200,6 +200,23 @@
                             </table>
                         </div>
                     </div>
+                    <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Please log in and use.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="login" type="button" class="btn btn-primary">login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /page content -->
 
@@ -213,7 +230,6 @@
                 <!-- /footer content -->
             </div>
         </div>
-        <script src="js/main.js"></script>
         <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->
@@ -230,8 +246,10 @@
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
 
+        <script src="js/main.js"></script>
+
         <script>
-            $(document).ready(function(){
+            if(signIn){
                 var username = localStorage.getItem('username');
                 var token = localStorage.getItem('token');
                 var role = localStorage.getItem('role');
@@ -314,7 +332,7 @@
                         });
                     });
                 }
-            });
+            }
         </script>
     </body>
 </html>
