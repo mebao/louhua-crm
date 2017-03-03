@@ -335,7 +335,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="sendNotice" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div id="selectTab" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -343,10 +343,39 @@
                                         </button>
                                         <h4 class="modal-title" id="myModalLabel2">Notice</h4>
                                     </div>
-                                    <div class="modal-body">
-                                        <ul id="selectUser" class="list-group">
-                                            
-                                        </ul>
+                                    <div id="selectUser" class="modal-body">
+                                        <div class="row text-center">
+                                            <div class="col-md-4">
+                                                wechat name
+                                            </div>
+                                            <div class="col-md-4">
+                                                cell
+                                            </div>
+                                            <div class="col-md-4">
+                                                role
+                                            </div>
+                                        </div>
+                                        <div class="user-list">
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <button id="confirmSelect" type="button" class="btn btn-primary">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sendTab" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                    </div>
+                                    <div id="selectUser" class="modal-body">
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -520,7 +549,7 @@
                                                     <td>' + list[i].action + '</td>\
                                                     <td>' + list[i].unitStatus + '</td>\
                                                     <td class="text-center">\
-                                                        <div><a class="update" data-id="' + list[i].id + '" role="button">All</a></div>\
+                                                        <div><a class="send" data-type="all" role="button">All</a></div>\
                                                         <div><a class="send" data-id="' + list[i].id + '" role="button">Send to</a><div>\
                                                     </td>\
                                                     <td>\
@@ -644,15 +673,23 @@
                                 var userlistHtml = '';
                                 if(agents.length > 0){
                                     for(var i = 0; i<agents.length; i++){
-                                        userlistHtml += '<li class="list-group-item">\
-                                                            <div class="checkbox">\
-                                                                <label>\
-                                                                    <input type="checkbox" data-id="'  + agents[i].wxUserid + '" class="flat userCheck" ' + (agents[i].wxUserid == null ? 'disabled="disabled"' : '') + '>' + agents[i].realName + '\
-                                                                </label>\
+                                        userlistHtml += '<div class="row">\
+                                                            <div class="col-md-4">\
+                                                                <div class="checkbox">\
+                                                                    <label>\
+                                                                        <input type="checkbox" data-id="'  + agents[i].wxUserid + '" class="flat userCheck" ' + (agents[i].wxUserid == null ? 'disabled="disabled"' : '') + '>' + agents[i].realName + '\
+                                                                    </label>\
+                                                                </div>\
                                                             </div>\
-                                                        </li>';
+                                                            <div class="col-md-4 pt10 pb10">\
+                                                                12345678977\
+                                                            </div>\
+                                                            <div class="col-md-4 pt10 pb10">\
+                                                                bay street agent\
+                                                            </div>\
+                                                        </div>';
                                     }
-                                    $('#selectUser').html(userlistHtml);
+                                    $('#selectUser').find('.user-list').html(userlistHtml);
                                 }
                             }
                         },
@@ -689,33 +726,86 @@
                         location.href = 'louhua_updateIhave.html?id=' + $(this).attr('data-id');
                     });
                     $('.send').click(function(){
-                        $('#sendNotice').modal('show');
-                        $('#confirmSend').click(function(){
-                            $('#sendNotice').modal('hide');
-                            var idParame = '';
-                            $('.userCheck').each(function(){
-                                if($(this).is(':checked')){
-                                console.log(123);
-                                    idParame += $(this).attr('data-id') + '|';
-                                }
-                            });
-                            if(idParame.length > 0){
-                                idParame = idParame.substring(0, idParame.length - 1);
-                            }
-                            console.log(idParame);
-                            $.ajax({
-                                type: 'post',
-                                url: apiUrl + '/crmapi/sendhouse',
-                                data: {users: idParame, message: '123456'},
-                                success: function(res){
-
-                                },
-                                error: function(res){
-
-                                }
-                            });
-                        });
+                        var usersParams = '';
+                        if($(this).attr('data-type') == 'all'){
+                            usersParams = '@all';
+                            $('#confirmSend').attr('data-params', usersParams);
+                            $('#confirmSend').attr('data-message', 'test');
+                            $('#sendTab').modal('show');
+                        }else{
+                            $('#selectTab').modal('show');
+                            
+                        }
                     });
+                    //发送click只需绑定一次
+                    $('#confirmSelect').click(function(){
+                        $('#selectTab').modal('hide');
+                        var usersParams = '';
+                        $('.userCheck').each(function(){
+                            if($(this).is(':checked')){
+                                usersParams += $(this).attr('data-id') + '|';
+                            }
+                        });
+                        if(usersParams.length > 0){
+                            usersParams = usersParams.substring(0, usersParams.length - 1);
+                            $('#confirmSend').attr('data-params', usersParams);
+                            $('#confirmSend').attr('data-message', 'test');
+                            $('#sendTab').modal('show');
+                        }else{
+                            new PNotify({
+                                title: 'No',
+                                text: 'Please select the sender.',
+                                styling: 'bootstrap3',
+                                timerHide: '20',
+                            });
+                        }
+                    });
+                    $('#confirmSend').click(function(){
+                        $('#sendTab').modal('hide');
+                        var usersParams = $(this).attr('data-params');
+                        var message = $(this).attr('data-message');
+                        sendhouse(usersParams, message);
+                    });
+                    function sendhouse(_usersParams, _message){
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/sendhouse',
+                            data: {users: _usersParams, message: _message},
+                            success: function(res){
+                                if(res.errmsg == 'ok'){
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Send success',
+                                        type: 'success',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }else if(res.errmsg == 'no'){
+                                    $.ajax({
+                                        type: 'get',
+                                        url: 'http://192.168.1.3/xinlouhua/xlhapi/tasktoken',
+                                        success: function(res){
+                                            sendhouse();
+                                        },
+                                        error: function(){
+
+                                        }
+                                    });
+                                }else{
+                                    new PNotify({
+                                        title: 'No',
+                                        text: res.errMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(res){
+
+                            }
+                        });
+                    }
                     $('.delete').click(function(){
                         var type = $(this).attr('data-type');
                         if(type == 'have'){

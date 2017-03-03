@@ -181,13 +181,13 @@
                 <div class="right_col" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Update I have</h2>
+                            <h2>Update I want</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
                             <form class="form-horizontal form-label-left" novalidate>
-                                <input type="hidden" name="haveId">
-                                <input type="hidden" name="post_type" value="have">
+                                <input type="hidden" name="wantId">
+                                <input type="hidden" name="post_type" value="want">
                                 <div class="item form-group">
                                     <label for="iHaveAgent" class="control-label col-md-3 col-sm-3 col-xs-12">Project Type <span class="required">*</span>
                                     </label>
@@ -362,7 +362,7 @@
                     if (submit){
                         $.ajax({
                             type: 'post',
-                            url: apiUrl + '/crmapi/updatehouse/' + $('input[name="haveId"]').val(),
+                            url: apiUrl + '/crmapi/updatehouse/' + $('input[name="wantId"]').val(),
                             data: $('form').serializeArray(),
                             success: function(res){
                                 if(res.status == 'ok'){
@@ -413,7 +413,7 @@
                             if(res.status == 'ok'){
                                 if(res.results.list.length > 0){
                                     var info = res.results.list[0];
-                                    $('input[name="haveId"]').val(info.haveId);
+                                    $('input[name="wantId"]').val(info.wantId);
                                     $('input[name="project_name"]').val(info.projectName);
                                     $('input[name="user_have_name"]').val(info.userHaveName);
                                     $('input[name="user_want_name"]').val(info.userWantName);

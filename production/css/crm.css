@@ -11,3 +11,18 @@
 .projectViewPicture-page .thumbnail{
 	height: 210px;
 }
+
+/*ihave*/
+@media (min-width: 768px){
+	#selectTab .modal-sm{
+	    width: 400px;
+	}
+	#selectUser.modal-body{
+		padding: 15px 5px;
+	}
+}
+#selectUser.modal-body{
+	max-height: 300px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
