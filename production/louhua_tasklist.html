@@ -308,7 +308,6 @@
                                         <th>Coop</th>
                                         <th>Action</th>
                                         <th>Unit status</th>
-                                        <th>Notice</th>
                                         <th>Edit</th>
                                     </tr>
                                 </thead>
@@ -331,109 +330,6 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                         <button id="confirmDelete" type="button" class="btn btn-primary">Confirm</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="selectTab" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                        </button>
-                                        <h4 class="modal-title" id="myModalLabel2">Notice</h4>
-                                    </div>
-                                    <div id="selectUser" class="modal-body">
-                                        <div class="row text-center">
-                                            <div class="col-md-4">
-                                                wechat name
-                                            </div>
-                                            <div class="col-md-4">
-                                                cell
-                                            </div>
-                                            <div class="col-md-4">
-                                                role
-                                            </div>
-                                        </div>
-                                        <div class="user-list">
-
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        <button id="confirmSelect" type="button" class="btn btn-primary">Send</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="sendTab" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                        </button>
-                                        <h4 class="modal-title" id="myModalLabel2">Notice</h4>
-                                    </div>
-                                    <div id="selectUser" class="modal-body">
-                                        
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        <button id="confirmSend" type="button" class="btn btn-primary">Send</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="matchTab" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                        </button>
-                                        <h4 class="modal-title" id="myModalLabel2">Notice</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="post-info">
-                                            <p>have info</p>
-                                            <table class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Project Name</th>
-                                                        <th>Floor Low</th>
-                                                        <th>Floor High</th>
-                                                        <th>Price</th>
-                                                        <th>Exposure</th>
-                                                        <th>Coop</th>
-                                                        <th>Action</th>
-                                                        <th>Unit Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="matchInfo">
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="match-list">
-                                            <p>match list</p>
-                                            <table class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Username</th>
-                                                        <th>Wechat Name</th>
-                                                        <th>Real Name</th>
-                                                        <th>Cell</th>
-                                                        <th>Role</th>
-                                                        <th>Subscribe</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="matchList">
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -552,7 +448,7 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
+                requestData();
 
                 //log out
                 $('#logOut').click(function(){
@@ -562,26 +458,11 @@
                     location.href = "louhua_login.html";
                 });
 
-                //new
-                $('#new').click(function(){
-                    location.href = 'louhua_newAdmin.html';
-                });
-
-                //export
-                $('#export').click(function(){
-                    location.href = apiUrl + '/crmapi/exporthouse';
-                });
-
-                //import
-                $('#import').click(function(){
-                    location.href = 'louhua_ihaveImport.html';
-                });
-
-                function requestData(_url){
+                function requestData(){
                     //获取list
                     $.ajax({
                         type: 'get',
-                        url: _url,
+                        url: apiUrl + '/crmapi/searchtask',
                         success: function(res){
                             if(res.status == 'ok'){
                                 var list = res.results.list;
@@ -590,7 +471,7 @@
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
                                             tableHtml += '<tr>\
-                                                    <td><a class="showMatch" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a></td>\
+                                                    <td>' + list[i].id + '</td>\
                                                     <td>' + list[i].projectName + '</td>\
                                                     <td>' + list[i].userHaveName + '</td>\
                                                     <td>' + list[i].userWantName + '</td>\
@@ -602,13 +483,8 @@
                                                     <td>' + list[i].coop + '</td>\
                                                     <td>' + list[i].action + '</td>\
                                                     <td>' + list[i].unitStatus + '</td>\
-                                                    <td class="text-center">\
-                                                        <div><a class="send" data-type="all" role="button">All</a></div>\
-                                                        <div><a class="send" data-id="' + list[i].id + '" role="button">Send to</a><div>\
-                                                    </td>\
                                                     <td>\
-                                                        <a class="update" data-id="' + list[i].id + '" role="button">update</a>\
-                                                        <a class="delete" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>\
+                                                        <a class="receive" data-id="' + list[i].id + '" data-type="' + list[i].postType + '" role="button">receive</a>\
                                                     </td>\
                                                 </tr>';
                                         }
@@ -773,175 +649,10 @@
                 });
 
                 function readyPage(){
-                    // $('#datatable-fixed-header').DataTable({
-                    //     fixedHeader: true
-                    // });
-                    // 展示match详情
-                    $('.showMatch').click(function(){
-                        $.ajax({
-                            type: 'get',
-                            url: apiUrl + '/crmapi/macthinfo/' + $(this).attr('data-haveId') + '?type=have',
-                            success: function(res){
-                                if(res.status == 'ok'){
-                                    var info = '<tr>\
-                                                    <td>' + res.results.post.projectName + '</td>\
-                                                    <td>' + res.results.post.floorLow + '</td>\
-                                                    <td>' + res.results.post.floorHigh + '</td>\
-                                                    <td>' + res.results.post.price + '</td>\
-                                                    <td>' + res.results.post.exposure + '</td>\
-                                                    <td>' + res.results.post.coop + '</td>\
-                                                    <td>' + res.results.post.action + '</td>\
-                                                    <td>' + res.results.post.unitStatus + '</td>\
-                                                </tr>';
-                                    $('#matchInfo').html(info);
-                                    var list = '';
-                                    var users = res.results.users;
-                                    if(users.length > 0){
-                                        for(var i = 0; i < users.length; i++){
-                                            list += '<tr>\
-                                                        <td>' + users[i].username + '</td>\
-                                                        <td>' + users[i].wechatName + '</td>\
-                                                        <td>' + users[i].realName + '</td>\
-                                                        <td>' + users[i].cell + '</td>\
-                                                        <td>' + users[i].roleText + '</td>\
-                                                        <td>' + users[i].subscribe + '</td>\
-                                                    </tr>';
-                                        }
-                                    }
-                                    console.log(list);
-                                    $('#matchList').html(list);
-                                }else{
-
-                                }
-                            }
-                        });
-                        $('#matchTab').modal('show');
-                    });
-                    $('.update').click(function(){
-                        location.href = 'louhua_updateIhave.html?id=' + $(this).attr('data-id');
-                    });
-                    $('.send').click(function(){
-                        var usersParams = '';
-                        if($(this).attr('data-type') == 'all'){
-                            usersParams = '@all';
-                            $('#confirmSend').attr('data-params', usersParams);
-                            $('#confirmSend').attr('data-message', 'test');
-                            $('#sendTab').modal('show');
-                        }else{
-                            $('#selectTab').modal('show');
-                            
-                        }
-                    });
-                    //发送click只需绑定一次
-                    $('#confirmSelect').click(function(){
-                        $('#selectTab').modal('hide');
-                        var usersParams = '';
-                        $('.userCheck').each(function(){
-                            if($(this).is(':checked')){
-                                usersParams += $(this).attr('data-id') + '|';
-                            }
-                        });
-                        if(usersParams.length > 0){
-                            usersParams = usersParams.substring(0, usersParams.length - 1);
-                            $('#confirmSend').attr('data-params', usersParams);
-                            $('#confirmSend').attr('data-message', 'test');
-                            $('#sendTab').modal('show');
-                        }else{
-                            new PNotify({
-                                title: 'No',
-                                text: 'Please select the sender.',
-                                styling: 'bootstrap3',
-                                timerHide: '20',
-                            });
-                        }
-                    });
-                    $('#confirmSend').click(function(){
-                        $('#sendTab').modal('hide');
-                        var usersParams = $(this).attr('data-params');
-                        var message = $(this).attr('data-message');
-                        sendhouse(usersParams, message);
-                    });
-                    function sendhouse(_usersParams, _message){
-                        $.ajax({
-                            type: 'post',
-                            url: apiUrl + '/crmapi/sendhouse',
-                            data: {users: _usersParams, message: _message},
-                            success: function(res){
-                                if(res.errmsg == 'ok'){
-                                    new PNotify({
-                                        title: 'Success',
-                                        text: 'Send success',
-                                        type: 'success',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                }else if(res.errmsg == 'no'){
-                                    $.ajax({
-                                        type: 'get',
-                                        url: 'http://192.168.1.3/xinlouhua/xlhapi/tasktoken',
-                                        success: function(res){
-                                            sendhouse();
-                                        },
-                                        error: function(){
-
-                                        }
-                                    });
-                                }else{
-                                    new PNotify({
-                                        title: 'No',
-                                        text: res.errMsg,
-                                        type: 'error',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                }
-                            },
-                            error: function(res){
-
-                            }
-                        });
-                    }
-                    $('.delete').click(function(){
-                        var type = $(this).attr('data-type');
-                        if(type == 'have'){
-                            $('#confirmDelete').attr('data-id', $(this).attr('data-haveId'));
-                        }else{
-                            $('#confirmDelete').attr('data-id', $(this).attr('data-wantId'));
-                        }
-                        $('#confirmDelete').attr('data-type', type);
-                        $('#deleteModal').modal('show');
+                    $('.receive').click(function(){
+                        location.href = 'louhua_backendMatch.html?id=' + $(this).attr('data-id') + '&postType=' + $(this).attr('data-type');
                     });
                 }
-                $('#confirmDelete').click(function(){
-                    $('#deleteModal').modal('hide');
-                    $.ajax({
-                        type: 'delete',
-                        url: apiUrl + '/crmapi/deletehouse/' + $(this).attr('data-id') + '?type=' + $(this).attr('data-type'),
-                        success: function(res){
-                            if(res.status == 'ok'){
-                                requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
-                                new PNotify({
-                                    title: 'Success',
-                                    text: 'Delete success',
-                                    type: 'success',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }else{
-                                new PNotify({
-                                    title: 'Oh No!',
-                                    text: res.errorMsg,
-                                    type: 'error',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }
-                        },
-                        error: function(res){
-
-                        }
-                    });
-                });
             }
         </script>
     </body>
