@@ -67,39 +67,7 @@
                         <!-- sidebar menu -->
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             <div class="menu_section">
-                                <h3>General</h3>
-                                <ul class="nav side-menu">
-                                    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="louhua_home.html">home</a></li>
-                                            <li><a href="louhua_adminlist.html">adminlist</a></li>
-                                            <li><a href="louhua_agentlist.html">agentlist</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li>
-                                                <a href="louhua_projectList.html">project list</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a><i class="fa fa-edit"></i> House Manage <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li>
-                                                <a href="louhua_ihave.html">I have</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_iwant.html">I want</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_newIhave.html">Add I have</a>
-                                            </li>
-                                            <li>
-                                                <a href="louhua_newIwant.html">Add I want</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                
                             </div>
 
                         </div>
@@ -221,7 +189,7 @@
                             </table>
                             <div>
                                 <div class="selected-tab">
-                                    <a role="button">All</a>
+                                    <a class="selectAll" role="button">All</a>
                                 </div>
                                 <div class="select-tab">
                                     <div class="row">
@@ -255,12 +223,12 @@
                                 </div>
                                 <div class="check-tab">
                                     <div class="row">
-                                        <a class="col-md-2 item up_down" role="button">ID</a>
-                                        <a class="col-md-2 item up_down" role="button">Time</a>
-                                        <a class="col-md-2 item up_down" role="button">Floor Low</a>
-                                        <a class="col-md-2 item up_down" role="button">Floor High</a>
-                                        <a class="col-md-2 item up_down" role="button">Price</a>
-                                        <a class="col-md-2 item up_down" role="button">Coop</a>
+                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="id" role="button">ID</a>
+                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="time" role="button">Time</a>
+                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="floorLow" role="button">Floor Low</a>
+                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="floorHigh" role="button">Floor High</a>
+                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="price" role="button">Price</a>
+                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="coop" role="button">Coop</a>
                                     </div>
                                 </div>
                             </div>
@@ -424,6 +392,7 @@
                                             </tr>';
                                 }
                                 $('#tableData').html(tableHtml);
+                                //根据project name获取match list
                                 readyList(apiUrl + '/crmapi/searchhouse?post_type=have&project_id=' + post.projectId + '&project_name=' + post.projectName);
                                 readyPage();
                             }else{
@@ -571,40 +540,85 @@
                     });
                 }
 
+                //准备可以match列表
                 function readyList(_url){
-                    //根据project name获取match list
                     $.ajax({
                         type: 'get',
                         url: _url,
                         success: function(res){
                             var list = res.results.list;
-                            var matchListMatch = '';
-                            if(list.length > 0){
-                                for(var i = 0; i < list.length; i++){
-                                    matchListMatch += '<tr>\
-                                                        <td>' + list[i].id + '</td>\
-                                                        <td>' + list[i].projectName + '</td>\
-                                                        <td>' + list[i].userHaveName + '</td>\
-                                                        <td>' + list[i].userWantName + '</td>\
-                                                        <td>' + list[i].unitType + '</td>\
-                                                        <td>' + list[i].floorLow + '</td>\
-                                                        <td>' + list[i].floorHigh + '</td>\
-                                                        <td>' + list[i].price + '</td>\
-                                                        <td>' + list[i].exposure + '</td>\
-                                                        <td>' + list[i].coop + '</td>\
-                                                        <td>' + list[i].action + '</td>\
-                                                        <td>' + list[i].unitStatus + '</td>\
-                                                        <td><a class="match" data-id="' + list[i].id + '" data-haveId="' + list[i].haveId + '" role="button">match</a></td>\
-                                                    </tr>';
-                                }
-                                readyMatch();
-                            }
-                            $('#matchList').html(matchListMatch);
+                            sort(list);
+                            sortList(list);
                         },
                         error: function(res){
 
                         }
                     });
+                }
+
+                function sort(list){
+                    var sortArray = arrayCopy(list);
+                    $('.sortList').click(function(){
+                        var num = $(this).attr('data-sort');
+                        var type = $(this).attr('data-type');
+                        num++;
+                        if(num == 3){
+                            num = 0;
+                        }
+                        //全部排序默认为0
+                        $('.sortList').each(function(){
+                            $(this).attr('data-sort', 0);
+                            $(this).removeClass('up_down');
+                            $(this).removeClass('up_arrow');
+                            $(this).removeClass('down_arrow');
+                            $(this).addClass('up_down');
+                        });
+                        //当前排序清除class
+                        $(this).removeClass('up_down');
+                        $(this).removeClass('up_arrow');
+                        $(this).removeClass('down_arrow');
+                        if(num == 0){
+                            $(this).addClass('up_down');
+                            sortArray = arrayCopy(list);
+                        }
+                        if(num == 1){
+                            $(this).addClass('up_arrow');
+                            sortPositiveByKey(sortArray, type, 'num');
+                            
+                        }else if(num == 2){
+                            $(this).addClass('down_arrow');
+                            sortNegativeByKey(sortArray, type, 'num');
+
+                        }
+                        $(this).attr('data-sort', num);
+                        sortList(sortArray);
+                    });
+                }
+
+                //通过list渲染match list
+                function sortList(list){
+                    var matchListMatch = '';
+                    if(list.length > 0){
+                        for(var i = 0; i < list.length; i++){
+                            matchListMatch += '<tr>\
+                                                <td>' + list[i].id + '</td>\
+                                                <td>' + list[i].projectName + '</td>\
+                                                <td>' + list[i].userHaveName + '</td>\
+                                                <td>' + list[i].userWantName + '</td>\
+                                                <td>' + list[i].unitType + '</td>\
+                                                <td>' + list[i].floorLow + '</td>\
+                                                <td>' + list[i].floorHigh + '</td>\
+                                                <td>' + list[i].price + '</td>\
+                                                <td>' + list[i].exposure + '</td>\
+                                                <td>' + list[i].coop + '</td>\
+                                                <td>' + list[i].action + '</td>\
+                                                <td>' + list[i].unitStatus + '</td>\
+                                                <td><a class="match" data-id="' + list[i].id + '" data-haveId="' + list[i].haveId + '" role="button">match</a></td>\
+                                            </tr>';
+                        }
+                        readyMatch();
+                    }
+                    $('#matchList').html(matchListMatch);
                 }
 
                 function readyProjectList(projectList){
@@ -628,6 +642,7 @@
 
                 function readySelect(){
                     var selectedArray = new Array();
+                    //根据type筛选
                     $('.select-item').click(function(){
                         //判断是否已选中（含同类型的其他选项）
                         var have = false;
@@ -650,7 +665,7 @@
 
                         function readySelected(){
                             //将选中选项渲染到已选择区域
-                            var selectedHtml = '<a role="button">All</a>';
+                            var selectedHtml = '<a class="selectAll" role="button">All</a>';
                             if(selectedArray.length > 0){
                                 for(var i = 0; i < selectedArray.length; i++){
                                     selectedHtml += '<span>></span>\
@@ -658,6 +673,14 @@
                                 }
                             }
                             $('.selected-tab').html(selectedHtml);
+                            //筛选all
+                            $('.selectAll').click(function(){
+                                var listUrl = apiUrl + '/crmapi/searchhouse?post_type=have&project_id=' + $('.wantHouse').attr('data-projectId') + '&project_name=' + $('.wantHouse').attr('data-projectName');
+                                var nullArray = new Array();
+                                selectedArray = nullArray;
+                                readyList(listUrl);
+                                readySelected();
+                            });
                             //重新筛选列表
                             var listUrl = apiUrl + '/crmapi/searchhouse?post_type=have&project_id=' + $('.wantHouse').attr('data-projectId') + '&project_name=' + $('.wantHouse').attr('data-projectName');
                             for(var i = 0; i < selectedArray.length; i++){

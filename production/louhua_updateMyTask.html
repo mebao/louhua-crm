@@ -15,6 +15,8 @@
         <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
         <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+        <!-- Select2 -->
+        <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
         <!-- PNotify -->
         <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
@@ -147,26 +149,98 @@
                 <div class="right_col" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New I want</h2>
+                            <h2>Update My Task</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
                             <form class="form-horizontal form-label-left" novalidate>
-                                <div class="row">
+                                <input type="hidden" name="postType" value="">
+                                <input type="hidden" name="haveId" value="">
+                                <input type="hidden" name="wantId" value="">
+                                <div class="item form-group">
+                                    <label for="projectName" class="control-label col-md-3 col-sm-3 col-xs-12">Project Name <span class="required">*</span>
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="item form-group">
-                                            <label for="userName" class="control-label col-md-3 col-sm-3 col-xs-12">User Name <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="userName" name="username" class="form-control col-md-7 col-xs-12" required="required">
-                                            </div>
-                                        </div>
+                                        <input type="text" id="projectName" name="project_name" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="userHaveName" class="control-label col-md-3 col-sm-3 col-xs-12">I have agent <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="userHaveName" name="user_have_name" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="userWantName" class="control-label col-md-3 col-sm-3 col-xs-12">I want agent <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="userWantName" name="user_want_name" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="unitType" class="control-label col-md-3 col-sm-3 col-xs-12">Unit Type <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="unitType" name="unit_type" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="floorLow" class="control-label col-md-3 col-sm-3 col-xs-12">Floor Low <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="floorLow" name="expect_floor_low" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="floorHigh" class="control-label col-md-3 col-sm-3 col-xs-12">Floor High <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="floorHigh" name="expect_floor_high" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="price" class="control-label col-md-3 col-sm-3 col-xs-12">Price <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="price" name="price" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="exposure" class="control-label col-md-3 col-sm-3 col-xs-12">Exposure <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="exposure" name="exposure" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div id="coopTab" class="item form-group">
+                                    <label for="coop" class="control-label col-md-3 col-sm-3 col-xs-12">Coop <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="text" id="coop" name="coop" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="action" class="control-label col-md-3 col-sm-3 col-xs-12">Action <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="action" name="action" required="required">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="unitStatus" class="control-label col-md-3 col-sm-3 col-xs-12">Unit Status <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="unitStatus" name="unit_status" required="required">
+                                            
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancel</button>
                                         <button id="send" type="submit" class="btn btn-success">Submit</button>
                                     </div>
                                 </div>
@@ -196,6 +270,8 @@
         <script src="../vendors/nprogress/nprogress.js"></script>
         <!-- validator -->
         <script src="../vendors/validator/validator.js"></script>
+        <!-- Select2 -->
+        <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
         <!-- PNotify -->
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
@@ -231,10 +307,17 @@
                     }
 
                     if (submit){
+                        //通过post type判断传参id为haveId还是wantId
+                        var id = '';
+                        if($('input[name="postType"]').val() == 'have'){
+                            id = $('input[name="haveId"]').val();
+                        }else if($('input[name="postType"]').val() == 'have'){
+                            id = $('input[name="wantId"]').val();
+                        }
                         $.ajax({
                             type: 'post',
-                            url: apiUrl + '/crmapi/adminregist',
-                            data: $('form').serializeArray(),
+                            url: apiUrl + '/crmapi/updatehouse/' + id,
+                            data: {post_type: $('input[name="postType"]').val(), action: $('#action').val(), unit_status: $('#unitStatus').val()},
                             success: function(res){
                                 if(res.status == 'ok'){
                                     new PNotify({
@@ -275,6 +358,66 @@
                     localStorage.removeItem('role');
                     location.href = "louhua_login.html";
                 });
+
+                function requestData(){
+                    $.ajax({
+                        type: 'get',
+                        url: apiUrl + '/crmapi/searchhouse?id=' + GetQueryString('id'),
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                if(res.results.list.length > 0){
+                                    var info = res.results.list[0];
+                                    $('input[name="postType"]').val(info.postType);
+                                    $('input[name="haveId"]').val(info.haveId);
+                                    $('input[name="wantId"]').val(info.wantId);
+                                    $('#projectName').val(info.projectName);
+                                    $('#userHaveName').val(info.userHaveName);
+                                    $('#userWantName').val(info.userWantName);
+                                    $('#unitType').val(info.unitType);
+                                    $('#floorLow').val(info.floorLow);
+                                    $('#floorHigh').val(info.floorHigh);
+                                    $('#price').val(info.price);
+                                    $('#coop').val(info.coop);
+                                    $.ajax({
+                                        type: 'get',
+                                        url: apiUrl + '/crmapi/otheroptions',
+                                        success: function(res){
+                                            var optionsAction = res.results.optionsAction;
+                                            var optionsUnitStatus = res.results.optionsUnitStatus;
+                                            var actionHtml = '<option value=""></option>';
+                                            for(var key in optionsAction){
+                                                actionHtml += '<option value="' + key + '">' + optionsAction[key] + '</option>';
+                                            }
+                                            $('#action').html(actionHtml);
+                                            var unitStatusHtml = '<option value=""></option>';
+                                            for(var key in optionsUnitStatus){
+                                                unitStatusHtml += '<option value="' + key + '">' + optionsUnitStatus[key] + '</option>';
+                                            }
+                                            $('#unitStatus').html(unitStatusHtml);
+                                            //初始化数据
+                                            $('#action').val(info.action);
+                                            $('#unitStatus').val(info.unitStatus);
+                                        },
+                                        error: function(res){
+
+                                        }
+                                    });
+                                }
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        },
+                        error: function(res){
+
+                        }
+                    });
+                }
             }
         </script>
     </body>

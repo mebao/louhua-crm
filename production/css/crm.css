@@ -70,3 +70,15 @@
 	background-position-x: 80%;
 	background-position-y: 50%;
 }
+.backendMatch-page .check-tab .item.up_arrow{
+	background: url('../images/up_arrow.png') no-repeat;
+	background-size: 15px 15px;
+	background-position-x: 80%;
+	background-position-y: 50%;
+}
+.backendMatch-page .check-tab .item.down_arrow{
+	background: url('../images/down_arrow.png') no-repeat;
+	background-size: 15px 15px;
+	background-position-x: 80%;
+	background-position-y: 50%;
+}
