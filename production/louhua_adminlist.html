@@ -22,6 +22,9 @@
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
+
+        <link href="css/common.css" rel="stylesheet">
+        <link href="css/crm.css" rel="stylesheet">
     </head>
 
     <body class="nav-md">
@@ -156,21 +159,60 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <table class="table table-striped">
+                            <form class="form-horizontal form-label-left" novalidate>
+                                <div class="row pb20">
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="userId" class="">User ID
+                                        </label>
+                                        <input type="number" id="userId" name="id" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="wechatName" class="">Wechat Name
+                                        </label>
+                                        <input type="text" id="wechatName" name="wechat_name" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="wechatId" class="">Wechat ID
+                                        </label>
+                                        <input type="number" id="wechatId" name="wechat_id" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="adminName" class="">Admin Name
+                                        </label>
+                                        <input type="text" id="adminName" name="admin_name" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="cell" class="">Cell
+                                        </label>
+                                        <input type="tel" id="cell" name="cell" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="brokerageName" class="">Brokerage Name
+                                        </label>
+                                        <input type="number" id="brokerageName" name="brokerage_name" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="officeTelephone" class="">Office Telephone
+                                        </label>
+                                        <input type="number" id="officeTelephone" name="office_telephone" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="search" type="submit" class="btn btn-success">Search</button>
+                                </div>
+                                <div class="ln_solid"></div>
+                            </form>
+                            <table id="datatable-admin-list" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>username</th>
-                                        <th>wechatId</th>
-                                        <th>wechatName</th>
-                                        <th>wxUserid</th>
-                                        <th>realName</th>
-                                        <th>brokerageName</th>
+                                        <th>User ID</th>
+                                        <th>Wechat Name</th>
+                                        <th>Wechat ID</th>
+                                        <th>Admin Name</th>
                                         <th>cell</th>
-                                        <th>officeTelephone</th>
-                                        <th>recoNumber</th>
-                                        <th>subscribe</th>
-                                        <th>edit</th>
+                                        <th>Brokerage Name</th>
+                                        <th>Office Telephone</th>
+                                        <th>Operation</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableData">
@@ -211,12 +253,39 @@
 
         <script>
             if(signIn){
+                $('#search').click(function(e) {
+                    e.preventDefault();
+                    //拼接search条件
+                    var searchurl = apiUrl + '/crmapi/searchadmins?getcount=1';
+                    if($('input[name="id"]').val() != ''){
+                        searchurl += '&id=' + $('input[name="id"]').val();
+                    }
+                    if($('input[name="wechat_name"]').val() != ''){
+                        searchurl += '&wechat_name=' + $('input[name="wechat_name"]').val();
+                    }
+                    if($('input[name="wechat_id"]').val() != ''){
+                        searchurl += '&wechat_id=' + $('input[name="wechat_id"]').val();
+                    }
+                    if($('input[name="admin_name"]').val() != ''){
+                        searchurl += '&admin_name=' + $('input[name="admin_name"]').val();
+                    }
+                    if($('input[name="cell"]').val() != ''){
+                        searchurl += '&cell=' + $('input[name="cell"]').val();
+                    }
+                    if($('input[name="brokerage_name"]').val() != ''){
+                        searchurl += '&brokerage_name=' + $('input[name="brokerage_name"]').val();
+                    }
+                    if($('input[name="office_telephone"]').val() != ''){
+                        searchurl += '&office_telephone=' + $('input[name="office_telephone"]').val();
+                    }
+                    requestData(searchurl);
+                });
                 var username = localStorage.getItem('username');
                 var token = localStorage.getItem('token');
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                requestData();
+                requestData(apiUrl + '/crmapi/searchadmins?getcount=1');
 
                 //log out
                 $('#logOut').click(function(){
@@ -241,11 +310,11 @@
                     location.href = 'louhua_adminImport.html';
                 });
 
-                function requestData(){
+                function requestData(_url){
                     if(localStorage.getItem('role') == 1){
                         $.ajax({
                             type: 'get',
-                            url: apiUrl + '/crmapi/searchadmins',
+                            url: _url,
                             success: function(res){
                                 if(res.status == 'ok'){
                                     var admins = res.results.admins;
@@ -254,17 +323,13 @@
                                         if(admins.length > 0 ){
                                             for(var i = 0; i < admins.length; i++){
                                                 tableHtml += '<tr>\
-                                                        <th scope="row">' + (i+1) + '</th>\
-                                                        <td>' + admins[i].username + '</td>\
-                                                        <td>' + admins[i].wechatId + '</td>\
+                                                        <td>' + admins[i].userId + '</td>\
                                                         <td>' + admins[i].wechatName + '</td>\
-                                                        <td>' + admins[i].wxUserid + '</td>\
-                                                        <td>' + admins[i].realName + '</td>\
-                                                        <td>' + admins[i].brokerageName + '</td>\
+                                                        <td>' + admins[i].wechatId + '</td>\
+                                                        <td>' + admins[i].username + '</td>\
                                                         <td>' + admins[i].cell + '</td>\
+                                                        <td>' + admins[i].brokerageName + '</td>\
                                                         <td>' + admins[i].officeTelephone + '</td>\
-                                                        <td>' + admins[i].recoNumber + '</td>\
-                                                        <td>' + admins[i].subscribe + '</td>\
                                                         <td>\
                                                             <a class="update" data-id="' + admins[i].userId + '" role="button">update</a>\
                                                             <a class="delete" data-id="' + admins[i].userId + '" role="button">delete</a>\
@@ -274,7 +339,7 @@
                                         }
                                     }
                                     $('#tableData').html(tableHtml);
-                                    readyPage();
+                                    readyPage(res.dataNum);
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',
@@ -292,7 +357,7 @@
                     }
                 }
 
-                function readyPage(){
+                function readyPage(dataNum){
                     $('.update').click(function(){
                         location.href = 'louhua_updateAdmin.html?id=' + $(this).attr('data-id');
                     });

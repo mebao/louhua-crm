@@ -197,28 +197,28 @@
                                         <div class="col-md-8 unitType-select">
                                             
                                         </div>
-                                        <div class="col-md-2">789</div>
+                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Exposure</div>
                                         <div class="col-md-8 exposure-select">
 
                                         </div>
-                                        <div class="col-md-2">789</div>
+                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Action</div>
                                         <div class="col-md-8 action-select">
 
                                         </div>
-                                        <div class="col-md-2">789</div>
+                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Unit Status</div>
                                         <div class="col-md-8 unitStatus-select">
 
                                         </div>
-                                        <div class="col-md-2">789</div>
+                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                 </div>
                                 <div class="check-tab">
@@ -355,6 +355,7 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
+                var matchListUrl = '';
                 requestData();
 
                 //log out
@@ -377,7 +378,7 @@
                                 var tableHtml = '';
                                 if(post != null){
                                         tableHtml += '<tr>\
-                                                <td class="wantHouse" data-type="' + post.postType + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + post.id + '</td>\
+                                                <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + post.id + '</td>\
                                                 <td>' + post.projectName + '</td>\
                                                 <td>' + post.userHaveName + '</td>\
                                                 <td>' + post.userWantName + '</td>\
@@ -393,7 +394,8 @@
                                 }
                                 $('#tableData').html(tableHtml);
                                 //根据project name获取match list
-                                readyList(apiUrl + '/crmapi/searchhouse?post_type=have&project_id=' + post.projectId + '&project_name=' + post.projectName);
+                                matchListUrl = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
+                                readyList(matchListUrl);
                                 readyPage();
                             }else{
                                 new PNotify({
@@ -613,12 +615,12 @@
                                                 <td>' + list[i].coop + '</td>\
                                                 <td>' + list[i].action + '</td>\
                                                 <td>' + list[i].unitStatus + '</td>\
-                                                <td><a class="match" data-id="' + list[i].id + '" data-haveId="' + list[i].haveId + '" role="button">match</a></td>\
+                                                <td><a class="match" data-type="' + list[i].postType + '" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" role="button">match</a></td>\
                                             </tr>';
                         }
-                        readyMatch();
                     }
                     $('#matchList').html(matchListMatch);
+                    readyMatch();
                 }
 
                 function readyProjectList(projectList){
@@ -675,18 +677,16 @@
                             $('.selected-tab').html(selectedHtml);
                             //筛选all
                             $('.selectAll').click(function(){
-                                var listUrl = apiUrl + '/crmapi/searchhouse?post_type=have&project_id=' + $('.wantHouse').attr('data-projectId') + '&project_name=' + $('.wantHouse').attr('data-projectName');
                                 var nullArray = new Array();
                                 selectedArray = nullArray;
-                                readyList(listUrl);
+                                readyList(matchListUrl);
                                 readySelected();
                             });
                             //重新筛选列表
-                            var listUrl = apiUrl + '/crmapi/searchhouse?post_type=have&project_id=' + $('.wantHouse').attr('data-projectId') + '&project_name=' + $('.wantHouse').attr('data-projectName');
                             for(var i = 0; i < selectedArray.length; i++){
                                 listUrl += ('&' + selectedArray[i].searchName + '=' + selectedArray[i].key);
                             }
-                            readyList(listUrl);
+                            readyList(matchListUrl);
                             //绑定取消选择时间
                             $('.selected-item').click(function(){
                                 var index = '';
@@ -704,10 +704,19 @@
 
                 function readyMatch(){
                     $('.match').click(function(){
+                        var _postType = $(this).attr('data-type');
+                        var _haveId = $(this).attr('data-haveId');
+                        var _wantId = $(this).attr('data-wantId');
+                        var _data = '';
+                        if(GetQueryString('postType') == 'have'){
+                            _data = {post_type: _postType, id: _wantId, user_id: $('.house').attr('data-userHaveId'), house_id: $('.house').attr('data-id')};
+                        }else if(GetQueryString('postType') == 'want'){
+                            _data = {post_type: _postType, id: _haveId, user_id: $('.house').attr('data-userWantId'), house_id: $('.house').attr('data-id')};
+                        }
                         $.ajax({
                             type: 'post',
                             url: apiUrl + '/crmapi/adminmacth',
-                            data: {post_type: 'want', id: $('.wantHouse').attr('data-id'), user_id: $(this).attr('data-haveId'), house_id: $(this).attr('data-id')},
+                            data: _data,
                             success: function(res){
                                 if(res.status == 'ok'){
                                     new PNotify({

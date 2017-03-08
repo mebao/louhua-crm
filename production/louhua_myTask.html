@@ -269,7 +269,30 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                requestData();
+                var optionsAction = '';
+                var optionsUnitStatus = '';
+                $.ajax({
+                    type: 'get',
+                    url: apiUrl + '/crmapi/otheroptions',
+                    success: function(res){
+                        if(res.status == 'ok'){
+                            optionsAction = res.results.optionsAction;
+                            optionsUnitStatus = res.results.optionsUnitStatus;
+                            requestData();
+                        }else{
+                            new PNotify({
+                                title: 'Oh No!',
+                                text: res.errorMsg,
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                timerHide: '20',
+                            });
+                        }
+                    },
+                    error: function(){
+
+                    }
+                });
 
                 //log out
                 $('#logOut').click(function(){
@@ -291,8 +314,8 @@
                                 if(list != null){
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
-                                            tableHtml += '<tr>\
-                                                    <td><a class="showMatch" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a></td>\
+                                            tableHtml += '<tr class="item" data-test="1">\
+                                                    <td><a class="showMatch" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a></td>\
                                                     <td>' + list[i].projectName + '</td>\
                                                     <td>' + list[i].userHaveName + '</td>\
                                                     <td>' + list[i].userWantName + '</td>\
@@ -301,11 +324,28 @@
                                                     <td>' + list[i].floorHigh + '</td>\
                                                     <td>' + list[i].price + '</td>\
                                                     <td>' + list[i].exposure + '</td>\
-                                                    <td>' + list[i].coop + '</td>\
-                                                    <td>' + list[i].action + '</td>\
-                                                    <td>' + list[i].unitStatus + '</td>\
-                                                    <td>\
-                                                        <a class="update" data-type="' + list[i].postType + '" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" role="button">update</a>\
+                                                    <td>' + list[i].coop + '</td>';
+                                            tableHtml += '<td><select class="action">';
+                                                    for(var key in optionsAction){
+                                                        if(key == list[i].action){
+                                                            tableHtml += '<option value="' + key + '" selected>' + optionsAction[key] + '</option>';
+                                                        }else{
+                                                            tableHtml += '<option value="' + key + '">' + optionsAction[key] + '</option>';
+                                                        }
+                                                    }
+                                            tableHtml += '</select></td>';
+                                            tableHtml += '<td><select class="unitStatus">';
+                                                    for(var key in optionsUnitStatus){
+                                                        if(key == list[i].unitStatus){
+                                                            tableHtml += '<option value="' + key + '" selected>' + optionsUnitStatus[key] + '</option>';
+                                                        }else{
+                                                            tableHtml += '<option value="' + key + '">' + optionsUnitStatus[key] + '</option>';
+                                                        }
+                                                    }
+                                            tableHtml += '</select></td>';
+                                            tableHtml += '<td>\
+                                                        <a class="match" data-id="' + list[i].id + '" data-type="' + list[i].postType + '" role="button">match</a>\
+                                                        <a class="update" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" data-type="' + list[i].postType + '" role="button">update</a>\
                                                         <a class="complete" data-id="' + list[i].id + '" role="button">complete</a>\
                                                     </td>\
                                                 </tr>';
@@ -330,12 +370,45 @@
                     });
                 }
                 function readyPage(){
+                    $('.match').click(function(){
+                        location.href = 'louhua_backendMatch.html?id=' + $(this).attr('data-id') + '&postType=' + $(this).attr('data-type');
+                    });
                     $('.update').click(function(){
-                        if($(this).attr('data-type') == 'have'){
-                            location.href = 'louhua_updateMyTask.html?id=' + $(this).attr('data-haveId');
-                        }else if($(this).attr('data-type') == 'want'){
-                            location.href = 'louhua_updateMyTask.html?id=' + $(this).attr('data-wantId');
+                        var _id = '';
+                        var _type = $(this).attr('data-type');
+                        var _action = $(this).parents('.item').find('.action').val();
+                        var _unitStatus = $(this).parents('.item').find('.unitStatus').val();
+                        if(_type == 'have'){
+                            _id = $(this).attr('data-haveId');
+                        }else{
+                            _id = $(this).attr('data-wantId');
                         }
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/updatehouse/' + _id,
+                            data: {post_type: _type, action: _action, unit_status: _unitStatus},
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Update success',
+                                        type: 'success',
+                                        styling: 'bootstrap3'
+                                    });
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(){
+
+                            }
+                        });
                     });
                     $('.complete').click(function(){
                         $('#confirmComplete').attr('data-id', $(this).attr('data-id'));

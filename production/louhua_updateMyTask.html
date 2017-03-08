@@ -362,7 +362,7 @@
                 function requestData(){
                     $.ajax({
                         type: 'get',
-                        url: apiUrl + '/crmapi/searchhouse?id=' + GetQueryString('id'),
+                        url: apiUrl + '/crmapi/searchtask?id=' + GetQueryString('id'),
                         success: function(res){
                             if(res.status == 'ok'){
                                 if(res.results.list.length > 0){
