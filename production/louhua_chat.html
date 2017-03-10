@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Meta, title, CSS, favicons, etc. -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>xinlouhua</title>
+
+        <!-- Bootstrap -->
+        <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <!-- NProgress -->
+        <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+        <!-- PNotify -->
+        <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+        <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+        <link href="../vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+
+        <!-- Custom Theme Style -->
+        <link href="../build/css/custom.min.css" rel="stylesheet">
+
+        <link href="css/common.css" rel="stylesheet">
+        <link href="css/crm.css" rel="stylesheet">
+    </head>
+
+        
+    </head>
+    <body class="chat-page">
+        <div class="chat-tab flex">
+            <div class="message-tab flex-1">
+                <div class="left-message mt10">
+                    <div class="flex">
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                        <div class="flex-1 user-name">admin:</div>
+                    </div>
+                    <div class="info">
+                        来自小明的火型来自小明的火型来
+                    </div>
+                </div>
+                <div class="right-message mt10">
+                    <div class="flex">
+                        <div class="flex-1 user-name text-right">admin:</div>
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="info">
+                            来自小明的火型来自小明的火型来自小明
+                        </div>
+                    </div>
+                </div><div class="left-message mt10">
+                    <div class="flex">
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                        <div class="flex-1 user-name">admin:</div>
+                    </div>
+                    <div class="info">
+                        来自小明的火型来自小明的火型来
+                    </div>
+                </div>
+                <div class="right-message mt10">
+                    <div class="flex">
+                        <div class="flex-1 user-name text-right">admin:</div>
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="info">
+                            来自小明的火型来自小明的火型来自小明
+                        </div>
+                    </div>
+                </div><div class="left-message mt10">
+                    <div class="flex">
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                        <div class="flex-1 user-name">admin:</div>
+                    </div>
+                    <div class="info">
+                        来自小明的火型来自小明的火型来
+                    </div>
+                </div>
+                <div class="right-message mt10">
+                    <div class="flex">
+                        <div class="flex-1 user-name text-right">admin:</div>
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="info">
+                            来自小明的火型来自小明的火型来自小明
+                        </div>
+                    </div>
+                </div><div class="left-message mt10">
+                    <div class="flex">
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                        <div class="flex-1 user-name">admin:</div>
+                    </div>
+                    <div class="info">
+                        来自小明的火型来自小明的火型来
+                    </div>
+                </div>
+                <div class="right-message mt10">
+                    <div class="flex">
+                        <div class="flex-1 user-name text-right">admin:</div>
+                        <div class="img">
+                            <img src="images/user-default.png">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="info">
+                            来自小明的火型来自小明的火型来自小明
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-bar">
+                <div class="form-group">
+                    <textarea name="info" class="form-control"></textarea>
+                </div>
+                <div class="form-group text-right mb0">
+                    <button id="send" type="button" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+        <!-- jQuery -->
+        <script src="../vendors/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- FastClick -->
+        <script src="../vendors/fastclick/lib/fastclick.js"></script>
+        <!-- NProgress -->
+        <script src="../vendors/nprogress/nprogress.js"></script>
+        <!-- PNotify -->
+        <script src="../vendors/pnotify/dist/pnotify.js"></script>
+        <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
+        <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
+
+        <!-- Custom Theme Scripts -->
+        <script src="../build/js/custom.min.js"></script>
+
+        <script src="js/main.js"></script>
+
+        <script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
+
+        <script type="text/javascript">
+            var goEasy = new GoEasy({
+                appkey: '2ba7f5ae-99ff-417b-bba0-903c4e60a5da'
+            });
+            goEasy.subscribe({
+                channel: '2to1',
+                onMessage: function (message) {
+                    alert('收到：' + message.content);
+                }
+            });
+
+
+            $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
+            $('#send').click(function(){
+                if($('textarea[name="info"]').val().trim() != ''){
+                    $('.message-tab').append('<div class="right-message mt10">\
+                            <div class="flex">\
+                                <div class="flex-1 user-name text-right">admin:</div>\
+                                <div class="img">\
+                                    <img src="images/user-default.png">\
+                                </div>\
+                            </div>\
+                            <div class="text-right">\
+                                <div class="info">' + $('textarea[name="info"]').val() + '</div>\
+                            </div>\
+                        </div>');
+                    $('textarea[name="info"]').val('');
+                    $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
+                }
+            });
+        </script>
+    </body>
+</html>

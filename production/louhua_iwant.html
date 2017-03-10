@@ -25,12 +25,6 @@
         <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
         <link href="../vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
-        <!-- Datatables -->
-        <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-        <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-        <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-        <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-        <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -187,15 +181,15 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-4">
-                                        <label for="postType">Post Type</label>
-                                        <select id="postType" class="form-control" name="post_type" required="required">
-                                            <option value="have">I have</option>
-                                            <option value="want" selected="selected">I want</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="id">ID</label>
                                         <input type="text" id="id" name="id" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="unitType" class="">Unit Type
+                                        </label>
+                                        <select class="form-control" id="unitType" name="unit_type">
+                                            
+                                        </select>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="iHaveAgent" class="">I have agent
@@ -207,13 +201,6 @@
                                         <label for="iWantAgent" class="">I want agent
                                         </label>
                                         <select id="iWantAgent" class="select2_user form-control" name="user_want_id" tabindex="-1">
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-4">
-                                        <label for="unitType" class="">Unit Type
-                                        </label>
-                                        <select class="form-control" id="unitType" name="unit_type">
-                                            
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-4">
@@ -253,14 +240,29 @@
                                     <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="time" class="">Time
                                         </label>
-                                        <input type="text" name="startDate" id="startDate" class="form-control" value="">
+                                        <div class="flex time-tab">
+                                            <div id="selectTime" class="flex-1">
+                                                <input type="text" name="time" value="" class="form-control " readonly>
+                                            </div>
+                                            <span id="removeTime" class="add-on"><i class="fa fa-remove"></i></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button id="search" type="button" class="btn btn-success">Search</button>
+                                    <button id="search" type="submit" class="btn btn-success">Search</button>
                                 </div>
                                 <div class="ln_solid"></div>
                             </form>
+                            <div class="check-pagesize">
+                                <span class="label-tip">Show</span>
+                                <select id="pagesize">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="label-tip">entries</span>
+                            </div>
                             <table id="datatable-fixed-header" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -284,6 +286,11 @@
                                     
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation" class="text-right">
+                                <ul class="pagination" data-page="1">
+                                    
+                                </ul>
+                            </nav>
                         </div>
                         <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
@@ -343,7 +350,9 @@
                                         <h4 class="modal-title" id="myModalLabel2">Notice</h4>
                                     </div>
                                     <div id="selectUser" class="modal-body">
-                                        
+                                        <div class="sendMessage">
+                                            
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -385,22 +394,6 @@
         <script src="../vendors/pnotify/dist/pnotify.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
         <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
-        <!-- Datatables -->
-        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-        <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-        <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-        <script src="../vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
-        <script src="../vendors/jszip/dist/jszip.min.js"></script>
-        <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-        <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="../build/js/custom.min.js"></script>
@@ -409,9 +402,23 @@
 
         <script>
             if(signIn){
+                $('#selectTime').daterangepicker({
+                    format: 'YYYY-MM-DD',
+                    singleDatePicker: true
+                }, function(start, label) {
+                    var date = new Date(start._d);
+                    var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+                    $('input[name="time"]').val(dateString);
+                });
+                $('#removeTime').click(function(){
+                    $('input[name="time"]').val('');
+                });
+
+                var url = apiUrl + '/crmapi/searchhouse?getcount=1&post_type=want';
+                var exportUrl = apiUrl + '/crmapi/exporthouse?getcount=1&post_type=want';
                 $('#search').click(function(e) {
                     e.preventDefault();
-                    if($('#floorHigh').val() < $('#floorLow').val()){
+                    if(($('#floorHigh').val() != '') && ($('#floorLow').val() != '') && $('#floorHigh').val() < $('#floorLow').val()){
                         new PNotify({
                             title: 'Oh No!',
                             text: 'this Floor high must greater than Floor low',
@@ -422,43 +429,58 @@
                         return;
                     }
                     //拼接search条件
-                    var searchurl = apiUrl + '/crmapi/searchhouse?app=0';
+                    var searchurl = apiUrl + '/crmapi/searchhouse?getcount=1&post_type=want';
+                    var exportBasicUrl = apiUrl + '/crmapi/exporthouse?getcount=1&post_type=want';
                     if($('select[name="project_id"]').val() != ''){
                         searchurl += '&project_id=' + $('select[name="project_id"]').val();
-                    }
-                    if($('select[name="post_type"]').val() != ''){
-                        searchurl += '&post_type=' + $('select[name="post_type"]').val();
+                        exportBasicUrl += '&project_id=' + $('select[name="project_id"]').val();
                     }
                     if($('input[name="id"]').val() != ''){
                         searchurl += '&id=' + $('input[name="id"]').val();
+                        exportBasicUrl += '&id=' + $('input[name="id"]').val();
                     }
                     if($('select[name="user_have_id"]').val() != ''){
                         searchurl += '&user_have_id=' + $('select[name="user_have_id"]').val();
+                        exportBasicUrl += '&user_have_id=' + $('select[name="user_have_id"]').val();
                     }
                     if($('select[name="user_want_id"]').val() != ''){
                         searchurl += '&user_want_id=' + $('select[name="user_want_id"]').val();
+                        exportBasicUrl += '&user_want_id=' + $('select[name="user_want_id"]').val();
                     }
                     if($('select[name="unit_type"]').val() != ''){
                         searchurl += '&unit_type=' + $('select[name="unit_type"]').val();
+                        exportBasicUrl += '&unit_type=' + $('select[name="unit_type"]').val();
                     }
                     if($('input[name="expect_floor_low"]').val() != ''){
                         searchurl += '&expect_floor_low=' + $('input[name="expect_floor_low"]').val();
+                        exportBasicUrl += '&expect_floor_low=' + $('input[name="expect_floor_low"]').val();
                     }
                     if($('input[name="expect_floor_high"]').val() != ''){
                         searchurl += '&expect_floor_high=' + $('input[name="expect_floor_high"]').val();
+                        exportBasicUrl += '&expect_floor_high=' + $('input[name="expect_floor_high"]').val();
                     }
                     if($('input[name="price"]').val() != ''){
                         searchurl += '&price=' + $('input[name="price"]').val();
+                        exportBasicUrl += '&price=' + $('input[name="price"]').val();
                     }
                     if($('select[name="exposure"]').val() != ''){
                         searchurl += '&exposure=' + $('select[name="exposure"]').val();
+                        exportBasicUrl += '&exposure=' + $('select[name="exposure"]').val();
                     }
                     if($('input[name="coop"]').val() != ''){
                         searchurl += '&coop=' + $('input[name="coop"]').val();
+                        exportBasicUrl += '&coop=' + $('input[name="coop"]').val();
                     }
                     if($('select[name="unit_status"]').val() != ''){
                         searchurl += '&unit_status=' + $('select[name="unit_status"]').val();
+                        exportBasicUrl += '&unit_status=' + $('select[name="unit_status"]').val();
                     }
+                    if($('input[name="time"]').val() != ''){
+                        searchurl += '&time=' + $('input[name="time"]').val();
+                        exportBasicUrl += '&time=' + $('input[name="time"]').val();
+                    }
+                    url = searchurl;
+                    exportUrl = exportBasicUrl;
                     requestData(searchurl);
                 });
                 var username = localStorage.getItem('username');
@@ -466,7 +488,15 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                requestData(apiUrl + '/crmapi/searchhouse?post_type=want');
+                //切换分页展示数量
+                $('#pagesize').change(function(){
+                    url = url + '&pagesize=' + $(this).val();
+                    $('.pagination').attr('data-page', '1');
+                    requestData(url + '&pagesize=' + $(this).val());
+                });
+                //获取数据
+                requestData(url);
+                readysearchTab();
 
                 //log out
                 $('#logOut').click(function(){
@@ -483,7 +513,7 @@
 
                 //export
                 $('#export').click(function(){
-                    location.href = apiUrl + '/crmapi/exporthouse';
+                    location.href = exportUrl;
                 });
 
                 //import
@@ -517,8 +547,8 @@
                                                     <td>' + list[i].action + '</td>\
                                                     <td>' + list[i].unitStatus + '</td>\
                                                     <td class="text-center">\
-                                                        <div><a class="send" data-type="all" role="button">All</a></div>\
-                                                        <div><a class="send" data-id="' + list[i].id + '" role="button">Send to</a><div>\
+                                                        <div><a class="send" data-message="' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
+                                                        <div><a class="send" data-message="' + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div>\
                                                     </td>\
                                                     <td>\
                                                         <a class="update" data-id="' + list[i].id + '" role="button">update</a>\
@@ -529,7 +559,7 @@
                                     }
                                 }
                                 $('#tableData').html(tableHtml);
-                                readyPage();
+                                readyPage(res.dataNum);
                             }else{
                                 new PNotify({
                                     title: 'Oh No!',
@@ -544,6 +574,9 @@
 
                         }
                     });
+                }
+
+                function readysearchTab(){
                     //获取agent list
                     $.ajax({
                         type: 'get',
@@ -641,10 +674,20 @@
                                 var userlistHtml = '';
                                 if(agents.length > 0){
                                     for(var i = 0; i<agents.length; i++){
-                                        userlistHtml += '<div class="checkbox">\
-                                                            <label>\
-                                                                <input type="checkbox" data-id="'  + agents[i].wxUserid + '" class="flat userCheck" ' + (agents[i].wxUserid == null ? 'disabled="disabled"' : '') + '>' + agents[i].realName + '\
-                                                            </label>\
+                                        userlistHtml += '<div class="row">\
+                                                            <div class="col-md-4">\
+                                                                <div class="checkbox">\
+                                                                    <label>\
+                                                                        <input type="checkbox" data-id="'  + agents[i].wxUserid + '" class="flat userCheck" ' + (agents[i].wxUserid == null ? 'disabled="disabled"' : '') + '>' + agents[i].realName + '\
+                                                                    </label>\
+                                                                </div>\
+                                                            </div>\
+                                                            <div class="col-md-4 pt10 pb10">\
+                                                                12345678977\
+                                                            </div>\
+                                                            <div class="col-md-4 pt10 pb10">\
+                                                                bay street agent\
+                                                            </div>\
                                                         </div>';
                                     }
                                     $('#selectUser').html(userlistHtml);
@@ -663,6 +706,7 @@
                         console.log(start.toISOString(), end.toISOString(), label);
                     });
                 }
+
                 function readyProjectList(projectList){
                     var projectHtml = '<option value=""></option>';
                     for(var key in projectList){
@@ -676,10 +720,8 @@
                     }
                 });
 
-                function readyPage(){
-                    // $('#datatable-fixed-header').DataTable({
-                    //     fixedHeader: true
-                    // });
+                function readyPage(dataNum){
+                    structurePaging(dataNum, url);
                     $('.update').click(function(){
                         location.href = 'louhua_updateIwant.html?id=' + $(this).attr('data-id');
                     });
@@ -688,9 +730,10 @@
                         if($(this).attr('data-type') == 'all'){
                             usersParams = '@all';
                             $('#confirmSend').attr('data-params', usersParams);
-                            $('#confirmSend').attr('data-message', 'test');
+                            $('.sendMessage').html('Send "' + $(this).attr('data-message') + '" to all agents?');
                             $('#sendTab').modal('show');
                         }else{
+                            $('#confirmSelect').attr('data-message', $(this).attr('data-message'));
                             $('#selectTab').modal('show');
                             
                         }
@@ -707,7 +750,7 @@
                         if(usersParams.length > 0){
                             usersParams = usersParams.substring(0, usersParams.length - 1);
                             $('#confirmSend').attr('data-params', usersParams);
-                            $('#confirmSend').attr('data-message', 'test');
+                            $('.sendMessage').html('Send "' + $(this).attr('data-message') + '" to the chosen agents?');
                             $('#sendTab').modal('show');
                         }else{
                             new PNotify({

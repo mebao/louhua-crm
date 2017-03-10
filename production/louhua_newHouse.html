@@ -482,7 +482,7 @@
                 }
                 $('#projectList').change(function(){
                     if($(this).val() != ''){
-                        $('input[name="project_name"]').val($(this).text());
+                        $('input[name="project_name"]').val($(this).find("option:selected").text());
                     }
                 });
                 //post type更换

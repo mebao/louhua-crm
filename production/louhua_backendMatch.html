@@ -188,6 +188,9 @@
                                 </tbody>
                             </table>
                             <div>
+                                
+                            </div>
+                            <div>
                                 <div class="selected-tab">
                                     <a class="selectAll" role="button">All</a>
                                 </div>
@@ -684,7 +687,7 @@
                             });
                             //重新筛选列表
                             for(var i = 0; i < selectedArray.length; i++){
-                                listUrl += ('&' + selectedArray[i].searchName + '=' + selectedArray[i].key);
+                                matchListUrl += ('&' + selectedArray[i].searchName + '=' + selectedArray[i].key);
                             }
                             readyList(matchListUrl);
                             //绑定取消选择时间

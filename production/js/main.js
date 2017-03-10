@@ -124,7 +124,18 @@ function structurePaging(dataNum, url){
     }else{
         $('.pagination').html('');
     }
-}                
+}
+
+//聊天
+$('.profile_pic').click(function(){
+    var iWidth = 600;
+    var iHeight = 400;
+    //获得窗口的垂直位置 
+    var iTop = (window.screen.availHeight - 30 - iHeight) / 2; 
+    //获得窗口的水平位置 
+    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 
+    window.open('louhua_chat.html', 'Chat', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', resizable=no, toolbar=no, scrollbars=no, menubar=no');
+});
 
 //left sider共用
 $('.menu_section').html(

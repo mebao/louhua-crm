@@ -88,3 +88,44 @@
 	max-height: 300px;
 	overflow-y: auto;
 }
+
+/*chat*/
+.chat-page{
+	height: 100%;
+	background-color: #fff;
+	color: #333;
+}
+.chat-page .chat-tab{
+	height: 100%;
+	flex-direction: column;
+}
+.chat-page .chat-tab .message-tab{
+	height: 100%;
+	overflow-y: auto; 
+	padding: 10px 20px 20px;
+}
+.chat-page .chat-tab .message-tab .info{
+	display: inline-block;
+	background-color: #F2F2F2;
+	padding: 10px;
+	border-radius: 5px;
+}
+.chat-page .chat-tab .message-tab .img{
+	border-radius: 50%;
+}
+.chat-page .chat-tab .message-tab .img img{
+	border-radius: 50%;
+	width: 30px;
+}
+.chat-page .chat-tab .message-tab .user-name{
+	padding: 7px;
+}
+.chat-page .chat-tab .input-bar{
+	height: 105px;
+	border-top: 1px solid #dddddd;
+}
+.chat-page .chat-tab .input-bar textarea{
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}

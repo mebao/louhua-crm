@@ -15,8 +15,10 @@
         <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
         <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-        <!-- Animate.css -->
-        <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+        <!-- PNotify -->
+        <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+        <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+        <link href="../vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
 
         <link href="css/common.css" rel="stylesheet">
         <link href="css/crm.css" rel="stylesheet">
@@ -67,6 +69,10 @@
         <script src="../vendors/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
         <script src="../vendors/nprogress/nprogress.js"></script>
+        <!-- PNotify -->
+        <script src="../vendors/pnotify/dist/pnotify.js"></script>
+        <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
+        <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
         <!-- validator -->
         <script src="../vendors/validator/validator.js"></script>
 
@@ -141,7 +147,13 @@
                                 localStorage.setItem('role', res.results.userinfo.role);
                                 location.href = 'louhua_projectList.html';
                             }else{
-                                alert(res.errorMsg);
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
                             }
                         },
                         error: function(res){
