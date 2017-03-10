@@ -202,6 +202,24 @@
                             </div>
                         </div>
                     </div>
+                    <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Prompt</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Confirm delete this picture.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button id="confirmDelete" type="button" class="btn btn-primary">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /page content -->
 
@@ -311,33 +329,39 @@
 
                 function readyPage(){
                     $('.deletePic').click(function(){
-                        $.ajax({
-                            type: 'delete',
-                            url: apiUrl + '/crmapi/deletepicture/' + $(this).attr('data-id'),
-                            success: function(res){
-                                if(res.status == 'ok'){
-                                    new PNotify({
-                                      title: 'Success',
-                                      text: 'Delete success',
-                                      type: 'success',
-                                      styling: 'bootstrap3'
-                                    });
-                                    setTimeout(function(){
-                                        location.reload();
-                                    }, 500);
-                                }else{
-                                    new PNotify({
-                                        title: 'Oh No!',
-                                        text: res.errorMsg,
-                                        type: 'error',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                }
-                            }
-                        });
+                        $('#confirmDelete').attr('data-id', $(this).attr('data-id'));
+                        $('#deleteModal').modal('show');
+                        
                     });
                 }
+                $('#confirmDelete').click(function(){
+                    $('#deleteModal').modal('hide');
+                    $.ajax({
+                        type: 'delete',
+                        url: apiUrl + '/crmapi/deletepicture/' + $(this).attr('data-id'),
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                new PNotify({
+                                  title: 'Success',
+                                  text: 'Delete success',
+                                  type: 'success',
+                                  styling: 'bootstrap3'
+                                });
+                                setTimeout(function(){
+                                    location.reload();
+                                }, 500);
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        }
+                    });
+                });
             }
         </script>
     </body>

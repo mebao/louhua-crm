@@ -173,10 +173,10 @@
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="item form-group">
-                                            <label for="adminName" class="control-label col-md-3 col-sm-3 col-xs-12">Reco Number <span class="required">*</span>
+                                            <label for="realName" class="control-label col-md-3 col-sm-3 col-xs-12">Real Name <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="recoNumber" name="reco_number" class="form-control col-md-7 col-xs-12" required="required">
+                                                <input type="text" id="realName" name="real_name" class="form-control col-md-7 col-xs-12" required="required">
                                             </div>
                                         </div>
                                     </div>
@@ -326,7 +326,7 @@
                                 if(res.status == 'ok'){
                                     $('#wechatName').val(res.results.info.wechatName);
                                     $('#wechatId').val(res.results.info.wechatId);
-                                    $('#recoNumber').val(res.results.info.recoNumber);
+                                    $('#realName').val(res.results.info.realName);
                                     $('#cell').val(res.results.info.cell);
                                     $('#officeTelephone').val(res.results.info.officeTelephone);
                                     $('#brokerageName').val(res.results.info.brokerageName);

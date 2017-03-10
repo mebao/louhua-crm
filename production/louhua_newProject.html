@@ -155,7 +155,7 @@
                 <div class="right_col updateproject-page" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Update Project</h2>
+                            <h2>New Project</h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -399,13 +399,13 @@
                         $('#closeTime').val(structure_submit_date($('#closeDate').val()) + ' ' + $('#closeHour').val() + ':' + $('#closeTimeSelect').val() + ':00');
                         $.ajax({
                             type: 'post',
-                            url: apiUrl + '/crmapi/updateproject/' + GetQueryString('id'),
+                            url: apiUrl + '/crmapi/addproject',
                             data: $('form').serializeArray(),
                             success: function(res){
                                 if(res.status == 'ok'){
                                     new PNotify({
                                       title: 'Success',
-                                      text: 'Update success',
+                                      text: 'New success',
                                       type: 'success',
                                       styling: 'bootstrap3'
                                     });
@@ -432,29 +432,7 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                var optionsUnitType = '';
-                //获取project select
-                $.ajax({
-                    type: 'get',
-                    url: apiUrl + '/crmapi/otheroptions',
-                    success: function(res){
-                        if(res.status == 'ok'){
-                            optionsUnitType = res.results.optionsUnitType;
-                            requestData();
-                        }else{
-                            new PNotify({
-                                title: 'Oh No!',
-                                text: res.errorMsg,
-                                type: 'error',
-                                styling: 'bootstrap3',
-                                timerHide: '20',
-                            });
-                        }
-                    },
-                    error: function(res){
-
-                    }
-                });
+                requestData();
 
                 //log out
                 $('#logOut').click(function(){
@@ -464,49 +442,37 @@
                     location.href = "louhua_login.html";
                 });
 
+                $('#startDate').daterangepicker({
+                    format : 'YYYY-MM-DD',
+                    singleDatePicker: true,
+                    singleClasses: "picker_2"
+                }, function(start, end, label) {
+                    // console.log(start.toISOString(), end.toISOString(), label);
+                });
+                $('#closeDate').daterangepicker({
+                    format : 'YYYY-MM-DD',
+                    singleDatePicker: true,
+                    singleClasses: "picker_2"
+                }, function(start, end, label) {
+                    // console.log(start.toISOString(), end.toISOString(), label);
+                });
+
                 function requestData(){
+                    //获取project select
                     $.ajax({
                         type: 'get',
-                        url: apiUrl + '/crmapi/projectlist?id=' + GetQueryString('id'),
+                        url: apiUrl + '/crmapi/otheroptions',
                         success: function(res){
                             if(res.status == 'ok'){
-                                if(res.results.list.length > 0){
-                                    var project = res.results.list[0];
-                                    $('#name').val(project.name);
-                                    $('#levelLimits').val(project.levelLimits);
-                                    //构造unitType多选
-                                    var unitTypeArray = project.unitType.split(',');
-                                    var unitTypeHtml = '';
-                                    for(var key in optionsUnitType){
-                                        var selected = false;
-                                        for(var i = 0; i < unitTypeArray.length; i++){
-                                            if(key == unitTypeArray[i]){
-                                                selected = true;
-                                            }
-                                        }
-                                        if(selected){
-                                            unitTypeHtml += '<option value="' + key + '" selected>' + optionsUnitType[key] + '</option>';
-                                        }else{
-                                            unitTypeHtml += '<option value="' + key + '">' + optionsUnitType[key] + '</option>';
-                                        }
-                                    }
-                                    $('.select2_multiple').html(unitTypeHtml);
-                                    $(".select2_multiple").select2({
-                                        allowClear: true
-                                    });
-                                    $('#totalUnits').val(project.totalUnits);
-                                    $('#message').val(project.message);
-                                    var openTime = structure_date(project.openTime);
-                                    $('#startDate').val(openTime[0]);
-                                    $('#startHour').val(openTime[1]);
-                                    $('#startTime').val(openTime[2]);
-                                    var closeTime = structure_date(project.closeTime);
-                                    console.log(closeTime);
-                                    $('#closeDate').val(closeTime[0]);
-                                    $('#closeHour').val(closeTime[1]);
-                                    $('#closeTimeSelect').val(closeTime[2]);
-                                    init_date();
+                                var optionsUnitType = res.results.optionsUnitType;
+                                var unitTypeHtml = '';
+                                for(var key in optionsUnitType){
+                                    unitTypeHtml += '<option value="' + key + '">' + optionsUnitType[key] + '</option>';
                                 }
+                                $('.select2_multiple').html(unitTypeHtml);
+                                $(".select2_multiple").select2({
+                                    allowClear: true
+                                }); 
                             }else{
                                 new PNotify({
                                     title: 'Oh No!',
@@ -523,41 +489,11 @@
                     });
                 }
 
-                function structure_date(date){
-                    var returnArray = new Array();
-                    var year = date.substring(0, date.indexOf('-'));
-                    var month = date.substring((date.indexOf('-') + 1), (date.lastIndexOf('-')));
-                    var day = date.substring((date.lastIndexOf('-') + 1), date.indexOf(' '));
-                    var hour = date.substring((date.indexOf(' ') + 1), date.indexOf(':'));
-                    var time = date.substring((date.indexOf(':') + 1), date.lastIndexOf(':'));
-                    returnArray.push(month + '/' + day + '/' + year);
-                    returnArray.push(hour);
-                    returnArray.push(time);
-                    return returnArray;
-                }
-
                 function structure_submit_date(date){
                     var month = date.substring(0, date.indexOf('/'));
                     var day = date.substring((date.indexOf('/') + 1), (date.lastIndexOf('/')));
                     var year = date.substring((date.lastIndexOf('/') + 1));
                     return year + '-' + month + '-' + day;
-                }
-
-                function init_date(){
-                    $('#startDate').daterangepicker({
-                        format : 'YYYY-MM-DD',
-                        singleDatePicker: true,
-                        singleClasses: "picker_2"
-                    }, function(start, end, label) {
-                        console.log(start.toISOString(), end.toISOString(), label);
-                    });
-                    $('#closeDate').daterangepicker({
-                        format : 'YYYY-MM-DD',
-                        singleDatePicker: true,
-                        singleClasses: "picker_2"
-                    }, function(start, end, label) {
-                        console.log(start.toISOString(), end.toISOString(), label);
-                    });
                 }
             }
         </script>

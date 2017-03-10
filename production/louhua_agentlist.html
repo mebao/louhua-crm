@@ -22,6 +22,9 @@
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
+
+        <link href="css/common.css" rel="stylesheet">
+        <link href="css/crm.css" rel="stylesheet">
     </head>
 
     <body class="nav-md">
@@ -144,7 +147,7 @@
                 <!-- /top navigation -->
 
                 <!-- page content -->
-                <div class="right_col" role="main">
+                <div class="right_col agentlist-page" role="main">
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Agent List</h2>
@@ -156,7 +159,49 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <table class="table table-striped">
+                        <form class="form-horizontal form-label-left" novalidate>
+                                <div class="row pb20">
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="userId" class="">User ID
+                                        </label>
+                                        <input type="number" id="userId" name="id" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="wechatName" class="">Wechat Name
+                                        </label>
+                                        <input type="text" id="wechatName" name="wechat_name" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="cell" class="">Cell
+                                        </label>
+                                        <input type="tel" id="cell" name="cell" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="userRole" class="">Role
+                                        </label>
+                                        <select class="form-control" id="userRole" name="user_role">
+                                            <option value=""></option>
+                                            <option value="3">Bay Street Agent</option>
+                                            <option value="4">Other Brokerage Agent</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="search" type="submit" class="btn btn-success">Search</button>
+                                </div>
+                                <div class="ln_solid"></div>
+                            </form>
+                            <div class="check-pagesize">
+                                <span class="label-tip">Show</span>
+                                <select id="pagesize">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="label-tip">entries</span>
+                            </div>
+                            <table class="table table-striped table-bordered mb0">
                                 <thead>
                                     <tr>
                                         <th>User ID</th>
@@ -165,12 +210,108 @@
                                         <th>Role</th>
                                         <th>Participate Project</th>
                                         <th>Notice</th>
+                                        <th>Grouping</th>
                                         <th>Operation</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableData">
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation" class="text-right">
+                                <ul class="pagination" data-page="1">
+                                    
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="showInfoModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Prompt</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>User Name</th>
+                                                <th>Phone Number</th>
+                                                <th>Email</th>
+                                                <th>Brokerage Name</th>
+                                                <th>Office Phone Number</th>
+                                                <th>Reco License Number</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="infoTab">
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="showPostModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Prompt</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Project</th>
+                                                <th>I have</th>
+                                                <th>I want</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="postTab">
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sendModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Prompt</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Confirm delete this data.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button id="confirmSend" type="button" class="btn btn-primary">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Prompt</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Confirm delete this data.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button id="confirmDelete" type="button" class="btn btn-primary">Confirm</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -206,12 +347,45 @@
 
         <script>
             if(signIn){
+                var url = apiUrl + '/crmapi/searchagents?getcount=1';
+                var exportUrl = apiUrl + '/crmapi/exportagents?getcount=1';
+                $('#search').click(function(e) {
+                    e.preventDefault();
+                    //拼接search条件
+                    var searchurl = apiUrl + '/crmapi/searchagents?getcount=1';
+                    var exportBasicUrl = apiUrl + '/crmapi/exportagents?getcount=1';
+                    if($('input[name="id"]').val() != ''){
+                        searchurl += '&id=' + $('input[name="id"]').val();
+                        exportBasicUrl += '&id=' + $('input[name="id"]').val();
+                    }
+                    if($('input[name="wechat_name"]').val() != ''){
+                        searchurl += '&wechat_name=' + $('input[name="wechat_name"]').val();
+                        exportBasicUrl += '&wechat_name=' + $('input[name="wechat_name"]').val();
+                    }
+                    if($('input[name="cell"]').val() != ''){
+                        searchurl += '&cell=' + $('input[name="cell"]').val();
+                        exportBasicUrl += '&cell=' + $('input[name="cell"]').val();
+                    }
+                    if($('select[name="user_role"]').val() != ''){
+                        searchurl += '&user_role=' + $('select[name="user_role"]').val();
+                        exportBasicUrl += '&user_role=' + $('select[name="user_role"]').val();
+                    }
+                    url = searchurl;
+                    exportUrl = exportBasicUrl;
+                    requestData(searchurl);
+                });
                 var username = localStorage.getItem('username');
                 var token = localStorage.getItem('token');
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                requestData();
+                //切换分页展示数量
+                $('#pagesize').change(function(){
+                    url = url + '&pagesize=' + $(this).val();
+                    $('.pagination').attr('data-page', '1');
+                    requestData(url + '&pagesize=' + $(this).val());
+                });
+                requestData(url);
 
                 //log out
                 $('#logOut').click(function(){
@@ -228,7 +402,7 @@
 
                 //export
                 $('#export').click(function(){
-                    location.href = apiUrl + '/crmapi/exportagents';
+                    location.href = exportUrl;
                 });
 
                 //import
@@ -236,11 +410,11 @@
                     location.href = 'louhua_agentImport.html';
                 });
 
-                function requestData(){
+                function requestData(_url){
                     if(localStorage.getItem('role') == 1){
                         $.ajax({
                             type: 'get',
-                            url: apiUrl + '/crmapi/searchagents',
+                            url: _url,
                             success: function(res){
                                 if(res.status == 'ok'){
                                     var agents = res.results.agents;
@@ -250,11 +424,12 @@
                                             for(var i = 0; i < agents.length; i++){
                                                 tableHtml += '<tr>\
                                                         <td>' + agents[i].userId + '</td>\
-                                                        <td>' + agents[i].wechatName + '</td>\
+                                                        <td><a class="showInfo" data-id="' + agents[i].userId + '" role="button">' + agents[i].wechatName + '</a></td>\
                                                         <td>' + agents[i].cell + '</td>\
                                                         <td>' + agents[i].roleText + '</td>\
-                                                        <td>' + agents[i].projectNum + '</td>\
-                                                        <td></td>\
+                                                        <td><a class="showPost" data-id="' + agents[i].userId + '" role="button">' + agents[i].projectNum + '</a></td>\
+                                                        <td><a class="send" data-id="' + agents[i].wxUserid + '" role="button">Send to</a></td>\
+                                                        <td>' + (agents[i].subscribe == 'yes' ? 'Subscribe' : 'Not subscribed') + '</td>\
                                                         <td>\
                                                             <a class="update" data-id="' + agents[i].userId + '" role="button">update</a>\
                                                             <a class="delete" data-id="' + agents[i].userId + '" role="button">delete</a>\
@@ -264,7 +439,7 @@
                                         }
                                     }
                                     $('#tableData').html(tableHtml);
-                                    readyPage();
+                                    readyPage(res.dataNum);
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',
@@ -282,24 +457,35 @@
                     }
                 }
 
-                function readyPage(){
-                    $('.update').click(function(){
-                        location.href = 'louhua_updateAgent.html?id=' + $(this).attr('data-id');
-                    });
-                    $('.delete').click(function(){
+                function readyPage(dataNum){
+                    structurePaging(dataNum, url);
+                    $('.showInfo').click(function(){
                         $.ajax({
-                            type: 'delete',
-                            url: apiUrl + '/crmapi/deleteagent/' + $(this).attr('data-id'),
+                            type: 'get',
+                            url: apiUrl + '/crmapi/searchagents?id=' + $(this).attr('data-id'),
                             success: function(res){
                                 if(res.status == 'ok'){
-                                    requestData();
-                                    new PNotify({
-                                        title: 'Success',
-                                        text: 'Delete success',
-                                        type: 'success',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
+                                    var agents = res.results.agents;
+                                    if(agents.length > 0){
+                                        var infoHtml = '<tr>\
+                                                            <td>' + agents[0].realName + '</td>\
+                                                            <td>' + agents[0].cell + '</td>\
+                                                            <td>' + agents[0].username + '</td>\
+                                                            <td>' + agents[0].brokerageName + '</td>\
+                                                            <td>' + agents[0].officeTelephone + '</td>\
+                                                            <td>' + agents[0].recoNumber + '</td>\
+                                                        </tr>';
+                                        $('#infoTab').html(infoHtml);
+                                        $('#showInfoModal').modal('show');
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: 'No Info',
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
+                                    }
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',
@@ -310,12 +496,108 @@
                                     });
                                 }
                             },
-                            error: function(res){
+                            error: function(){
 
                             }
                         });
                     });
+                    $('.showPost').click(function(){
+                        $.ajax({
+                            type: 'get',
+                            url: apiUrl + '/crmapi/searchagents?id=' + $(this).attr('data-id'),
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    var agents = res.results.agents;
+                                    if(agents.length > 0){
+                                        var postList = res.results.agents[0].postList;
+                                        if(postList.length > 0){
+                                            var postHtml = '';
+                                            for(var i = 0; i < postList.length; i++){
+                                                postHtml += '<tr>\
+                                                                <td>' + postList[i].time + '</td>\
+                                                                <td>' + postList[i].projectName + '</td>\
+                                                                <td>' + (postList[i].postType == 'have' ? '1' : '-') + '</td>\
+                                                                <td>' + (postList[i].postType == 'want' ? '1' : '-') + '</td>\
+                                                            </tr>';
+                                            }
+                                            $('#postTab').html(postHtml);
+                                            $('#showPostModal').find('.modal-body').scrollTop(0);
+                                            $('#showPostModal').modal('show');
+                                        }else{
+                                            new PNotify({
+                                                title: 'Oh No!',
+                                                text: 'No Post',
+                                                type: 'error',
+                                                styling: 'bootstrap3',
+                                                timerHide: '20',
+                                            });
+                                        }
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: 'No Post',
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
+                                    }
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(){
+
+                            }
+                        });
+                    });
+                    $('.send').click(function(){
+                        $('#sendModal').modal('show');
+                    });
+                    $('.update').click(function(){
+                        location.href = 'louhua_updateAgent.html?id=' + $(this).attr('data-id');
+                    });
+                    $('.delete').click(function(){
+                        $('#deleteModal').modal('show');
+                        $('#confirmDelete').attr('data-id', $(this).attr('data-id'));
+                    });
                 }
+
+                $('#confirmDelete').click(function (){
+                    $('#deleteModal').modal('hide');
+                    $.ajax({
+                        type: 'delete',
+                        url: apiUrl + '/crmapi/deleteagent/' + $(this).attr('data-id'),
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                requestData(url);
+                                new PNotify({
+                                    title: 'Success',
+                                    text: 'Delete success',
+                                    type: 'success',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        },
+                        error: function(res){
+
+                        }
+                    });
+                });
             }
         </script>
     </body>

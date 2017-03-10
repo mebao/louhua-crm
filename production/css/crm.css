@@ -82,3 +82,9 @@
 	background-position-x: 80%;
 	background-position-y: 50%;
 }
+
+/*agentlist*/
+#showPostModal .modal-body{
+	max-height: 300px;
+	overflow-y: auto;
+}
