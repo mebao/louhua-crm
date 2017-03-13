@@ -845,6 +845,7 @@
                         if(usersParams.length > 0){
                             usersParams = usersParams.substring(0, usersParams.length - 1);
                             $('#confirmSend').attr('data-params', usersParams);
+                            $('#confirmSend').attr('data-message', $(this).attr('data-message'));
                             $('.sendMessage').html('Send "' + $(this).attr('data-message') + '" to the chosen agents?');
                             $('#sendTab').modal('show');
                         }else{
