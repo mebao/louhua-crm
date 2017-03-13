@@ -1,4 +1,5 @@
-var apiUrl = 'http://192.168.1.3/xinlouhua';
+// var apiUrl = 'http://192.168.1.3/xinlouhua';
+var apiUrl = 'http://api.louhua.meb168.com';
 
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -134,7 +135,25 @@ $('.profile_pic').click(function(){
     var iTop = (window.screen.availHeight - 30 - iHeight) / 2; 
     //获得窗口的水平位置 
     var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 
-    window.open('louhua_chat.html', 'Chat', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', resizable=no, toolbar=no, scrollbars=no, menubar=no');
+    var winObj = window.open('louhua_chat.html?id=18', 'Chat', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', resizable=no, toolbar=no, scrollbars=no, menubar=no');
+    var loop = setInterval(function() {
+        if(winObj.closed) {
+            clearInterval(loop);
+            $.ajax({
+                type: 'post',
+                url: apiUrl + '/crmapi/closeconver/' + localStorage.getItem('conversationId'),
+                data: {username: localStorage.getItem('username'), token: localStorage.getItem('token')},
+                success: function(res){
+                    if(res.status == 'ok'){
+                        localStorage.removeItem('conversationId');
+                    }
+                },
+                error: function(){
+
+                }
+            });
+        }
+    }, 1000);
 });
 
 //left sider共用

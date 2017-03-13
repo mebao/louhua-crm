@@ -10,9 +10,9 @@
         <title>xinlouhua</title>
 
         <!-- Bootstrap -->
-        <link href="vendors/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<link href="vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome -->
-        <link href="vendors/font-awesome/font-awesome.min.css" rel="stylesheet">
+        <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
         <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
         <!-- PNotify -->
@@ -52,62 +52,6 @@
                             来自小明的火型来自小明的火型来自小明
                         </div>
                     </div>
-                </div><div class="left-message mt10">
-                    <div class="flex">
-                        <div class="img">
-                            <img src="images/user-default.png">
-                        </div>
-                        <div class="flex-1 user-name">admin:</div>
-                    </div>
-                    <div class="info">
-                        来自小明的火型来自小明的火型来
-                    </div>
-                </div>
-                <div class="right-message mt10">
-                    <div class="flex">
-                        <div class="flex-1 user-name text-right">admin:</div>
-                        <div class="img">
-                            <img src="images/user-default.png">
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="info">
-                            来自小明的火型来自小明的火型来自小明
-                        </div>
-                    </div>
-                </div><div class="left-message mt10">
-                    <div class="flex">
-                        <div class="img">
-                            <img src="images/user-default.png">
-                        </div>
-                        <div class="flex-1 user-name">admin:</div>
-                    </div>
-                    <div class="info">
-                        来自小明的火型来自小明的火型来
-                    </div>
-                </div>
-                <div class="right-message mt10">
-                    <div class="flex">
-                        <div class="flex-1 user-name text-right">admin:</div>
-                        <div class="img">
-                            <img src="images/user-default.png">
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="info">
-                            来自小明的火型来自小明的火型来自小明
-                        </div>
-                    </div>
-                </div><div class="left-message mt10">
-                    <div class="flex">
-                        <div class="img">
-                            <img src="images/user-default.png">
-                        </div>
-                        <div class="flex-1 user-name">admin:</div>
-                    </div>
-                    <div class="info">
-                        来自小明的火型来自小明的火型来
-                    </div>
                 </div>
                 <div class="right-message mt10">
                     <div class="flex">
@@ -128,6 +72,7 @@
                     <textarea name="info" class="form-control"></textarea>
                 </div>
                 <div class="form-group text-right mb0">
+                    <button id="close" type="button" class="btn btn-default">Close</button>
                     <button id="send" type="button" class="btn btn-success">Submit</button>
                 </div>
             </div>
@@ -135,7 +80,7 @@
         <!-- jQuery -->
         <script src="vendors/jquery/jquery.min.js"></script>
         <!-- Bootstrap -->
-        <script src="vendors/bootstrap/bootstrap.min.js"></script>
+        <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
         <!-- FastClick -->
         <script src="vendors/fastclick/fastclick.js"></script>
         <!-- NProgress -->
@@ -153,35 +98,182 @@
         <script type="text/javascript" src="http://cdn.goeasy.io/goeasy.js"></script>
 
         <script type="text/javascript">
-            var goEasy = new GoEasy({
-                appkey: '2ba7f5ae-99ff-417b-bba0-903c4e60a5da'
-            });
-            goEasy.subscribe({
-                channel: '2to1',
-                onMessage: function (message) {
-                    alert('收到：' + message.content);
-                }
-            });
+            if(signIn){
+                var username = localStorage.getItem('username');
+                var token = localStorage.getItem('token');
+                if(GetQueryString('id') != undefined){
+                    if(localStorage.getItem('conversationId') != null){
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/closeconver/' + localStorage.getItem('conversationId'),
+                            data: {username: username, token: token},
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    getData();
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(){
 
-
-            $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
-            $('#send').click(function(){
-                if($('textarea[name="info"]').val().trim() != ''){
-                    $('.message-tab').append('<div class="right-message mt10">\
-                            <div class="flex">\
-                                <div class="flex-1 user-name text-right">admin:</div>\
-                                <div class="img">\
-                                    <img src="images/user-default.png">\
-                                </div>\
-                            </div>\
-                            <div class="text-right">\
-                                <div class="info">' + $('textarea[name="info"]').val() + '</div>\
-                            </div>\
-                        </div>');
-                    $('textarea[name="info"]').val('');
-                    $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
+                            }
+                        });
+                    }else{
+                        getData();
+                    }
+                    
+                }else{
+                    new PNotify({
+                        title: 'Oh No!',
+                        text: 'Please select agent.',
+                        type: 'error',
+                        styling: 'bootstrap3',
+                        timerHide: '20',
+                    });
                 }
-            });
+
+                //获取用户信息
+                function getData(){
+                    $.ajax({
+                        type: 'get',
+                        url: apiUrl + '/crmapi/adminuserinfo/' + GetQueryString('id'),
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                readyConversation(res.results.info);
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: 'Please select agent.',
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        },
+                        error: function(){
+
+                        }
+                    });
+                }
+
+                //准备会话
+                function readyConversation(info){
+                    if(info.wxUserid != null){
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/conversation',
+                            data: {username: username, token: token, user_id: info.userId, wx_userid: info.wxUserid, user_name: info.username, channel: (info.username + 'to' + info.userId)},
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    readyPage(res.results.conversationId, info.wxUserid);
+                                }else{
+                                    new PNotify({
+                                        title: 'Oh No!',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(){
+
+                            }
+                        });
+                    }else{
+                        new PNotify({
+                            title: 'Oh No!',
+                            text: 'The agent has not been concerned about corporate WeChat.',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            timerHide: '20',
+                        });
+                    }
+
+                    var goEasy = new GoEasy({
+                        appkey: '2ba7f5ae-99ff-417b-bba0-903c4e60a5da'
+                    });
+                    goEasy.subscribe({
+                        channel: 'liukui178@163.comto18',
+                        onMessage: function (message) {
+                            $('.message-tab').append('<div class="left-message mt10">\
+                                    <div class="flex">\
+                                        <div class="img">\
+                                            <img src="images/user-default.png">\
+                                        </div>\
+                                        <div class="flex-1 user-name">admin:</div>\
+                                    </div>\
+                                    <div class="info">' + message.content + '</div>\
+                                </div>');
+                            $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
+                            console.log(message);
+                        }
+                    });
+                }
+
+                $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
+
+                function readyPage(id, wxUserid){
+                    localStorage.setItem('conversationId', id);
+                    $('#close').click(function(){
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/closeconver/' + id,
+                            data: {username: username, token: token},
+                            success: function(res){
+
+                            },
+                            error: function(){
+
+                            }
+                        });
+                    });
+                    $('#send').click(function(){
+                        if($('textarea[name="info"]').val().trim() != ''){
+                            $('.message-tab').append('<div class="right-message mt10">\
+                                    <div class="flex">\
+                                        <div class="flex-1 user-name text-right">admin:</div>\
+                                        <div class="img">\
+                                            <img src="images/user-default.png">\
+                                        </div>\
+                                    </div>\
+                                    <div class="text-right">\
+                                        <div class="info">' + $('textarea[name="info"]').val() + '</div>\
+                                    </div>\
+                                </div>');
+                            //发送消息
+                            $.ajax({
+                                type: 'post',
+                                url: apiUrl + '/crmapi/sendmessage',
+                                data: {id: id, userid: wxUserid, message: $('textarea[name="info"]').val()},
+                                success: function(res){
+                                    if(res.status == 'ok'){
+                                        $('textarea[name="info"]').val('');
+                                        $('.message-tab').scrollTop( $('.message-tab')[0].scrollHeight);
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: res.errorMsg,
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
+                                    }
+                                },
+                                error: function(){
+                                    
+                                }
+                            });
+                        }
+                    });
+                };
+            }
         </script>
     </body>
 </html>
