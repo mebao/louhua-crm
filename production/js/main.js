@@ -1,5 +1,5 @@
-// var apiUrl = 'http://192.168.1.3/xinlouhua';
-var apiUrl = 'http://api.louhua.meb168.com';
+var apiUrl = 'http://192.168.1.3/xinlouhua';
+// var apiUrl = 'http://api.louhua.meb168.com';
 
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -128,14 +128,14 @@ function structurePaging(dataNum, url){
 }
 
 //聊天
-$('.profile_pic').click(function(){
+function chat(id){
     var iWidth = 600;
     var iHeight = 400;
     //获得窗口的垂直位置 
     var iTop = (window.screen.availHeight - 30 - iHeight) / 2; 
     //获得窗口的水平位置 
     var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 
-    var winObj = window.open('louhua_chat.html?id=18', 'Chat', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', resizable=no, toolbar=no, scrollbars=no, menubar=no');
+    var winObj = window.open('louhua_chat.html?id=' + id, 'Chat', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', resizable=no, toolbar=no, scrollbars=no, menubar=no');
     var loop = setInterval(function() {
         if(winObj.closed) {
             clearInterval(loop);
@@ -154,7 +154,7 @@ $('.profile_pic').click(function(){
             });
         }
     }, 1000);
-});
+}
 
 //left sider共用
 $('.menu_section').html(

@@ -10,8 +10,7 @@
         <title>xinlouhua</title>
 
         <!-- Bootstrap -->
-        
-<link href="vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome -->
         <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
@@ -182,9 +181,16 @@
                                     
                                 </tbody>
                             </table>
-                            <div>
-                                
-                            </div>
+                            <form class="form-horizontal form-label-left" novalidate>
+                                <div class="row pb20">
+                                    <div class="col-md-11 col-sm-11 col-xs-11">
+                                        <input type="text" name="user_want_name" class="form-control">
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <button id="search" type="submit" class="btn btn-success">Search</button>
+                                    </div>
+                                </div>
+                            </form>
                             <div>
                                 <div class="selected-tab">
                                     <a class="selectAll" role="button">All</a>
@@ -329,9 +335,6 @@
 
         <script>
             if(signIn){
-                $('#search').click(function(e) {
-                    e.preventDefault();
-                });
                 var username = localStorage.getItem('username');
                 var token = localStorage.getItem('token');
                 var role = localStorage.getItem('role');
@@ -362,8 +365,8 @@
                                         tableHtml += '<tr>\
                                                 <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + post.id + '</td>\
                                                 <td>' + post.projectName + '</td>\
-                                                <td>' + post.userHaveName + '</td>\
-                                                <td>' + post.userWantName + '</td>\
+                                                <td><a class="chat" data-id="' + post.userHaveId + '" role="button">' + post.userHaveName + '</td>\
+                                                <td><a class="chat" data-id="' + post.userWantId + '" role="button">' + post.userWantName + '</td>\
                                                 <td>' + post.unitType + '</td>\
                                                 <td>' + post.floorLow + '</td>\
                                                 <td>' + post.floorHigh + '</td>\
@@ -378,6 +381,18 @@
                                 //根据project name获取match list
                                 matchListUrl = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
                                 readyList(matchListUrl);
+                                //绑定search
+                                $('#search').click(function(e) {
+                                    e.preventDefault();
+                                    if($('input[name="user_want_name"]').val() != ''){
+                                        matchListUrl += '&user_want_name=' + $('input[name="user_want_name"]').val();
+                                        readyList(matchListUrl);
+                                    }
+                                });
+                                //聊天
+                                $('.chat').click(function(){
+                                    chat($(this).attr('data-id'));
+                                });
                                 readyPage();
                             }else{
                                 new PNotify({

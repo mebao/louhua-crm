@@ -15,12 +15,16 @@
         <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <!-- NProgress -->
         <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
+        <!-- iCheck -->
+        <link href="vendors/iCheck/green.css" rel="stylesheet">
+        <!-- Select2 -->
+        <link href="vendors/select2/select2.min.css" rel="stylesheet">
+        <!-- bootstrap-daterangepicker -->
+        <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
         <!-- PNotify -->
         <link href="vendors/pnotify/pnotify.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.buttons.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.nonblock.css" rel="stylesheet">
-        <!-- Dropzone.js -->
-        <link href="vendors/dropzone/dropzone.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="css/custom.min.css" rel="stylesheet">
@@ -145,6 +149,58 @@
                             </ul>
                         </nav>
                     </div>
+                </div>
+                <!-- /top navigation -->
+
+                <!-- page content -->
+                <div class="right_col" role="main">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Match</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                        <div class="post-info">
+                            <p>I have</p>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>Floor Low</th>
+                                        <th>Floor High</th>
+                                        <th>Price</th>
+                                        <th>Exposure</th>
+                                        <th>Coop</th>
+                                        <th>Action</th>
+                                        <th>Unit Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="matchInfo">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="match-list">
+                            <p>I want agents</p>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Wechat Name</th>
+                                        <th>Real Name</th>
+                                        <th>Cell</th>
+                                        <th>Role</th>
+                                        <th>Subscribe</th>
+                                        <th>Operation</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="matchList">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
                     <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
@@ -160,23 +216,6 @@
                                     <button id="login" type="button" class="btn btn-primary">login</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /top navigation -->
-
-                <!-- page content -->
-                <div class="right_col" role="main">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Project(have) Import</h2>
-                            <div class="text-right">
-                                <button id="importModule" class="btn btn-success">Import Module</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <form id="my-awesome-dropzone" action="http://192.168.1.3/xinlouhua/crmapi/importhavehouse" class="dropzone"></form>
                         </div>
                     </div>
                 </div>
@@ -200,16 +239,21 @@
         <script src="vendors/fastclick/fastclick.js"></script>
         <!-- NProgress -->
         <script src="vendors/nprogress/nprogress.js"></script>
+        <!-- iCheck -->
+        <script src="vendors/iCheck/icheck.min.js"></script>
+        <!-- Select2 -->
+        <script src="vendors/select2/select2.full.min.js"></script>
+        <!-- bootstrap-daterangepicker -->
+        <script src="vendors/moment/moment.min.js"></script>
+        <script src="vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
         <!-- PNotify -->
         <script src="vendors/pnotify/pnotify.js"></script>
         <script src="vendors/pnotify/pnotify.buttons.js"></script>
         <script src="vendors/pnotify/pnotify.nonblock.js"></script>
-        <!-- Dropzone.js -->
-        <script src="vendors/dropzone/dropzone.min.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="js/custom.min.js"></script>
-        
+
         <script src="js/main.js"></script>
 
         <script>
@@ -219,6 +263,9 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
+                //获取数据
+                requestData();
+
                 //log out
                 $('#logOut').click(function(){
                     localStorage.removeItem('username');
@@ -227,39 +274,99 @@
                     location.href = "index.html";
                 });
 
-                Dropzone.options.myAwesomeDropzone = {
-                    maxFiles: 9,
-                    acceptedFiles: '.xls',
-                    dictDefaultMessage: 'please upload here',
-                    dictMaxFilesExceeded: 'long',
-                    init: function(){
-                        this.on('maxfilesreached', function(file){
-                        });
-                        this.on('success', function(file){
-                            var res = eval("(" + file.xhr.response + ")");
+                //new
+                $('#new').click(function(){
+                    location.href = 'louhua_newHouse.html';
+                });
+
+                //export
+                $('#export').click(function(){
+                    location.href = exportUrl;
+                });
+
+                //import
+                $('#import').click(function(){
+                    location.href = 'louhua_ihaveImport.html';
+                });
+
+                function requestData(_url){
+                    $.ajax({
+                        type: 'get',
+                        url: apiUrl + '/crmapi/macthinfo/' + GetQueryString('haveId') + '?type=' + GetQueryString('type'),
+                        success: function(res){
                             if(res.status == 'ok'){
-                                new PNotify({
-                                    title: 'Success',
-                                    text: 'Upload success',
-                                    type: 'success',
-                                    styling: 'bootstrap3'
-                                });
+                                var info = '<tr>\
+                                                <td class="house" data-id="' + res.results.post.id + '" data-userId="' + res.results.post.user_id + '">' + res.results.post.projectName + '</td>\
+                                                <td>' + res.results.post.floorLow + '</td>\
+                                                <td>' + res.results.post.floorHigh + '</td>\
+                                                <td>' + res.results.post.price + '</td>\
+                                                <td>' + res.results.post.exposure + '</td>\
+                                                <td>' + res.results.post.coop + '</td>\
+                                                <td>' + res.results.post.action + '</td>\
+                                                <td>' + res.results.post.unitStatus + '</td>\
+                                            </tr>';
+                                $('#matchInfo').html(info);
+                                var list = '';
+                                var users = res.results.users;
+                                if(users.length > 0){
+                                    for(var i = 0; i < users.length; i++){
+                                        list += '<tr>\
+                                                    <td>' + users[i].username + '</td>\
+                                                    <td>' + users[i].wechatName + '</td>\
+                                                    <td>' + users[i].realName + '</td>\
+                                                    <td>' + users[i].cell + '</td>\
+                                                    <td>' + users[i].roleText + '</td>\
+                                                    <td>' + users[i].subscribe + '</td>\
+                                                    <td><a class="match" data-wantId="' + users[i].userId + '" role="button">match</a></td>\
+                                                </tr>';
+                                    }
+                                }
+                                $('#matchList').html(list);
+                                readyMatch();
                             }else{
                                 new PNotify({
-                                    title: 'No',
+                                    title: 'Oh No!',
                                     text: res.errorMsg,
                                     type: 'error',
-                                    styling: 'bootstrap3'
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
                                 });
                             }
-                        });
-                    }
-                };
+                        }
+                    });
+                }
 
-                //get module
-                $('#importModule').click(function(){
-                    location.href = apiUrl + '/crmapi/templehave';
-                });
+                function readyMatch(){
+                    $('.match').click(function(){
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/adminmacth',
+                            data: {post_type: 'want', id: $(this).attr('data-wantId'), user_id: $('.house').attr('data-userId'), house_id: $('.house').attr('data-id')},
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Match success',
+                                        type: 'success',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }else{
+                                    new PNotify({
+                                        title: 'No',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(res){
+
+                            }
+                        });
+                    });
+                }
             }
         </script>
     </body>
