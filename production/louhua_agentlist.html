@@ -60,23 +60,6 @@
 
                         </div>
                         <!-- /sidebar menu -->
-
-                        <!-- /menu footer buttons -->
-                        <div class="sidebar-footer hidden-small">
-                            <a data-toggle="tooltip" data-placement="top" title="Settings">
-                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Lock">
-                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Logout">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                        <!-- /menu footer buttons -->
                     </div>
                 </div>
 
@@ -96,14 +79,6 @@
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href="javascript:;"> Profile</a></li>
-                                        <li>
-                                        <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                        </a>
-                                        </li>
-                                        <li><a href="javascript:;">Help</a></li>
                                         <li>
                                             <a id="logOut" href="javascript:;">
                                                 <i class="fa fa-sign-out pull-right"></i> Log Out
@@ -111,54 +86,8 @@
                                         </li>
                                     </ul>
                                 </li>
-
-                                <li role="presentation" class="dropdown">
-                                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
-                                    </a>
-                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                        <li>
-                                            <a>
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <div class="text-center">
-                                                <a>
-                                                    <strong>See All Alerts</strong>
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
                             </ul>
                         </nav>
-                    </div>
-                    <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                    </button>
-                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Please log in and use.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button id="login" type="button" class="btn btn-primary">login</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- /top navigation -->
@@ -331,6 +260,37 @@
                             </div>
                         </div>
                     </div>
+                    <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Please log in and use.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="login" type="button" class="btn btn-primary">login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="roleIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>No authorization operation.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /page content -->
 
@@ -364,99 +324,245 @@
 
         <script>
             if(signIn){
-                var url = apiUrl + '/crmapi/searchagents?getcount=1';
-                var exportUrl = apiUrl + '/crmapi/exportagents?getcount=1';
-                $('#search').click(function(e) {
-                    e.preventDefault();
-                    //拼接search条件
-                    var searchurl = apiUrl + '/crmapi/searchagents?getcount=1';
-                    var exportBasicUrl = apiUrl + '/crmapi/exportagents?getcount=1';
-                    if($('input[name="id"]').val() != ''){
-                        searchurl += '&id=' + $('input[name="id"]').val();
-                        exportBasicUrl += '&id=' + $('input[name="id"]').val();
-                    }
-                    if($('input[name="wechat_name"]').val() != ''){
-                        searchurl += '&wechat_name=' + $('input[name="wechat_name"]').val();
-                        exportBasicUrl += '&wechat_name=' + $('input[name="wechat_name"]').val();
-                    }
-                    if($('input[name="cell"]').val() != ''){
-                        searchurl += '&cell=' + $('input[name="cell"]').val();
-                        exportBasicUrl += '&cell=' + $('input[name="cell"]').val();
-                    }
-                    if($('select[name="user_role"]').val() != ''){
-                        searchurl += '&user_role=' + $('select[name="user_role"]').val();
-                        exportBasicUrl += '&user_role=' + $('select[name="user_role"]').val();
-                    }
-                    url = searchurl;
-                    exportUrl = exportBasicUrl;
-                    requestData(searchurl);
-                });
-                var username = localStorage.getItem('username');
-                var token = localStorage.getItem('token');
-                var role = localStorage.getItem('role');
-                $('.username').text(username);
+                if(localStorage.getItem('role') != 1){
+                    $('#roleIntercept').modal({backdrop: 'static', keyboard: false});
+                }else{
+                    var url = apiUrl + '/crmapi/searchagents?getcount=1';
+                    var exportUrl = apiUrl + '/crmapi/exportagents?getcount=1';
+                    $('#search').click(function(e) {
+                        e.preventDefault();
+                        //拼接search条件
+                        var searchurl = apiUrl + '/crmapi/searchagents?getcount=1';
+                        var exportBasicUrl = apiUrl + '/crmapi/exportagents?getcount=1';
+                        if($('input[name="id"]').val() != ''){
+                            searchurl += '&id=' + $('input[name="id"]').val();
+                            exportBasicUrl += '&id=' + $('input[name="id"]').val();
+                        }
+                        if($('input[name="wechat_name"]').val() != ''){
+                            searchurl += '&wechat_name=' + $('input[name="wechat_name"]').val();
+                            exportBasicUrl += '&wechat_name=' + $('input[name="wechat_name"]').val();
+                        }
+                        if($('input[name="cell"]').val() != ''){
+                            searchurl += '&cell=' + $('input[name="cell"]').val();
+                            exportBasicUrl += '&cell=' + $('input[name="cell"]').val();
+                        }
+                        if($('select[name="user_role"]').val() != ''){
+                            searchurl += '&user_role=' + $('select[name="user_role"]').val();
+                            exportBasicUrl += '&user_role=' + $('select[name="user_role"]').val();
+                        }
+                        url = searchurl;
+                        exportUrl = exportBasicUrl;
+                        requestData(searchurl);
+                    });
+                    var username = localStorage.getItem('username');
+                    var token = localStorage.getItem('token');
+                    var role = localStorage.getItem('role');
+                    $('.username').text(username);
 
-                //切换分页展示数量
-                $('#pagesize').change(function(){
-                    url = url + '&pagesize=' + $(this).val();
-                    $('.pagination').attr('data-page', '1');
-                    requestData(url + '&pagesize=' + $(this).val());
-                });
-                requestData(url);
+                    //切换分页展示数量
+                    $('#pagesize').change(function(){
+                        url = url + '&pagesize=' + $(this).val();
+                        $('.pagination').attr('data-page', '1');
+                        requestData(url + '&pagesize=' + $(this).val());
+                    });
+                    requestData(url);
 
-                //log out
-                $('#logOut').click(function(){
-                    localStorage.removeItem('username');
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('role');
-                    location.href = "index.html";
-                });
+                    //log out
+                    $('#logOut').click(function(){
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('role');
+                        location.href = "index.html";
+                    });
 
-                //new
-                $('#new').click(function(){
-                    location.href = 'louhua_newAgent.html';
-                });
+                    //new
+                    $('#new').click(function(){
+                        location.href = 'louhua_newAgent.html';
+                    });
 
-                //export
-                $('#export').click(function(){
-                    location.href = exportUrl;
-                });
+                    //export
+                    $('#export').click(function(){
+                        location.href = exportUrl;
+                    });
 
-                //import
-                $('#import').click(function(){
-                    location.href = 'louhua_agentImport.html';
-                });
+                    //import
+                    $('#import').click(function(){
+                        location.href = 'louhua_agentImport.html';
+                    });
 
-                function requestData(_url){
-                    if(localStorage.getItem('role') == 1){
-                        $.ajax({
-                            type: 'get',
-                            url: _url,
-                            success: function(res){
-                                if(res.status == 'ok'){
-                                    var agents = res.results.agents;
-                                    var tableHtml = '';
-                                    if(agents != null){
-                                        if(agents.length > 0 ){
-                                            for(var i = 0; i < agents.length; i++){
-                                                tableHtml += '<tr>\
-                                                        <td>' + agents[i].userId + '</td>\
-                                                        <td><a class="showInfo" data-id="' + agents[i].userId + '" role="button">' + agents[i].wechatName + '</a></td>\
-                                                        <td>' + agents[i].cell + '</td>\
-                                                        <td>' + agents[i].roleText + '</td>\
-                                                        <td><a class="showPost" data-id="' + agents[i].userId + '" role="button">' + agents[i].projectNum + '</a></td>\
-                                                        <td><a class="send" data-id="' + agents[i].wxUserid + '" role="button">Send to</a></td>\
-                                                        <td>' + (agents[i].subscribe == 'yes' ? 'Subscribe' : 'Not subscribed') + '</td>\
-                                                        <td>\
-                                                            <a class="update" data-id="' + agents[i].userId + '" role="button">update</a>\
-                                                            <a class="delete" data-id="' + agents[i].userId + '" role="button">delete</a>\
-                                                        </td>\
-                                                    </tr>';
+                    function requestData(_url){
+                        if(localStorage.getItem('role') == 1){
+                            $.ajax({
+                                type: 'get',
+                                url: _url,
+                                success: function(res){
+                                    if(res.status == 'ok'){
+                                        var agents = res.results.agents;
+                                        var tableHtml = '';
+                                        if(agents != null){
+                                            if(agents.length > 0 ){
+                                                for(var i = 0; i < agents.length; i++){
+                                                    tableHtml += '<tr>\
+                                                            <td>' + agents[i].userId + '</td>\
+                                                            <td><a class="showInfo" data-id="' + agents[i].userId + '" role="button">' + agents[i].wechatName + '</a></td>\
+                                                            <td>' + agents[i].cell + '</td>\
+                                                            <td>' + agents[i].roleText + '</td>\
+                                                            <td><a class="showPost" data-id="' + agents[i].userId + '" role="button">' + agents[i].projectNum + '</a></td>\
+                                                            <td><a class="send" data-id="' + agents[i].wxUserid + '" role="button">Send to</a></td>\
+                                                            <td>' + (agents[i].subscribe == 'yes' ? 'Subscribe' : 'Not subscribed') + '</td>\
+                                                            <td>\
+                                                                <a class="update" data-id="' + agents[i].userId + '" role="button">update</a>\
+                                                                <a class="delete" data-id="' + agents[i].userId + '" role="button">delete</a>\
+                                                            </td>\
+                                                        </tr>';
+                                                }
                                             }
                                         }
+                                        $('#tableData').html(tableHtml);
+                                        readyPage(res.dataNum);
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: res.errorMsg,
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
                                     }
-                                    $('#tableData').html(tableHtml);
-                                    readyPage(res.dataNum);
+                                },
+                                error: function(res){
+
+                                }
+                            });
+                        }
+                    }
+
+                    function readyPage(dataNum){
+                        structurePaging(dataNum, url);
+                        $('.showInfo').click(function(){
+                            $.ajax({
+                                type: 'get',
+                                url: apiUrl + '/crmapi/searchagents?id=' + $(this).attr('data-id'),
+                                success: function(res){
+                                    if(res.status == 'ok'){
+                                        var agents = res.results.agents;
+                                        if(agents.length > 0){
+                                            var infoHtml = '<tr>\
+                                                                <td>' + agents[0].realName + '</td>\
+                                                                <td>' + agents[0].cell + '</td>\
+                                                                <td>' + agents[0].username + '</td>\
+                                                                <td>' + agents[0].brokerageName + '</td>\
+                                                                <td>' + agents[0].officeTelephone + '</td>\
+                                                                <td>' + agents[0].recoNumber + '</td>\
+                                                            </tr>';
+                                            $('#infoTab').html(infoHtml);
+                                            $('#showInfoModal').modal('show');
+                                        }else{
+                                            new PNotify({
+                                                title: 'Oh No!',
+                                                text: 'No Info',
+                                                type: 'error',
+                                                styling: 'bootstrap3',
+                                                timerHide: '20',
+                                            });
+                                        }
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: res.errorMsg,
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
+                                    }
+                                },
+                                error: function(){
+
+                                }
+                            });
+                        });
+                        $('.showPost').click(function(){
+                            $.ajax({
+                                type: 'get',
+                                url: apiUrl + '/crmapi/searchagents?id=' + $(this).attr('data-id'),
+                                success: function(res){
+                                    if(res.status == 'ok'){
+                                        var agents = res.results.agents;
+                                        if(agents.length > 0){
+                                            var postList = res.results.agents[0].postList;
+                                            if(postList.length > 0){
+                                                var postHtml = '';
+                                                for(var i = 0; i < postList.length; i++){
+                                                    postHtml += '<tr>\
+                                                                    <td>' + postList[i].time + '</td>\
+                                                                    <td>' + postList[i].projectName + '</td>\
+                                                                    <td>' + (postList[i].postType == 'have' ? '1' : '-') + '</td>\
+                                                                    <td>' + (postList[i].postType == 'want' ? '1' : '-') + '</td>\
+                                                                </tr>';
+                                                }
+                                                $('#postTab').html(postHtml);
+                                                $('#showPostModal').find('.modal-body').scrollTop(0);
+                                                $('#showPostModal').modal('show');
+                                            }else{
+                                                new PNotify({
+                                                    title: 'Oh No!',
+                                                    text: 'No Post',
+                                                    type: 'error',
+                                                    styling: 'bootstrap3',
+                                                    timerHide: '20',
+                                                });
+                                            }
+                                        }else{
+                                            new PNotify({
+                                                title: 'Oh No!',
+                                                text: 'No Post',
+                                                type: 'error',
+                                                styling: 'bootstrap3',
+                                                timerHide: '20',
+                                            });
+                                        }
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: res.errorMsg,
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
+                                    }
+                                },
+                                error: function(){
+
+                                }
+                            });
+                        });
+                        $('.send').click(function(){
+                            $('#sendModal').modal('show');
+                        });
+                        $('.update').click(function(){
+                            location.href = 'louhua_updateAgent.html?id=' + $(this).attr('data-id');
+                        });
+                        $('.delete').click(function(){
+                            $('#deleteModal').modal('show');
+                            $('#confirmDelete').attr('data-id', $(this).attr('data-id'));
+                        });
+                    }
+
+                    $('#confirmDelete').click(function (){
+                        $('#deleteModal').modal('hide');
+                        $.ajax({
+                            type: 'delete',
+                            url: apiUrl + '/crmapi/deleteagent/' + $(this).attr('data-id'),
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    requestData(url);
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Delete success',
+                                        type: 'success',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',
@@ -471,150 +577,8 @@
 
                             }
                         });
-                    }
-                }
-
-                function readyPage(dataNum){
-                    structurePaging(dataNum, url);
-                    $('.showInfo').click(function(){
-                        $.ajax({
-                            type: 'get',
-                            url: apiUrl + '/crmapi/searchagents?id=' + $(this).attr('data-id'),
-                            success: function(res){
-                                if(res.status == 'ok'){
-                                    var agents = res.results.agents;
-                                    if(agents.length > 0){
-                                        var infoHtml = '<tr>\
-                                                            <td>' + agents[0].realName + '</td>\
-                                                            <td>' + agents[0].cell + '</td>\
-                                                            <td>' + agents[0].username + '</td>\
-                                                            <td>' + agents[0].brokerageName + '</td>\
-                                                            <td>' + agents[0].officeTelephone + '</td>\
-                                                            <td>' + agents[0].recoNumber + '</td>\
-                                                        </tr>';
-                                        $('#infoTab').html(infoHtml);
-                                        $('#showInfoModal').modal('show');
-                                    }else{
-                                        new PNotify({
-                                            title: 'Oh No!',
-                                            text: 'No Info',
-                                            type: 'error',
-                                            styling: 'bootstrap3',
-                                            timerHide: '20',
-                                        });
-                                    }
-                                }else{
-                                    new PNotify({
-                                        title: 'Oh No!',
-                                        text: res.errorMsg,
-                                        type: 'error',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                }
-                            },
-                            error: function(){
-
-                            }
-                        });
-                    });
-                    $('.showPost').click(function(){
-                        $.ajax({
-                            type: 'get',
-                            url: apiUrl + '/crmapi/searchagents?id=' + $(this).attr('data-id'),
-                            success: function(res){
-                                if(res.status == 'ok'){
-                                    var agents = res.results.agents;
-                                    if(agents.length > 0){
-                                        var postList = res.results.agents[0].postList;
-                                        if(postList.length > 0){
-                                            var postHtml = '';
-                                            for(var i = 0; i < postList.length; i++){
-                                                postHtml += '<tr>\
-                                                                <td>' + postList[i].time + '</td>\
-                                                                <td>' + postList[i].projectName + '</td>\
-                                                                <td>' + (postList[i].postType == 'have' ? '1' : '-') + '</td>\
-                                                                <td>' + (postList[i].postType == 'want' ? '1' : '-') + '</td>\
-                                                            </tr>';
-                                            }
-                                            $('#postTab').html(postHtml);
-                                            $('#showPostModal').find('.modal-body').scrollTop(0);
-                                            $('#showPostModal').modal('show');
-                                        }else{
-                                            new PNotify({
-                                                title: 'Oh No!',
-                                                text: 'No Post',
-                                                type: 'error',
-                                                styling: 'bootstrap3',
-                                                timerHide: '20',
-                                            });
-                                        }
-                                    }else{
-                                        new PNotify({
-                                            title: 'Oh No!',
-                                            text: 'No Post',
-                                            type: 'error',
-                                            styling: 'bootstrap3',
-                                            timerHide: '20',
-                                        });
-                                    }
-                                }else{
-                                    new PNotify({
-                                        title: 'Oh No!',
-                                        text: res.errorMsg,
-                                        type: 'error',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                }
-                            },
-                            error: function(){
-
-                            }
-                        });
-                    });
-                    $('.send').click(function(){
-                        $('#sendModal').modal('show');
-                    });
-                    $('.update').click(function(){
-                        location.href = 'louhua_updateAgent.html?id=' + $(this).attr('data-id');
-                    });
-                    $('.delete').click(function(){
-                        $('#deleteModal').modal('show');
-                        $('#confirmDelete').attr('data-id', $(this).attr('data-id'));
                     });
                 }
-
-                $('#confirmDelete').click(function (){
-                    $('#deleteModal').modal('hide');
-                    $.ajax({
-                        type: 'delete',
-                        url: apiUrl + '/crmapi/deleteagent/' + $(this).attr('data-id'),
-                        success: function(res){
-                            if(res.status == 'ok'){
-                                requestData(url);
-                                new PNotify({
-                                    title: 'Success',
-                                    text: 'Delete success',
-                                    type: 'success',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }else{
-                                new PNotify({
-                                    title: 'Oh No!',
-                                    text: res.errorMsg,
-                                    type: 'error',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }
-                        },
-                        error: function(res){
-
-                        }
-                    });
-                });
             }
         </script>
     </body>

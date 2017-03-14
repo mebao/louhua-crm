@@ -62,23 +62,6 @@
 
                         </div>
                         <!-- /sidebar menu -->
-
-                        <!-- /menu footer buttons -->
-                        <div class="sidebar-footer hidden-small">
-                            <a data-toggle="tooltip" data-placement="top" title="Settings">
-                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Lock">
-                                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                            </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Logout">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                        <!-- /menu footer buttons -->
                     </div>
                 </div>
 
@@ -98,47 +81,10 @@
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href="javascript:;"> Profile</a></li>
-                                        <li>
-                                        <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                        </a>
-                                        </li>
-                                        <li><a href="javascript:;">Help</a></li>
                                         <li>
                                             <a id="logOut" href="javascript:;">
                                                 <i class="fa fa-sign-out pull-right"></i> Log Out
                                             </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li role="presentation" class="dropdown">
-                                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
-                                    </a>
-                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                        <li>
-                                            <a>
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                <span>John Smith</span>
-                                                <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <div class="text-center">
-                                                <a>
-                                                    <strong>See All Alerts</strong>
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
                                         </li>
                                     </ul>
                                 </li>
@@ -158,6 +104,20 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button id="login" type="button" class="btn btn-primary">login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="roleIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>No authorization operation.</p>
                                 </div>
                             </div>
                         </div>
@@ -214,42 +174,46 @@
 
         <script>
             if(signIn){
-                var username = localStorage.getItem('username');
-                var token = localStorage.getItem('token');
-                var role = localStorage.getItem('role');
-                $('.username').text(username);
+                if(localStorage.getItem('role') != 1){
+                    $('#roleIntercept').modal({backdrop: 'static', keyboard: false});
+                }else{
+                    var username = localStorage.getItem('username');
+                    var token = localStorage.getItem('token');
+                    var role = localStorage.getItem('role');
+                    $('.username').text(username);
 
-                //log out
-                $('#logOut').click(function(){
-                    localStorage.removeItem('username');
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('role');
-                    location.href = "index.html";
-                });
+                    //log out
+                    $('#logOut').click(function(){
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('role');
+                        location.href = "index.html";
+                    });
 
-                Dropzone.options.myAwesomeDropzone = {
-                    maxFiles: 9,
-                    acceptedFiles: '.xls',
-                    dictDefaultMessage: 'please upload here',
-                    dictMaxFilesExceeded: 'long',
-                    init: function(){
-                        this.on('maxfilesreached', function(file){
-                        });
-                        this.on('success', function(file){
-                            new PNotify({
-                                title: 'Success',
-                                text: 'Upload success',
-                                type: 'success',
-                                styling: 'bootstrap3'
+                    Dropzone.options.myAwesomeDropzone = {
+                        maxFiles: 9,
+                        acceptedFiles: '.xls',
+                        dictDefaultMessage: 'please upload here',
+                        dictMaxFilesExceeded: 'long',
+                        init: function(){
+                            this.on('maxfilesreached', function(file){
                             });
-                        });
-                    }
-                };
+                            this.on('success', function(file){
+                                new PNotify({
+                                    title: 'Success',
+                                    text: 'Upload success',
+                                    type: 'success',
+                                    styling: 'bootstrap3'
+                                });
+                            });
+                        }
+                    };
 
-                //get module
-                $('#importModule').click(function(){
-                    location.href = apiUrl + '/crmapi/templetagents';
-                });
+                    //get module
+                    $('#importModule').click(function(){
+                        location.href = apiUrl + '/crmapi/templetagents';
+                    });
+                }
             }
         </script>
     </body>
