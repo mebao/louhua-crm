@@ -207,10 +207,16 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div id="houseStatus" class="item form-group hide">
+                                    <label for="houseStatus" class="control-label col-md-3 col-sm-3 col-xs-12">Review <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <a id="audited" class="btn btn-primary">Through audit</a>
+                                    </div>
+                                </div>
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancel</button>
                                         <button id="send" type="submit" class="btn btn-success">Submit</button>
                                     </div>
                                 </div>
@@ -355,7 +361,40 @@
                                     $('#floorHigh').val(info.floorHigh);
                                     $('#price').val(info.price);
                                     $('#coop').val(info.coop);
-                                    
+                                    //如果未审核，显示通过审核按钮
+                                    if(info.house_status == 0){
+                                        $('#houseStatus').removeClass('hide');
+                                        //审核通过
+                                        $('#audited').click(function(){
+                                            $.ajax({
+                                                type: 'post',
+                                                url: apiUrl + '/crmapi/updatehouse/' + $('input[name="haveId"]').val(),
+                                                data: {post_type: 'have', house_status: '1'},
+                                                success: function(res){
+                                                    if(res.status == 'ok'){
+                                                        $('#houseStatus').addClass('hide');
+                                                        new PNotify({
+                                                          title: 'Success',
+                                                          text: 'Audited success',
+                                                          type: 'success',
+                                                          styling: 'bootstrap3'
+                                                        });
+                                                    }else{
+                                                        new PNotify({
+                                                            title: 'Oh No!',
+                                                            text: res.errorMsg,
+                                                            type: 'error',
+                                                            styling: 'bootstrap3',
+                                                            timerHide: '20',
+                                                        });
+                                                    }
+                                                },
+                                                error: function(res){
+
+                                                }
+                                            });
+                                        });
+                                    }
                                     //获取参数
                                     $.ajax({
                                         type: 'get',

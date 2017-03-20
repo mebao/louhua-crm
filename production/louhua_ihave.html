@@ -226,6 +226,7 @@
                                         <th>Unit status</th>
                                         <th>Notice</th>
                                         <th>Edit</th>
+                                        <th>Review</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableData">
@@ -517,6 +518,7 @@
                                                         <a class="update" data-id="' + list[i].id + '" role="button">update</a>\
                                                         <a class="delete" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>\
                                                     </td>\
+                                                    <td>' + (list[i].house_status == 0 ? 'Unaudited' : 'Audited') + '</td>\
                                                 </tr>';
                                         }
                                     }
