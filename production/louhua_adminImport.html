@@ -136,7 +136,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form id="my-awesome-dropzone" action="http://192.168.1.3/xinlouhua/crmapi/importadmins" class="dropzone"></form>
+                            <form id="my-awesome-dropzone" action="http://api.louhua.meb168.com/crmapi/importadmins" class="dropzone"></form>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                     Dropzone.options.myAwesomeDropzone = {
                         maxFiles: 9,
                         acceptedFiles: '.xls',
-                        dictDefaultMessage: 'please upload here',
+                        dictDefaultMessage: 'please upload here(File type is limited to .xls)',
                         dictMaxFilesExceeded: 'long',
                         init: function(){
                             this.on('maxfilesreached', function(file){

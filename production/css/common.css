@@ -39,7 +39,10 @@
 }
 
 .check-pagesize{
-	padding-bottom: 20px;
+    position: relative;
+    top: 30px;
+    z-index: 999;
+    display: inline-block;
 }
 .check-pagesize .label-tip{
 	padding: 10px;

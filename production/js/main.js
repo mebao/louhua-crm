@@ -1,4 +1,5 @@
-var apiUrl = 'http://192.168.1.3/xinlouhua';
+// var apiUrl = 'http://192.168.1.3/xinlouhua';
+var apiUrl = 'http://192.168.1.6/xinlouhua';
 // var apiUrl = 'http://api.louhua.meb168.com';
 
 function GetQueryString(name){
@@ -158,29 +159,29 @@ function chat(id){
 
 //left sider共用
 // 通过角色
-var menuHtml = '<ul class="nav side-menu">';
+var menuHtml = '<ul class="nav side-menu">\
+    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>\
+    <ul class="nav child_menu">';
 if(localStorage.getItem('role') == 1){
-    menuHtml += '<li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>\
-        <ul class="nav child_menu">\
-            <li><a href="louhua_adminlist.html">adminlist</a></li>\
-            <li><a href="louhua_agentlist.html">agentlist</a></li>\
-        </ul>\
-    </li>';
+    menuHtml += '<li><a href="louhua_adminlist.html">Admin List</a></li>';
 }
-menuHtml += '<li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>\
+menuHtml += '<li><a href="louhua_agentlist.html">Agent List</a></li>\
+        </ul>\
+    </li>\
+    <li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>\
         <ul class="nav child_menu">\
             <li>\
-                <a href="louhua_projectList.html">project list</a>\
+                <a href="louhua_projectList.html">Project List</a>\
             </li>\
         </ul>\
     </li>\
     <li><a><i class="fa fa-edit"></i> House Manage <span class="fa fa-chevron-down"></span></a>\
         <ul class="nav child_menu">\
             <li>\
-                <a href="louhua_ihave.html">I have</a>\
+                <a href="louhua_ihave.html">I Have</a>\
             </li>\
             <li>\
-                <a href="louhua_iwant.html">I want</a>\
+                <a href="louhua_iwant.html">I Want</a>\
             </li>\
             <li>\
                 <a href="louhua_newHouse.html">Add House</a>\

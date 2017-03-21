@@ -98,7 +98,7 @@
                 <div class="right_col" role="main">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>New I have</h2>
+                            <h2 class="pageTitle"></h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
@@ -123,6 +123,7 @@
                                     <div class="col-md-2 col-sm-2 col-xs-6">
                                         <div class="item form-group">
                                             <select id="postType" class="form-control" name="post_type" required="required">
+                                                <option value=""></option>
                                                 <option value="have">I have</option>
                                                 <option value="want">I want</option>
                                             </select>
@@ -157,14 +158,14 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label for="floorLow" class="control-label col-md-3 col-sm-3 col-xs-12">Floor Low <span class="required">*</span>
+                                    <label id="floorLowLabel" for="floorLow" class="control-label col-md-3 col-sm-3 col-xs-12"> 
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="number" id="floorLow" name="expect_floor_low" class="form-control col-md-7 col-xs-12" required="required">
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label for="floorHigh" class="control-label col-md-3 col-sm-3 col-xs-12">Floor High <span class="required">*</span>
+                                    <label id="floorHighLabel" for="floorHigh" class="control-label col-md-3 col-sm-3 col-xs-12">
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="number" id="floorHigh" name="expect_floor_high" class="form-control col-md-7 col-xs-12" required="required">
@@ -343,6 +344,22 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
+                if(GetQueryString('type') == 'have'){
+                    $('.pageTitle').text('New I have');
+                    $('#postType').val('have');
+                    $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
+                    $('#floorHighLabel').html('Floor High <span class="required">*</span>');
+                }else if(GetQueryString('type') == 'want'){
+                    $('.pageTitle').text('New I want');
+                    $('#postType').val('want');
+                    $('#floorLowLabel').html('Expect Floor Low <span class="required">*</span>');
+                    $('#floorHighLabel').html('Expect Floor High <span class="required">*</span>');
+                }else{
+                    $('.pageTitle').text('New House');
+                    $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
+                    $('#floorHighLabel').html('Floor High <span class="required">*</span>');
+                }
+
                 getData();
 
                 //log out
@@ -365,7 +382,7 @@
                             }
                             $('.select2_user').html(userHtml);
                             $(".select2_user").select2({
-                                placeholder: "Select a state",
+                                placeholder: "Select a agent",
                                 allowClear: true
                             });
 
@@ -456,7 +473,11 @@
                     if($(this).val() == 'want'){
                         $('#coopTab').addClass('hide');
                         $('#coop').attr('type', 'hidden');
+                        $('#floorLowLabel').html('Expect Floor Low <span class="required">*</span>');
+                        $('#floorHighLabel').html('Expect Floor High <span class="required">*</span>');
                     }else{
+                        $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
+                        $('#floorHighLabel').html('Floor High <span class="required">*</span>');
                         $('#coopTab').removeClass('hide');
                         $('#coop').attr('type', 'number');
                     }

@@ -19,6 +19,8 @@
         <link href="vendors/pnotify/pnotify.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.buttons.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.nonblock.css" rel="stylesheet">
+        <!-- Datatables -->
+        <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="css/custom.min.css" rel="stylesheet">
@@ -121,9 +123,38 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <table class="table table-striped">
+                            <form class="form-horizontal form-label-left" novalidate>
+                                <div class="row pb20">
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="id" class="">ID
+                                        </label>
+                                        <input type="number" id="id" name="id" class="form-control">
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="name" class="">Project Name
+                                        </label>
+                                        <input type="text" id="name" name="name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="search" type="submit" class="btn btn-success">Search</button>
+                                </div>
+                                <div class="ln_solid"></div>
+                            </form>
+                            <div class="check-pagesize">
+                                <span class="label-tip">Show</span>
+                                <select id="pagesize">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="label-tip">entries</span>
+                            </div>
+                            <table id="datatable-responsive" class="table table-striped table-bordered mb0">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Project name</th>
                                         <th>Advertising Picture</th>
                                         <th>Level Limits(highest)</th>
@@ -131,6 +162,7 @@
                                         <th>Open Time</th>
                                         <th>Close Time</th>
                                         <th>Total Units</th>
+                                        <th>Project Status</th>
                                         <th>Customization</th>
                                         <th>Operation</th>
                                     </tr>
@@ -138,6 +170,11 @@
                                 <tbody id="tableData">
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation" class="text-right">
+                                <ul class="pagination" data-page="1">
+                                    
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                     <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
@@ -182,6 +219,9 @@
         <script src="vendors/pnotify/pnotify.js"></script>
         <script src="vendors/pnotify/pnotify.buttons.js"></script>
         <script src="vendors/pnotify/pnotify.nonblock.js"></script>
+        <!-- Datatables -->
+        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="js/custom.min.js"></script>
@@ -190,12 +230,33 @@
 
         <script>
             if(signIn){
+                var url = apiUrl + '/crmapi/projectlist?getcount=1';
+                $('#search').click(function(e) {
+                    e.preventDefault();
+                    //拼接search条件
+                    var searchurl = apiUrl + '/crmapi/projectlist?getcount=1';
+                    var exportBasicUrl = apiUrl + '/crmapi/exportadmins?getcount=1';
+                    if($('input[name="id"]').val() != ''){
+                        searchurl += '&id=' + $('input[name="id"]').val();
+                    }
+                    if($('input[name="name"]').val() != ''){
+                        searchurl += '&name=' + $('input[name="name"]').val();
+                    }
+                    url = searchurl;
+                    requestData(searchurl);
+                });
                 var username = localStorage.getItem('username');
                 var token = localStorage.getItem('token');
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
-                requestData();
+                //切换分页展示数量
+                $('#pagesize').change(function(){
+                    url = url + '&pagesize=' + $(this).val();
+                    $('.pagination').attr('data-page', '1');
+                    requestData(url + '&pagesize=' + $(this).val());
+                });
+                requestData(url);
 
                 //log out
                 $('#logOut').click(function(){
@@ -210,37 +271,75 @@
                     location.href = 'louhua_newProject.html';
                 });
 
-                function requestData(){
+                var dataTable = '';
+
+                function requestData(_url){
                     $.ajax({
                         type: 'get',
-                        url: apiUrl + '/crmapi/projectlist',
+                        url: _url,
                         success: function(res){
                             if(res.status == 'ok'){
                                 var list = res.results.list;
                                 var tableHtml = '';
+                                var tableList = Array();
                                 if(list != null){
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
-                                            tableHtml += '<tr>\
-                                                    <td><a class="projectDetail" data-id="' + list[i].id + '" role="button">' + list[i].name + '</a></td>\
-                                                    <td>\
-                                                        <a class="viewPicture" data-id="' + list[i].id + '" role="button">view picture</a>\</td>\
-                                                    <td>' + list[i].levelLimits + '</td>\
-                                                    <td>' + list[i].unitType + '</td>\
-                                                    <td>' + list[i].openTime + '</td>\
-                                                    <td>' + list[i].closeTime + '</td>\
-                                                    <td>' + list[i].totalUnits + '</td>\
-                                                    <td>' + list[i].message + '</td>\
-                                                    <td>\
-                                                        <a class="update" data-id="' + list[i].id + '" role="button">update</a>\
-                                                        <a class="delete" data-id="' + list[i].id + '" role="button">delete</a>\
-                                                    </td>\
-                                                </tr>';
+                                            var rowData = Array();
+                                            rowData.push(list[i].id);
+                                            rowData.push('<a class="projectDetail" data-id="' + list[i].id + '" role="button">' + list[i].name + '</a>');
+                                            rowData.push('<a class="viewPicture" data-id="' + list[i].id + '" role="button">view picture</a>');
+                                            rowData.push(list[i].levelLimits);
+                                            rowData.push(list[i].unitType);
+                                            rowData.push(list[i].openTime);
+                                            rowData.push(list[i].closeTime);
+                                            rowData.push(list[i].totalUnits);
+                                            rowData.push(list[i].projectStatus);
+                                            rowData.push(list[i].message);
+                                            rowData.push('<a class="update" data-id="' + list[i].id + '" role="button">update</a><a class="delete" data-id="' + list[i].id + '" role="button">delete</a>');
+                                            tableList.push(rowData);
+                                            // tableHtml += '<tr>\
+                                            //         <td>' + list[i].id + '</td>\
+                                            //         <td><a class="projectDetail" data-id="' + list[i].id + '" role="button">' + list[i].name + '</a></td>\
+                                            //         <td>\
+                                            //             <a class="viewPicture" data-id="' + list[i].id + '" role="button">view picture</a>\</td>\
+                                            //         <td>' + list[i].levelLimits + '</td>\
+                                            //         <td>' + list[i].unitType + '</td>\
+                                            //         <td>' + list[i].openTime + '</td>\
+                                            //         <td>' + list[i].closeTime + '</td>\
+                                            //         <td>' + list[i].totalUnits + '</td>\
+                                            //         <td>' + list[i].projectStatus + '</td>\
+                                            //         <td>' + list[i].message + '</td>\
+                                            //         <td>\
+                                            //             <a class="update" data-id="' + list[i].id + '" role="button">update</a>\
+                                            //             <a class="delete" data-id="' + list[i].id + '" role="button">delete</a>\
+                                            //         </td>\
+                                            //     </tr>';
                                         }
                                     }
                                 }
                                 $('#tableData').html(tableHtml);
-                                readyPage();
+
+                                if(dataTable != ''){
+                                    dataTable.destroy();
+                                    dataTable = $('#datatable-responsive').DataTable({
+                                        retrieve: true,
+                                        ordering: false,
+                                        paging: false,
+                                        info: false,
+                                        data: tableList
+                                    });
+                                }else{
+                                    dataTable = $('#datatable-responsive').DataTable({
+                                        retrieve: true,
+                                        ordering: false,
+                                        paging: false,
+                                        info: false,
+                                        data: tableList
+                                    });
+                                }
+
+                                readyPage(res.dataNum);
                             }else{
                                 new PNotify({
                                     title: 'Oh No!',
@@ -257,7 +356,8 @@
                     });
                 }
 
-                function readyPage(){
+                function readyPage(dataNum){
+                    structurePaging(dataNum, url);
                     $('.projectDetail').click(function(){
                         location.href = 'louhua_projectDetail.html?id=' + $(this).attr('data-id');
                     });

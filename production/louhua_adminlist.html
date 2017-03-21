@@ -19,6 +19,8 @@
         <link href="vendors/pnotify/pnotify.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.buttons.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.nonblock.css" rel="stylesheet">
+        <!-- Datatables -->
+        <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="css/custom.min.css" rel="stylesheet">
@@ -158,7 +160,7 @@
                                 </select>
                                 <span class="label-tip">entries</span>
                             </div>
-                            <table class="table table-striped table-bordered mb0">
+                            <table id="datatable-responsive" class="table table-striped table-bordered mb0">
                                 <thead>
                                     <tr>
                                         <th>User ID</th>
@@ -255,6 +257,9 @@
         <script src="vendors/pnotify/pnotify.js"></script>
         <script src="vendors/pnotify/pnotify.buttons.js"></script>
         <script src="vendors/pnotify/pnotify.nonblock.js"></script>
+        <!-- Datatables -->
+        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="js/custom.min.js"></script>
@@ -341,6 +346,8 @@
                         location.href = 'louhua_adminImport.html';
                     });
 
+                    var dataTable = '';
+
                     function requestData(_url){
                         if(localStorage.getItem('role') == 1){
                             $.ajax({
@@ -350,26 +357,58 @@
                                     if(res.status == 'ok'){
                                         var admins = res.results.admins;
                                         var tableHtml = '';
+                                        var tableList = Array();
                                         if(admins != null){
                                             if(admins.length > 0 ){
                                                 for(var i = 0; i < admins.length; i++){
-                                                    tableHtml += '<tr>\
-                                                            <td>' + admins[i].userId + '</td>\
-                                                            <td>' + admins[i].wechatName + '</td>\
-                                                            <td>' + admins[i].wechatId + '</td>\
-                                                            <td>' + admins[i].username + '</td>\
-                                                            <td>' + admins[i].cell + '</td>\
-                                                            <td>' + admins[i].brokerageName + '</td>\
-                                                            <td>' + admins[i].officeTelephone + '</td>\
-                                                            <td>\
-                                                                <a class="update" data-id="' + admins[i].userId + '" role="button">update</a>\
-                                                                <a class="delete" data-id="' + admins[i].userId + '" role="button">delete</a>\
-                                                            </td>\
-                                                        </tr>';
+                                                    var rowData = Array();
+                                                    rowData.push(admins[i].userId);
+                                                    rowData.push(admins[i].wechatName);
+                                                    rowData.push(admins[i].wechatId);
+                                                    rowData.push(admins[i].username);
+                                                    rowData.push(admins[i].cell);
+                                                    rowData.push(admins[i].brokerageName);
+                                                    rowData.push(admins[i].officeTelephone);
+                                                    rowData.push('<a class="update" data-id="' + admins[i].userId + '" role="button">update</a>\
+                                                                <a class="delete" data-id="' + admins[i].userId + '" role="button">delete</a>');
+                                                    tableList.push(rowData);
+                                                    // tableHtml += '<tr>\
+                                                    //         <td>' + admins[i].userId + '</td>\
+                                                    //         <td>' + admins[i].wechatName + '</td>\
+                                                    //         <td>' + admins[i].wechatId + '</td>\
+                                                    //         <td>' + admins[i].username + '</td>\
+                                                    //         <td>' + admins[i].cell + '</td>\
+                                                    //         <td>' + admins[i].brokerageName + '</td>\
+                                                    //         <td>' + admins[i].officeTelephone + '</td>\
+                                                    //         <td>\
+                                                    //             <a class="update" data-id="' + admins[i].userId + '" role="button">update</a>\
+                                                    //             <a class="delete" data-id="' + admins[i].userId + '" role="button">delete</a>\
+                                                    //         </td>\
+                                                    //     </tr>';
                                                 }
                                             }
                                         }
                                         $('#tableData').html(tableHtml);
+
+                                        if(dataTable != ''){
+                                            dataTable.destroy();
+                                            dataTable = $('#datatable-responsive').DataTable({
+                                                retrieve: true,
+                                                ordering: false,
+                                                paging: false,
+                                                info: false,
+                                                data: tableList
+                                            });
+                                        }else{
+                                            dataTable = $('#datatable-responsive').DataTable({
+                                                retrieve: true,
+                                                ordering: false,
+                                                paging: false,
+                                                info: false,
+                                                data: tableList
+                                            });
+                                        }
+
                                         readyPage(res.dataNum);
                                     }else{
                                         new PNotify({
