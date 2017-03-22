@@ -26,7 +26,7 @@
         <link href="vendors/pnotify/pnotify.buttons.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.nonblock.css" rel="stylesheet">
         <!-- Datatables -->
-        <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="css/custom.min.css" rel="stylesheet">
@@ -361,8 +361,8 @@
         <script src="vendors/pnotify/pnotify.buttons.js"></script>
         <script src="vendors/pnotify/pnotify.nonblock.js"></script>
         <!-- Datatables -->
-        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="js/custom.min.js"></script>
@@ -506,7 +506,7 @@
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
                                             var rowData = Array();
-                                            rowData.push('<a class="showMatch" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a>');
+                                            rowData.push('<a class="showMatch btn btn-default btn-xs mb0" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a>');
                                             rowData.push(list[i].projectName);
                                             rowData.push(list[i].userHaveName);
                                             rowData.push(list[i].userWantName);
@@ -518,10 +518,10 @@
                                             rowData.push(list[i].coop);
                                             rowData.push(list[i].action);
                                             rowData.push(list[i].unitStatus);
-                                            rowData.push('<div class="text-center"><div><a class="send" data-message="' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
-                                                        <div><a class="send" data-message="' + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div></div>');
-                                            rowData.push('<a class="update" data-id="' + list[i].id + '" role="button">update</a>\
-                                                        <a class="delete" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>');
+                                            rowData.push('<div class="text-center"><div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
+                                                        <div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div></div>');
+                                            rowData.push('<a class="update btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">update</a>\
+                                                        <a class="delete btn btn-default btn-xs mb0" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>');
                                             rowData.push(list[i].house_status == 0 ? 'Unaudited' : 'Audited');
                                             tableList.push(rowData);
 

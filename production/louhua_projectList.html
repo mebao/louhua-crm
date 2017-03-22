@@ -20,7 +20,7 @@
         <link href="vendors/pnotify/pnotify.buttons.css" rel="stylesheet">
         <link href="vendors/pnotify/pnotify.nonblock.css" rel="stylesheet">
         <!-- Datatables -->
-        <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="css/custom.min.css" rel="stylesheet">
@@ -220,8 +220,8 @@
         <script src="vendors/pnotify/pnotify.buttons.js"></script>
         <script src="vendors/pnotify/pnotify.nonblock.js"></script>
         <!-- Datatables -->
-        <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
         <!-- Custom Theme Scripts -->
         <script src="js/custom.min.js"></script>
@@ -287,8 +287,8 @@
                                         for(var i = 0; i < list.length; i++){
                                             var rowData = Array();
                                             rowData.push(list[i].id);
-                                            rowData.push('<a class="projectDetail" data-id="' + list[i].id + '" role="button">' + list[i].name + '</a>');
-                                            rowData.push('<a class="viewPicture" data-id="' + list[i].id + '" role="button">view picture</a>');
+                                            rowData.push('<a class="projectDetail btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">' + list[i].name + '</a>');
+                                            rowData.push('<a class="viewPicture btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">view picture</a>');
                                             rowData.push(list[i].levelLimits);
                                             rowData.push(list[i].unitType);
                                             rowData.push(list[i].openTime);
@@ -296,7 +296,7 @@
                                             rowData.push(list[i].totalUnits);
                                             rowData.push(list[i].projectStatus);
                                             rowData.push(list[i].message);
-                                            rowData.push('<a class="update" data-id="' + list[i].id + '" role="button">update</a><a class="delete" data-id="' + list[i].id + '" role="button">delete</a>');
+                                            rowData.push('<a class="update btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">update</a><a class="delete btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">delete</a>');
                                             tableList.push(rowData);
                                             // tableHtml += '<tr>\
                                             //         <td>' + list[i].id + '</td>\

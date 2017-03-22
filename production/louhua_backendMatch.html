@@ -127,10 +127,10 @@
                                     
                                 </tbody>
                             </table>
-                            <form class="form-horizontal form-label-left" novalidate>
+                            <form class="form-horizontal form-label-left hide" novalidate>
                                 <div class="row pb20">
                                     <div class="col-md-11 col-sm-11 col-xs-11">
-                                        <input type="text" name="user_want_name" class="form-control">
+                                        <input type="text" name="searchkey" class="form-control">
                                     </div>
                                     <div class="col-md-1 col-sm-1 col-xs-1">
                                         <button id="search" type="submit" class="btn btn-success">Search</button>
@@ -144,41 +144,36 @@
                                 <div class="select-tab">
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Unit Type</div>
-                                        <div class="col-md-8 unitType-select">
+                                        <div class="col-md-10 unitType-select">
                                             
                                         </div>
-                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Exposure</div>
-                                        <div class="col-md-8 exposure-select">
+                                        <div class="col-md-10 exposure-select">
 
                                         </div>
-                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Action</div>
-                                        <div class="col-md-8 action-select">
+                                        <div class="col-md-10 action-select">
 
                                         </div>
-                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 tab-name">Unit Status</div>
-                                        <div class="col-md-8 unitStatus-select">
+                                        <div class="col-md-10 unitStatus-select">
 
                                         </div>
-                                        <div class="col-md-2 pt5">select</div>
                                     </div>
                                 </div>
                                 <div class="check-tab">
                                     <div class="row">
                                         <a class="col-md-2 item sortList up_down" data-sort="0" data-type="id" role="button">ID</a>
-                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="time" role="button">Time</a>
                                         <a class="col-md-2 item sortList up_down" data-sort="0" data-type="floorLow" role="button">Floor Low</a>
                                         <a class="col-md-2 item sortList up_down" data-sort="0" data-type="floorHigh" role="button">Floor High</a>
-                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="price" role="button">Price</a>
-                                        <a class="col-md-2 item sortList up_down" data-sort="0" data-type="coop" role="button">Coop</a>
+                                        <a class="col-md-3 item sortList up_down" data-sort="0" data-type="price" role="button">Price</a>
+                                        <a class="col-md-3 item sortList up_down" data-sort="0" data-type="coop" role="button">Coop</a>
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +282,8 @@
                 $('.username').text(username);
 
                 var matchListUrl = '';
-                requestData();
+                var matchListUrlCache = '';
+                requestData(apiUrl + '/crmapi/gettask/' + GetQueryString('id'));
 
                 //log out
                 $('#logOut').click(function(){
@@ -297,11 +293,11 @@
                     location.href = "index.html";
                 });
 
-                function requestData(){
+                function requestData(_url){
                     //获取任务
                     $.ajax({
                         type: 'post',
-                        url: apiUrl + '/crmapi/gettask/' + GetQueryString('id'),
+                        url: _url,
                         data: {username: localStorage.getItem('username'), token: localStorage.getItem('token'), post_type: GetQueryString('postType')},
                         success: function(res){
                             if(res.status == 'ok'){
@@ -311,8 +307,8 @@
                                         tableHtml += '<tr>\
                                                 <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + post.id + '</td>\
                                                 <td>' + post.projectName + '</td>\
-                                                <td><a class="chat" data-id="' + post.userHaveId + '" role="button">' + post.userHaveName + '</td>\
-                                                <td><a class="chat" data-id="' + post.userWantId + '" role="button">' + post.userWantName + '</td>\
+                                                <td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userHaveId + '" role="button">' + post.userHaveName + '</td>\
+                                                <td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userWantId + '" role="button">' + post.userWantName + '</td>\
                                                 <td>' + post.unitType + '</td>\
                                                 <td>' + post.floorLow + '</td>\
                                                 <td>' + post.floorHigh + '</td>\
@@ -326,12 +322,14 @@
                                 $('#tableData').html(tableHtml);
                                 //根据project name获取match list
                                 matchListUrl = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
+                                matchListUrlCache = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
                                 readyList(matchListUrl);
                                 //绑定search
                                 $('#search').click(function(e) {
                                     e.preventDefault();
-                                    if($('input[name="user_want_name"]').val() != ''){
-                                        matchListUrl += '&user_want_name=' + $('input[name="user_want_name"]').val();
+                                    if($('input[name="searchkey"]').val() != ''){
+                                        readyList(matchListUrl + '&searchkey=' + $('input[name="searchkey"]').val());
+                                    }else{
                                         readyList(matchListUrl);
                                     }
                                 });
@@ -401,7 +399,7 @@
                             $('.exposure-select').html(exposureHtml);
                             var unitTypeHtml = '';
                             for(var key in optionsUnitType){
-                                unitTypeHtml += '<a class="select-item" role="button" data-name="Unit Type" data-searchName="unitType" data-key="' + key + '">' + optionsUnitType[key] + '</a>';
+                                unitTypeHtml += '<a class="select-item" role="button" data-name="Unit Type" data-searchName="unit_type" data-key="' + key + '">' + optionsUnitType[key] + '</a>';
                             }
                             $('.unitType-select').html(unitTypeHtml);
                             var actionHtml = '';
@@ -411,7 +409,7 @@
                             $('.action-select').html(actionHtml);
                             var unitStatusHtml = '';
                             for(var key in optionsUnitStatus){
-                                unitStatusHtml += '<a class="select-item" role="button" data-name="Unit Status" data-searchName="unitStatus" data-key="' + key + '">' + optionsUnitStatus[key] + '</a>';
+                                unitStatusHtml += '<a class="select-item" role="button" data-name="Unit Status" data-searchName="unit_status" data-key="' + key + '">' + optionsUnitStatus[key] + '</a>';
                             }
                             $('.unitStatus-select').html(unitStatusHtml);
                             readySelect();
@@ -558,7 +556,7 @@
                                                 <td>' + list[i].coop + '</td>\
                                                 <td>' + list[i].action + '</td>\
                                                 <td>' + list[i].unitStatus + '</td>\
-                                                <td><a class="match" data-type="' + list[i].postType + '" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" role="button">match</a></td>\
+                                                <td><a class="match btn btn-default btn-xs mb0" data-type="' + list[i].postType + '" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" role="button">match</a></td>\
                                             </tr>';
                         }
                     }
@@ -589,6 +587,7 @@
                     var selectedArray = new Array();
                     //根据type筛选
                     $('.select-item').click(function(){
+                        matchListUrl = matchListUrlCache;
                         //判断是否已选中（含同类型的其他选项）
                         var have = false;
                         for(var i = 0; i < selectedArray.length; i++){
@@ -626,10 +625,15 @@
                                 readySelected();
                             });
                             //重新筛选列表
-                            for(var i = 0; i < selectedArray.length; i++){
-                                matchListUrl += ('&' + selectedArray[i].searchName + '=' + selectedArray[i].key);
+                            if(selectedArray.length != 0){
+                                for(var i = 0; i < selectedArray.length; i++){
+                                    matchListUrl += ('&' + selectedArray[i].searchName + '=' + selectedArray[i].key);
+                                }
+                                readyList(matchListUrl);
+                            }else{
+                                matchListUrl = matchListUrlCache;
+                                readyList(matchListUrl);
                             }
-                            readyList(matchListUrl);
                             //绑定取消选择时间
                             $('.selected-item').click(function(){
                                 var index = '';
