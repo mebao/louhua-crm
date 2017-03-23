@@ -215,7 +215,6 @@
                                 <div class="ln_solid"></div>
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancel</button>
                                         <button id="send" type="submit" class="btn btn-success">Submit</button>
                                     </div>
                                 </div>
@@ -471,14 +470,14 @@
                 $('#postType').change(function(){
                     if($(this).val() == 'want'){
                         $('#coopTab').addClass('hide');
-                        $('#coop').attr('type', 'hidden');
+                        $('#coop').removeAttr('required');
                         $('#floorLowLabel').html('Expect Floor Low <span class="required">*</span>');
                         $('#floorHighLabel').html('Expect Floor High <span class="required">*</span>');
                     }else{
                         $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
                         $('#floorHighLabel').html('Floor High <span class="required">*</span>');
                         $('#coopTab').removeClass('hide');
-                        $('#coop').attr('type', 'number');
+                        $('#coop').attr('requiredrequired', 'required');
                     }
                 });
             }
