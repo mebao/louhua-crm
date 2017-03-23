@@ -315,12 +315,11 @@
                             data: $('form').serializeArray(),
                             success: function(res){
                                 if(res.status == 'ok'){
-                                    new PNotify({
-                                      title: 'Success',
-                                      text: 'Update success',
-                                      type: 'success',
-                                      styling: 'bootstrap3'
-                                    });
+                                    if($('#postType').val() == 'have'){
+                                        location.href = 'louhua_ihave.html';
+                                    }else{
+                                        location.href = 'louhua_iwant.html';
+                                    }
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',

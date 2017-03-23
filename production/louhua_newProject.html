@@ -366,12 +366,7 @@
                             data: $('form').serializeArray(),
                             success: function(res){
                                 if(res.status == 'ok'){
-                                    new PNotify({
-                                      title: 'Success',
-                                      text: 'New success',
-                                      type: 'success',
-                                      styling: 'bootstrap3'
-                                    });
+                                    location.href = 'louhua_projectList.html';
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',

@@ -293,12 +293,7 @@
                                 data: $('form').serializeArray(),
                                 success: function(res){
                                     if(res.status == 'ok'){
-                                        new PNotify({
-                                          title: 'Success',
-                                          text: 'Update success',
-                                          type: 'success',
-                                          styling: 'bootstrap3'
-                                        });
+                                        location.href = 'louhua_agentlist.html';
                                     }else{
                                         new PNotify({
                                             title: 'Oh No!',
