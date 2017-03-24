@@ -159,16 +159,16 @@ function chat(id){
 
 //left sider共用
 // 通过角色
-var menuHtml = '<ul class="nav side-menu">\
-    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>\
-    <ul class="nav child_menu">';
+var menuHtml = '<ul class="nav side-menu">';
 if(localStorage.getItem('role') == 1){
-    menuHtml += '<li><a href="louhua_adminlist.html">Admin List</a></li>';
-}
-menuHtml += '<li><a href="louhua_agentlist.html">Agent List</a></li>\
+    menuHtml += '<li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>\
+        <ul class="nav child_menu">\
+            <li><a href="louhua_adminlist.html">Admin List</a></li>\
+            <li><a href="louhua_agentlist.html">Agent List</a></li>\
         </ul>\
-    </li>\
-    <li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>\
+    </li>';
+}
+menuHtml += '<li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>\
         <ul class="nav child_menu">\
             <li>\
                 <a href="louhua_projectList.html">Project List</a>\
