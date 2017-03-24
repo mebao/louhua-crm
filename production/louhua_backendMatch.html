@@ -626,6 +626,7 @@
                             });
                             //重新筛选列表
                             if(selectedArray.length != 0){
+                                matchListUrl = matchListUrlCache;
                                 for(var i = 0; i < selectedArray.length; i++){
                                     matchListUrl += ('&' + selectedArray[i].searchName + '=' + selectedArray[i].key);
                                 }
