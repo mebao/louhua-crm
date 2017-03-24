@@ -59,3 +59,7 @@
 	border-color: #ccc;
 	border-width: 1px 1px 1px 0;
 }
+
+.select2-container--default .select2-selection--single{
+	min-height: 34px;
+}

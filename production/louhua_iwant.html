@@ -174,11 +174,6 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-4">
-                                        <label for="coop" class="">Coop
-                                        </label>
-                                        <input type="number" id="coop" name="coop" class="form-control">
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="unitStatus" class="">Unit Status
                                         </label>
                                         <select class="form-control" id="unitStatus" name="unit_status">
@@ -434,10 +429,6 @@
                     if($('select[name="exposure"]').val() != ''){
                         searchurl += '&exposure=' + $('select[name="exposure"]').val();
                         exportBasicUrl += '&exposure=' + $('select[name="exposure"]').val();
-                    }
-                    if($('input[name="coop"]').val() != ''){
-                        searchurl += '&coop=' + $('input[name="coop"]').val();
-                        exportBasicUrl += '&coop=' + $('input[name="coop"]').val();
                     }
                     if($('select[name="unit_status"]').val() != ''){
                         searchurl += '&unit_status=' + $('select[name="unit_status"]').val();

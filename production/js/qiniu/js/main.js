@@ -54,7 +54,7 @@ $(function () {
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function () {
-                $('#success').show();
+                requestData();
             },
             'FileUploaded': function (up, file, info) {
                 //单个文件上传成功所做的事情 
