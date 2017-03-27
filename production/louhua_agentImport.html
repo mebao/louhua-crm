@@ -136,7 +136,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form id="my-awesome-dropzone" action="http://api.louhua.meb168.com/crmapi/importagents" class="dropzone"></form>
+                            <form id="my-awesome-dropzone" action="" class="dropzone"></form>
                         </div>
                     </div>
                 </div>
@@ -189,6 +189,8 @@
                         localStorage.removeItem('role');
                         location.href = "index.html";
                     });
+
+                    $('#my-awesome-dropzone').attr('action', apiUrl + '/crmapi/importagents');
 
                     Dropzone.options.myAwesomeDropzone = {
                         maxFiles: 9,

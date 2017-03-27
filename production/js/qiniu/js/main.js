@@ -15,7 +15,7 @@ $(function () {
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
-        uptoken_url: $('#uptoken_url').val(),
+        uptoken_url: apiUrl + '/crmapi/uploadtoken',
         domain: $('#domain').val(),
         get_new_uptoken: false,
         // downtoken_url: '/downtoken',
