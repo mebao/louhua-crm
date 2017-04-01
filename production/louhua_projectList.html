@@ -380,7 +380,7 @@
                         url: apiUrl + '/crmapi/deleteproject/' + $(this).attr('data-id'),
                         success: function(res){
                             if(res.status == 'ok'){
-                                requestData();
+                                requestData(url);
                                 new PNotify({
                                     title: 'Success',
                                     text: 'Delete success',

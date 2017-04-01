@@ -527,7 +527,7 @@
                                             rowData.push(list[i].action);
                                             rowData.push(list[i].unitStatus);
                                             rowData.push('<div class="text-center"><div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectName + ' ' + list[i].unitType + ' room $' + list[i].price + ', ' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
-                                                        <div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div></div>');
+                                                        <div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectName + ' ' + list[i].unitType + ' room $' + list[i].price + ', '  + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div></div>');
                                             rowData.push('<a class="update btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">update</a>\
                                                         <a class="delete btn btn-default btn-xs mb0" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>');
                                             rowData.push(list[i].house_status == 0 ? 'Unaudited' : 'Audited');
