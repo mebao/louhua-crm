@@ -357,7 +357,7 @@
                 }
 
                 function readyPage(dataNum){
-                    structurePaging(dataNum, url);
+                    structurePaging(dataNum, url, 1);
                     $('.projectDetail').click(function(){
                         location.href = 'louhua_projectDetail.html?id=' + $(this).attr('data-id');
                     });

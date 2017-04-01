@@ -22,7 +22,7 @@
 	}
 }
 #selectUser.modal-body{
-	max-height: 300px;
+	max-height: 340px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }

@@ -428,7 +428,7 @@
                     }
 
                     function readyPage(dataNum){
-                        structurePaging(dataNum, url);
+                        structurePaging(dataNum, url, 1);
                         $('.update').click(function(){
                             location.href = 'louhua_updateAdmin.html?id=' + $(this).attr('data-id');
                         });

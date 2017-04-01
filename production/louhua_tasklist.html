@@ -650,7 +650,7 @@
                 });
 
                 function readyPage(dataNum){
-                    structurePaging(dataNum, url);
+                    structurePaging(dataNum, url, 1);
                     $('.receive').click(function(){
                         location.href = 'louhua_backendMatch.html?id=' + $(this).attr('data-id') + '&postType=' + $(this).attr('data-type');
                     });

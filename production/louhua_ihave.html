@@ -296,9 +296,14 @@
                                                 role
                                             </div>
                                         </div>
-                                        <div class="user-list">
+                                        <div class="user-list" data-pagesize="5">
 
                                         </div>
+                                        <nav aria-label="Page navigation" class="text-right">
+                                            <ul class="pagination" data-page="1">
+                                                
+                                            </ul>
+                                        </nav>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -384,7 +389,10 @@
                 });
 
                 var url = apiUrl + '/crmapi/searchhouse?getcount=1&post_type=have';
+                var searchAgentsUrl = apiUrl + '/crmapi/searchagents?getcount=1&pagesize=5';
                 var exportUrl = apiUrl + '/crmapi/exporthouse?getcount=1&post_type=have';
+                //全局变量searchAgents
+                var searchAgentsNum = 0;
                 $('#search').click(function(e) {
                     e.preventDefault();
                     if(($('#floorHigh').val() != '') && ($('#floorLow').val() != '') && $('#floorHigh').val() < $('#floorLow').val()){
@@ -460,7 +468,7 @@
                 //切换分页展示数量
                 $('#pagesize').change(function(){
                     url = url + '&pagesize=' + $(this).val();
-                    $('.pagination').attr('data-page', '1');
+                    $('.x_content').find('.pagination').attr('data-page', '1');
                     requestData(url + '&pagesize=' + $(this).val());
                 });
                 //获取数据
@@ -518,7 +526,7 @@
                                             rowData.push(list[i].coop);
                                             rowData.push(list[i].action);
                                             rowData.push(list[i].unitStatus);
-                                            rowData.push('<div class="text-center"><div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
+                                            rowData.push('<div class="text-center"><div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectName + ' ' + list[i].unitType + ' room $' + list[i].price + ', ' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
                                                         <div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div></div>');
                                             rowData.push('<a class="update btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">update</a>\
                                                         <a class="delete btn btn-default btn-xs mb0" data-haveId="' + list[i].haveId + '" data-type="' + list[i].postType + '" role="button">delete</a>');
@@ -677,15 +685,29 @@
 
                         }
                     });
+                    readyAgents(searchAgentsUrl);
+                    $('#startDate').daterangepicker({
+                        format : 'YYYY-MM-DD',
+                        singleDatePicker: true,
+                        singleClasses: "picker_2"
+                    }, function(start, end, label) {
+                        console.log(start.toISOString(), end.toISOString(), label);
+                    });
+                }
+
+                function readyAgents(_url){
+                    var nowPage = $('#selectUser').find('.pagination').attr('data-page');
                     //获取user list
                     $.ajax({
                         type: 'get',
-                        url: apiUrl + '/crmapi/searchagents',
+                        url: _url,
                         success: function(res){
                             if(res.status == 'ok'){
                                 var agents = res.results.agents;
                                 var userlistHtml = '';
                                 if(agents.length > 0){
+                                    userlistHtml += '<div class="dataPageList" data-pageList="' + nowPage + '">';
+                                    searchAgentsNum = res.dataNum;
                                     for(var i = 0; i<agents.length; i++){
                                         userlistHtml += '<div class="row">\
                                                             <div class="col-md-4">\
@@ -703,20 +725,30 @@
                                                             </div>\
                                                         </div>';
                                     }
-                                    $('#selectUser').find('.user-list').html(userlistHtml);
+                                    userlistHtml += '</div>';
+                                    //记录当前页的数据是否存在
+                                    var hasPageData = false;
+                                    $('.dataPageList').each(function(){
+                                        if($(this).attr('data-pageList') == nowPage){
+                                            //当前页的数据存在，控制其它页隐藏，当前页展示
+                                            $('.dataPageList').addClass('hide');
+                                            $(this).removeClass('hide');
+                                            hasPageData = true;
+                                            return false;
+                                        }
+                                    });
+                                    if(!hasPageData){
+                                        //当前页的数据不存在，添加当前页到指定列表
+                                        $('.dataPageList').addClass('hide');
+                                        $('#selectUser').find('.user-list').append(userlistHtml);
+                                    }
+                                    structurePagingSearchAgents(res.dataNum, searchAgentsUrl);
                                 }
                             }
                         },
                         error: function(res){
 
                         }
-                    });
-                    $('#startDate').daterangepicker({
-                        format : 'YYYY-MM-DD',
-                        singleDatePicker: true,
-                        singleClasses: "picker_2"
-                    }, function(start, end, label) {
-                        console.log(start.toISOString(), end.toISOString(), label);
                     });
                 }
 
@@ -734,7 +766,7 @@
                 });
 
                 function readyPage(dataNum){
-                    structurePaging(dataNum, url);
+                    structurePaging(dataNum, url, 1);
                     // 展示match详情
                     $('.showMatch').click(function(){
                         location.href = 'louhua_match.html?haveId=' + $(this).attr('data-haveId') + '&type=have';
@@ -750,6 +782,10 @@
                             $('.sendMessage').html('Send "' + $(this).attr('data-message') + '" to all agents?');
                             $('#sendTab').modal('show');
                         }else{
+                            $('#selectUser').find('.pagination').attr('data-page', 1);
+                            //重回选择列表
+                            readyAgents(searchAgentsUrl);
+                            structurePagingSearchAgents(searchAgentsNum, searchAgentsUrl);
                             $('#confirmSelect').attr('data-message', $(this).attr('data-message'));
                             $('#selectTab').modal('show');
                         }

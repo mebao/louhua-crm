@@ -52,12 +52,12 @@ function arrayCopy(array){
 }
 
 //构造分页
-function structurePaging(dataNum, url){
+function structurePaging(dataNum, url, functionType){
     if(dataNum > 0){
         var page = Math.ceil(dataNum / $('#pagesize').val());
         var pageHtml = '';
         //当前页为1，上一页不可点击
-        if($('.pagination').attr('data-page') == 1){
+        if($('.x_content').find('.pagination').attr('data-page') == 1){
             pageHtml += '<li class="disabled">';
         }else{
             pageHtml += '<li>';
@@ -68,14 +68,14 @@ function structurePaging(dataNum, url){
             </li>';
         for(var i = 0; i < page; i++){
             //当前页数
-            if(i == ($('.pagination').attr('data-page') - 1)){
+            if(i == ($('.x_content').find('.pagination').attr('data-page') - 1)){
                 pageHtml += '<li class="checkLi active"><a href="javascript:;" class="checkPage">' + (i+1) + '</a></li>';
             }else{
                 pageHtml += '<li class="checkLi"><a href="javascript:;" class="checkPage">' + (i+1) + '</a></li>';
             }
         }
         //当前页为最后一页，下一页不可点击
-        if($('.pagination').attr('data-page') == page){
+        if($('.x_content').find('.pagination').attr('data-page') == page){
             pageHtml += '<li class="disabled">';
         }else{
             pageHtml += '<li>';
@@ -85,46 +85,123 @@ function structurePaging(dataNum, url){
                     <span aria-hidden="false">&raquo;</span>\
                 </a>\
             </li>';
-        $('.pagination').html(pageHtml);
+        $('.x_content').find('.pagination').html(pageHtml);
         //分页事件
         $('.checkPage').click(function(){
             //切换页面
-            $('.checkLi').removeClass('active');
+            $('.x_content').find('.checkLi').removeClass('active');
             $(this).parent('li').addClass('active');
             //记录当前页数
-            $('.pagination').attr('data-page', $(this).text());
+            $('.x_content').find('.pagination').attr('data-page', $(this).text());
             requestData(url + '&page=' + $(this).text());
         });
         //上一页
         $('a[aria-label="Previous"]').click(function(){
-            if($('.pagination').attr('data-page') != 1){
-                var nowPage = parseInt($('.pagination').attr('data-page')) - 1;
-                $('.checkLi').removeClass('active');
-                $('.checkLi').each(function(){
+            if($('.x_content').find('.pagination').attr('data-page') != 1){
+                var nowPage = parseInt($('.x_content').find('.pagination').attr('data-page')) - 1;
+                $('.x_content').find('.checkLi').removeClass('active');
+                $('.x_content').find('.checkLi').each(function(){
                     if($(this).text() == nowPage){
                         $(this).parent('li').addClass('active');
                     }
                 });
-                $('.pagination').attr('data-page', nowPage);
+                $('.x_content').find('.pagination').attr('data-page', nowPage);
                 requestData(url + '&page=' + nowPage);
             }
         });
         //下一页
         $('a[aria-label="Next"]').click(function(){
-            if($('.pagination').attr('data-page') != page){
-                var nowPage = parseInt($('.pagination').attr('data-page')) + 1;
-                $('.checkLi').removeClass('active');
-                $('.checkLi').each(function(){
+            if($('.x_content').find('.pagination').attr('data-page') != page){
+                var nowPage = parseInt($('.x_content').find('.pagination').attr('data-page')) + 1;
+                $('.x_content').find('.checkLi').removeClass('active');
+                $('.x_content').find('.checkLi').each(function(){
                     if($(this).text() == nowPage){
                         $(this).parent('li').addClass('active');
                     }
                 });
-                $('.pagination').attr('data-page', nowPage);
+                $('.x_content').find('.pagination').attr('data-page', nowPage);
                 requestData(url + '&page=' + nowPage);
             }
         });
     }else{
-        $('.pagination').html('');
+        $('.x_content').find('.pagination').html('');
+    }
+}
+
+//searchAgents分页
+function structurePagingSearchAgents(dataNum, url){
+    if(dataNum > 0){
+        var page = Math.ceil(dataNum / $('.user-list').attr('data-pagesize'));
+        var pageHtml = '';
+        //当前页为1，上一页不可点击
+        if($('#selectUser').find('.pagination').attr('data-page') == 1){
+            pageHtml += '<li class="disabled">';
+        }else{
+            pageHtml += '<li>';
+        }
+        pageHtml += '<a href="javascript:;" aria-label="Previous">\
+                    <span aria-hidden="true">&laquo;</span>\
+                </a>\
+            </li>';
+        for(var i = 0; i < page; i++){
+            //当前页数
+            if(i == ($('#selectUser').find('.pagination').attr('data-page') - 1)){
+                pageHtml += '<li class="checkLi active"><a href="javascript:;" class="checkPage">' + (i+1) + '</a></li>';
+            }else{
+                pageHtml += '<li class="checkLi"><a href="javascript:;" class="checkPage">' + (i+1) + '</a></li>';
+            }
+        }
+        //当前页为最后一页，下一页不可点击
+        if($('#selectUser').find('.pagination').attr('data-page') == page){
+            pageHtml += '<li class="disabled">';
+        }else{
+            pageHtml += '<li>';
+        }
+        
+        pageHtml += '<a href="javascript:;" aria-label="Next">\
+                    <span aria-hidden="false">&raquo;</span>\
+                </a>\
+            </li>';
+        $('#selectUser').find('.pagination').html(pageHtml);
+        //分页事件
+        $('#selectUser').find('.checkPage').click(function(){
+            //切换页面
+            $('#selectUser').find('.checkLi').removeClass('active');
+            $(this).parent('li').addClass('active');
+            //记录当前页数
+            $('#selectUser').find('.pagination').attr('data-page', $(this).text());
+            readyAgents(url + '&page=' + $(this).text());
+        });
+        //上一页
+        $('a[aria-label="Previous"]').click(function(){
+            if($('#selectUser').find('.pagination').attr('data-page') != 1){
+                var nowPage = parseInt($('#selectUser').find('.pagination').attr('data-page')) - 1;
+                $('#selectUser').find('.checkLi').removeClass('active');
+                $('#selectUser').find('.checkLi').each(function(){
+                    if($(this).text() == nowPage){
+                        $(this).parent('li').addClass('active');
+                    }
+                });
+                $('#selectUser').find('.pagination').attr('data-page', nowPage);
+                readyAgents(url + '&page=' + nowPage);
+            }
+        });
+        //下一页
+        $('a[aria-label="Next"]').click(function(){
+            if($('#selectUser').find('.pagination').attr('data-page') != page){
+                var nowPage = parseInt($('#selectUser').find('.pagination').attr('data-page')) + 1;
+                $('#selectUser').find('.checkLi').removeClass('active');
+                $('#selectUser').find('.checkLi').each(function(){
+                    if($(this).text() == nowPage){
+                        $(this).parent('li').addClass('active');
+                    }
+                });
+                $('#selectUser').find('.pagination').attr('data-page', nowPage);
+                readyAgents(url + '&page=' + nowPage);
+            }
+        });
+    }else{
+        $('#selectUser').find('.pagination').html('');
     }
 }
 
