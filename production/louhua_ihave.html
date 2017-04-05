@@ -332,6 +332,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="onlistUpdate" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="updateInfo">Confirm update this data.</div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        <button id="confirmListUpdate" type="button" class="btn btn-primary">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /page content -->
@@ -465,15 +483,54 @@
                 var role = localStorage.getItem('role');
                 $('.username').text(username);
 
+                var optionsAction = '';
+                var optionsUnitStatus = '';
+
                 //切换分页展示数量
                 $('#pagesize').change(function(){
                     url = url + '&pagesize=' + $(this).val();
                     $('.x_content').find('.pagination').attr('data-page', '1');
                     requestData(url + '&pagesize=' + $(this).val());
                 });
-                //获取数据
-                requestData(url);
-                readysearchTab();
+
+                //获取select list
+                $.ajax({
+                    type: 'get',
+                    url: apiUrl + '/crmapi/otheroptions',
+                    success: function(res){
+                        var optionsExposure = res.results.optionsExposure;
+                        var optionsUnitType = res.results.optionsUnitType;
+                        optionsAction = res.results.optionsAction;
+                        optionsUnitStatus = res.results.optionsUnitStatus;
+                        var exposureHtml = '<option value=""></option>';
+                        for(var key in optionsExposure){
+                            exposureHtml += '<option value="' + key + '">' + optionsExposure[key] + '</option>';
+                        }
+                        $('#exposure').html(exposureHtml);
+                        var unitTypeHtml = '<option value=""></option>';
+                        for(var key in optionsUnitType){
+                            unitTypeHtml += '<option value="' + key + '">' + optionsUnitType[key] + '</option>';
+                        }
+                        $('#unitType').html(unitTypeHtml);
+                        var actionHtml = '<option value=""></option>';
+                        for(var key in optionsAction){
+                            actionHtml += '<option value="' + key + '">' + optionsAction[key] + '</option>';
+                        }
+                        $('#action').html(actionHtml);
+                        var unitStatusHtml = '<option value=""></option>';
+                        for(var key in optionsUnitStatus){
+                            unitStatusHtml += '<option value="' + key + '">' + optionsUnitStatus[key] + '</option>';
+                        }
+                        $('#unitStatus').html(unitStatusHtml);
+
+                        //获取数据
+                        requestData(url);
+                        readysearchTab();
+                    },
+                    error: function(res){
+
+                    }
+                });
 
                 //log out
                 $('#logOut').click(function(){
@@ -514,7 +571,7 @@
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
                                             var rowData = Array();
-                                            rowData.push('<a class="showMatch btn btn-default btn-xs mb0" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].haveId + '</a>');
+                                            rowData.push('<a class="showMatch btn btn-default btn-xs mb0" role="button" data-haveId="' + list[i].haveId + '" data-projectName="' + list[i].projectName + '">' + list[i].haveId + '</a>');
                                             rowData.push(list[i].projectName);
                                             rowData.push(list[i].userHaveName);
                                             rowData.push(list[i].userWantName);
@@ -524,8 +581,26 @@
                                             rowData.push(list[i].price);
                                             rowData.push(list[i].exposure);
                                             rowData.push(list[i].coop);
-                                            rowData.push(list[i].action);
-                                            rowData.push(list[i].unitStatus);
+                                            var actionHtml = '<select class="action listUpdate" data-name="action">';
+                                                    for(var key in optionsAction){
+                                                        if(key == list[i].action){
+                                                            actionHtml += '<option value="' + key + '" selected>' + optionsAction[key] + '</option>';
+                                                        }else{
+                                                            actionHtml += '<option value="' + key + '">' + optionsAction[key] + '</option>';
+                                                        }
+                                                    }
+                                            actionHtml += '</select>';
+                                            rowData.push(actionHtml);
+                                            var unitStatusHtml = '<select class="unitStatus listUpdate" data-name="unit_status">';
+                                                    for(var key in optionsUnitStatus){
+                                                        if(key == list[i].unitStatus){
+                                                            unitStatusHtml += '<option value="' + key + '" selected>' + optionsUnitStatus[key] + '</option>';
+                                                        }else{
+                                                            unitStatusHtml += '<option value="' + key + '">' + optionsUnitStatus[key] + '</option>';
+                                                        }
+                                                    }
+                                            unitStatusHtml += '</select>';
+                                            rowData.push(unitStatusHtml);
                                             rowData.push('<div class="text-center"><div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectName + ' ' + list[i].unitType + ' room $' + list[i].price + ', ' + list[i].projectMessage + '" data-type="all" role="button">All</a></div>\
                                                         <div><a class="send btn btn-default btn-xs mb0" data-message="' + list[i].projectName + ' ' + list[i].unitType + ' room $' + list[i].price + ', '  + list[i].projectMessage + '" data-id="' + list[i].id + '" role="button">Send to</a><div></div>');
                                             rowData.push('<a class="update btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">update</a>\
@@ -624,40 +699,6 @@
                                     $('input[name="user_want_name"]').val(user[$(this).val()]);
                                 }
                             });
-                        },
-                        error: function(res){
-
-                        }
-                    });
-                    //获取select list
-                    $.ajax({
-                        type: 'get',
-                        url: apiUrl + '/crmapi/otheroptions',
-                        success: function(res){
-                            var optionsExposure = res.results.optionsExposure;
-                            var optionsUnitType = res.results.optionsUnitType;
-                            var optionsAction = res.results.optionsAction;
-                            var optionsUnitStatus = res.results.optionsUnitStatus;
-                            var exposureHtml = '<option value=""></option>';
-                            for(var key in optionsExposure){
-                                exposureHtml += '<option value="' + key + '">' + optionsExposure[key] + '</option>';
-                            }
-                            $('#exposure').html(exposureHtml);
-                            var unitTypeHtml = '<option value=""></option>';
-                            for(var key in optionsUnitType){
-                                unitTypeHtml += '<option value="' + key + '">' + optionsUnitType[key] + '</option>';
-                            }
-                            $('#unitType').html(unitTypeHtml);
-                            var actionHtml = '<option value=""></option>';
-                            for(var key in optionsAction){
-                                actionHtml += '<option value="' + key + '">' + optionsAction[key] + '</option>';
-                            }
-                            $('#action').html(actionHtml);
-                            var unitStatusHtml = '<option value=""></option>';
-                            for(var key in optionsUnitStatus){
-                                unitStatusHtml += '<option value="' + key + '">' + optionsUnitStatus[key] + '</option>';
-                            }
-                            $('#unitStatus').html(unitStatusHtml);
                         },
                         error: function(res){
 
@@ -861,6 +902,49 @@
                             }
                         });
                     }
+                    //在列表中修改
+                    $('.listUpdate').change(function(){
+                        $('#onlistUpdate').modal('show');
+                        var _id = $('.showMatch').attr('data-haveId');
+                        var _projectName = $('.showMatch').attr('data-projectName');
+                        var _name = $(this).attr('data-name');
+                        var _value = $(this).val();
+                        var _data = {};
+                        if(_name == 'action'){
+                            _data = {project_name: _projectName, post_type: 'have', action: _value};
+                        }else if(_name == 'unit_status'){
+                            _data = {project_name: _projectName, post_type: 'have', unit_status: _value};
+                        }
+                        $('#confirmListUpdate').click(function(){
+                            $('#onlistUpdate').modal('hide');
+                            $.ajax({
+                                type: 'post',
+                                url: apiUrl + '/crmapi/updatehouse/' + _id,
+                                data: _data,
+                                success: function(res){
+                                    if(res.status == 'ok'){
+                                        new PNotify({
+                                          title: 'Success',
+                                          text: 'Update success',
+                                          type: 'success',
+                                          styling: 'bootstrap3'
+                                        });
+                                    }else{
+                                        new PNotify({
+                                            title: 'Oh No!',
+                                            text: res.errorMsg,
+                                            type: 'error',
+                                            styling: 'bootstrap3',
+                                            timerHide: '20',
+                                        });
+                                    }
+                                },
+                                error: function(res){
+
+                                }
+                            });
+                        });
+                    });
                     $('.delete').click(function(){
                         var type = $(this).attr('data-type');
                         if(type == 'have'){
