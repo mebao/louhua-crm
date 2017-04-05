@@ -440,7 +440,7 @@
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
                                             var rowData = Array();
-                                            rowData.push(list[i].id);
+                                            rowData.push(list[i].postType == 'have' ? list[i].haveId : list[i].wantId);
                                             rowData.push(list[i].projectName);
                                             rowData.push(list[i].userHaveName);
                                             rowData.push(list[i].userWantName);

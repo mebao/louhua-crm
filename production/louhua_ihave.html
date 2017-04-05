@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="id">ID</label>
-                                        <input type="text" id="id" name="id" class="form-control">
+                                        <input type="text" id="id" name="have_id" class="form-control">
                                     </div>
                                     <div class="col-md-2 col-sm-2 col-xs-4">
                                         <label for="unitType" class="">Unit Type
@@ -412,9 +412,9 @@
                         searchurl += '&project_id=' + $('select[name="project_id"]').val();
                         exportBasicUrl += '&project_id=' + $('select[name="project_id"]').val();
                     }
-                    if($('input[name="id"]').val() != ''){
-                        searchurl += '&id=' + $('input[name="id"]').val();
-                        exportBasicUrl += '&id=' + $('input[name="id"]').val();
+                    if($('input[name="have_id"]').val() != ''){
+                        searchurl += '&have_id=' + $('input[name="have_id"]').val();
+                        exportBasicUrl += '&have_id=' + $('input[name="have_id"]').val();
                     }
                     if($('select[name="user_have_id"]').val() != ''){
                         searchurl += '&user_have_id=' + $('select[name="user_have_id"]').val();
@@ -514,7 +514,7 @@
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
                                             var rowData = Array();
-                                            rowData.push('<a class="showMatch btn btn-default btn-xs mb0" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a>');
+                                            rowData.push('<a class="showMatch btn btn-default btn-xs mb0" role="button" data-haveId="' + list[i].haveId + '" >' + list[i].haveId + '</a>');
                                             rowData.push(list[i].projectName);
                                             rowData.push(list[i].userHaveName);
                                             rowData.push(list[i].userWantName);
@@ -779,7 +779,7 @@
                         if($(this).attr('data-type') == 'all'){
                             usersParams = '@all';
                             $('#confirmSend').attr('data-params', usersParams);
-                            $('.sendMessage').html('Send "' + $(this).attr('data-message') + '" to all agents?');
+                            $('.sendMessage').html('<div>Send</div><input class="form-control messageInfo" type="text" value="' + $(this).attr('data-message') + '"><div>to all agents?</div>');
                             $('#sendTab').modal('show');
                         }else{
                             $('#selectUser').find('.pagination').attr('data-page', 1);
@@ -802,8 +802,9 @@
                         if(usersParams.length > 0){
                             usersParams = usersParams.substring(0, usersParams.length - 1);
                             $('#confirmSend').attr('data-params', usersParams);
-                            $('#confirmSend').attr('data-message', $(this).attr('data-message'));
-                            $('.sendMessage').html('Send "' + $(this).attr('data-message') + '" to the chosen agents?');
+                            $('.sendMessage').html('<div>Send</div><input class="form-control messageInfo" type="text" value="' + $(this).attr('data-message') + '"><div>to the chosen agents?</div>');
+                            //构造完数据后清除列表信息
+                            $('#selectUser').find('.user-list').html('');
                             $('#sendTab').modal('show');
                         }else{
                             new PNotify({
@@ -817,7 +818,7 @@
                     $('#confirmSend').click(function(){
                         $('#sendTab').modal('hide');
                         var usersParams = $(this).attr('data-params');
-                        var message = $(this).attr('data-message');
+                        var message = $('.messageInfo').val();
                         sendhouse(usersParams, message);
                     });
                     function sendhouse(_usersParams, _message){

@@ -164,14 +164,14 @@
                         appkey: '2ba7f5ae-99ff-417b-bba0-903c4e60a5da'
                     });
                     goEasy.subscribe({
-                        channel: 'liukui178@163.comto18',
+                        channel: info.username + 'to' + info.userId,
                         onMessage: function (message) {
                             $('.message-tab').append('<div class="left-message mt10">\
                                     <div class="flex">\
                                         <div class="img">\
                                             <img src="images/user-default.png">\
                                         </div>\
-                                        <div class="flex-1 user-name">admin:</div>\
+                                        <div class="flex-1 user-name">' + info.realName + ':</div>\
                                     </div>\
                                     <div class="info">' + message.content + '</div>\
                                 </div>');
@@ -202,7 +202,7 @@
                         if($('textarea[name="info"]').val().trim() != ''){
                             $('.message-tab').append('<div class="right-message mt10">\
                                     <div class="flex">\
-                                        <div class="flex-1 user-name text-right">admin:</div>\
+                                        <div class="flex-1 user-name text-right">' + username + ':</div>\
                                         <div class="img">\
                                             <img src="images/user-default.png">\
                                         </div>\

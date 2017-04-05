@@ -256,7 +256,7 @@
                                     if(list.length > 0 ){
                                         for(var i = 0; i < list.length; i++){
                                             tableHtml += '<tr class="item" data-test="1">\
-                                                    <td><a class="showMatch" data-haveId="' + list[i].haveId + '" >' + list[i].id + '</a></td>\
+                                                    <td>' + (list[i].postType == 'have' ? list[i].haveId : list[i].wantId) + '</td>\
                                                     <td>' + list[i].projectName + '</td>\
                                                     <td>' + list[i].userHaveName + '</td>\
                                                     <td>' + list[i].userWantName + '</td>\
