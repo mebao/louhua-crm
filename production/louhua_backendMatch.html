@@ -305,7 +305,7 @@
                                 var tableHtml = '';
                                 if(post != null){
                                         tableHtml += '<tr>\
-                                                <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + post.id + '</td>\
+                                                <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + (GetQueryString('postType') == 'have' ? post.haveId : post.wantId) + '</td>\
                                                 <td>' + post.projectName + '</td>\
                                                 <td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userHaveId + '" role="button">' + post.userHaveName + '</td>\
                                                 <td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userWantId + '" role="button">' + post.userWantName + '</td>\
@@ -546,8 +546,8 @@
                             matchListMatch += '<tr>\
                                                 <td>' + list[i].id + '</td>\
                                                 <td>' + list[i].projectName + '</td>\
-                                                <td>' + list[i].userHaveName + '</td>\
-                                                <td>' + list[i].userWantName + '</td>\
+                                                <td><a class="chat btn btn-default btn-xs mb0" role="button" data-id="' + list[i].userHaveId + '">' + list[i].userHaveName + '</a></td>\
+                                                <td><a class="chat btn btn-default btn-xs mb0" role="button" data-id="' + list[i].userWantId + '">' + list[i].userWantName + '</a></td>\
                                                 <td>' + list[i].unitType + '</td>\
                                                 <td>' + list[i].floorLow + '</td>\
                                                 <td>' + list[i].floorHigh + '</td>\
@@ -561,6 +561,10 @@
                         }
                     }
                     $('#matchList').html(matchListMatch);
+                    //聊天
+                    $('.chat').click(function(){
+                        chat($(this).attr('data-id'));
+                    });
                     readyMatch();
                 }
 

@@ -214,11 +214,10 @@
                                         <th>I have agent</th>
                                         <th>I want agent</th>
                                         <th>Unit type</th>
-                                        <th>Floor Low</th>
-                                        <th>Floor High</th>
+                                        <th>Expect Floor Low</th>
+                                        <th>Expect Floor High</th>
                                         <th>Price</th>
                                         <th>Exposure</th>
-                                        <th>Coop</th>
                                         <th>Action</th>
                                         <th>Unit status</th>
                                         <th>Notice</th>
@@ -568,7 +567,7 @@
                                             rowData.push(list[i].floorHigh);
                                             rowData.push(list[i].price);
                                             rowData.push(list[i].exposure);
-                                            rowData.push(list[i].coop);var actionHtml = '<select class="action listUpdate" data-name="action">';
+                                            var actionHtml = '<select class="action listUpdate" data-name="action">';
                                                     for(var key in optionsAction){
                                                         if(key == list[i].action){
                                                             actionHtml += '<option value="' + key + '" selected>' + optionsAction[key] + '</option>';

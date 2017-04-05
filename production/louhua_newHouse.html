@@ -360,6 +360,8 @@
                     $('#postType').val('want');
                     $('#floorLowLabel').html('Expect Floor Low <span class="required">*</span>');
                     $('#floorHighLabel').html('Expect Floor High <span class="required">*</span>');
+                    $('#coopTab').addClass('hide');
+                    $('#coop').removeAttr('required');
                 }else{
                     $('.pageTitle').text('New House');
                     $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
