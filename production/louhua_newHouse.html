@@ -343,11 +343,19 @@
                 $('.username').text(username);
 
                 if(GetQueryString('type') == 'have'){
+                    $('label[for="iHaveAgent"]').html('I have agent <span class="required">*</span>');
+                    $('label[for="iWantAgent"]').html('I want agent');
+                    $('#iWantAgent').removeAttr('required');
+                    $('#iHaveAgent').attr('required', 'required');
                     $('.pageTitle').text('New I have');
                     $('#postType').val('have');
                     $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
                     $('#floorHighLabel').html('Floor High <span class="required">*</span>');
                 }else if(GetQueryString('type') == 'want'){
+                    $('label[for="iWantAgent"]').html('I want agent <span class="required">*</span>');
+                    $('label[for="iHaveAgent"]').html('I have agent');
+                    $('#iHaveAgent').removeAttr('required');
+                    $('#iWantAgent').attr('required', 'required');
                     $('.pageTitle').text('New I want');
                     $('#postType').val('want');
                     $('#floorLowLabel').html('Expect Floor Low <span class="required">*</span>');
@@ -469,11 +477,19 @@
                 //post type更换
                 $('#postType').change(function(){
                     if($(this).val() == 'want'){
+                        $('label[for="iWantAgent"]').html('I want agent <span class="required">*</span>');
+                        $('label[for="iHaveAgent"]').html('I have agent');
+                        $('#iHaveAgent').removeAttr('required');
+                        $('#iWantAgent').attr('required', 'required');
                         $('#coopTab').addClass('hide');
                         $('#coop').removeAttr('required');
                         $('#floorLowLabel').html('Expect Floor Low <span class="required">*</span>');
                         $('#floorHighLabel').html('Expect Floor High <span class="required">*</span>');
                     }else{
+                        $('label[for="iHaveAgent"]').html('I have agent <span class="required">*</span>');
+                        $('label[for="iWantAgent"]').html('I want agent');
+                        $('#iWantAgent').removeAttr('required');
+                        $('#iHaveAgent').attr('required', 'required');
                         $('#floorLowLabel').html('Floor Low <span class="required">*</span>');
                         $('#floorHighLabel').html('Floor High <span class="required">*</span>');
                         $('#coopTab').removeClass('hide');

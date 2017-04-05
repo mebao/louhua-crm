@@ -133,6 +133,15 @@
                                             <option value="4">Other Brokerage Agent</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-2 col-sm-2 col-xs-4">
+                                        <label for="subscribe" class="">Grouping
+                                        </label>
+                                        <select class="form-control" id="subscribe" name="subscribe">
+                                            <option value=""></option>
+                                            <option value="yes">Subscribe</option>
+                                            <option value="no">Not subscribed</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <button id="search" type="submit" class="btn btn-success">Search</button>
@@ -354,6 +363,10 @@
                         if($('select[name="user_role"]').val() != ''){
                             searchurl += '&user_role=' + $('select[name="user_role"]').val();
                             exportBasicUrl += '&user_role=' + $('select[name="user_role"]').val();
+                        }
+                        if($('select[name="subscribe"]').val() != ''){
+                            searchurl += '&subscribe=' + $('select[name="subscribe"]').val();
+                            exportBasicUrl += '&subscribe=' + $('select[name="subscribe"]').val();
                         }
                         url = searchurl;
                         exportUrl = exportBasicUrl;
