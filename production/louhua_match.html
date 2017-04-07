@@ -287,7 +287,7 @@
                                                     <td>' + users[i].cell + '</td>\
                                                     <td>' + users[i].roleText + '</td>\
                                                     <td>' + users[i].subscribe + '</td>\
-                                                    <td><a class="completeMatch btn btn-default btn-xs mb0" data-houseId="' + users[i].houseId + '" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" role="button">match</a></td>\
+                                                    <td><a class="completeMatch btn btn-default btn-xs mb0" data-houseId="' + users[i].houseId + '" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" role="button">match success</a></td>\
                                                 </tr>';
                                     }
                                 }
@@ -326,7 +326,7 @@
                             if(res.status == 'ok'){
                                 new PNotify({
                                     title: 'Success',
-                                    text: 'Match success',
+                                    text: 'Matching housing success, the end of this task.',
                                     type: 'success',
                                     styling: 'bootstrap3',
                                     timerHide: '20',
