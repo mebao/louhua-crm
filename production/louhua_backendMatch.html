@@ -106,13 +106,14 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
+                            <p>House Info</p>
                             <table id="datatable-fixed-header" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Project name</th>
-                                        <th>I have agent</th>
-                                        <th>I want agent</th>
+                                        <th class="houseHave">I have agent</th>
+                                        <th class="houseWant">I want agent</th>
                                         <th>Unit type</th>
                                         <th>Floor Low</th>
                                         <th>Floor High</th>
@@ -138,6 +139,7 @@
                                 </div>
                             </form>
                             <div id="alreadyMatch" class="hide">
+                                <p>Match User</p>
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
@@ -177,13 +179,13 @@
 
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row actionTab">
                                             <div class="col-md-2 tab-name">Action</div>
                                             <div class="col-md-10 action-select">
 
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row unitStatusTab">
                                             <div class="col-md-2 tab-name">Unit Status</div>
                                             <div class="col-md-10 unitStatus-select">
 
@@ -328,27 +330,34 @@
                                 var post = res.results.post;
                                 var tableHtml = '';
                                 if(post != null){
-                                        tableHtml += '<tr>\
-                                                <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + (GetQueryString('postType') == 'have' ? post.haveId : post.wantId) + '</td>\
-                                                <td>' + post.projectName + '</td>\
-                                                <td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userHaveId + '" role="button">' + post.userHaveName + '</td>\
-                                                <td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userWantId + '" role="button">' + post.userWantName + '</td>\
-                                                <td>' + post.unitType + '</td>\
-                                                <td>' + post.floorLow + '</td>\
-                                                <td>' + post.floorHigh + '</td>\
-                                                <td>' + post.price + '</td>\
-                                                <td>' + post.exposure + '</td>\
-                                                <td>' + post.coop + '</td>\
-                                                <td>' + post.action + '</td>\
-                                                <td>' + post.unitStatus + '</td>\
-                                            </tr>';
+                                    tableHtml += '<tr>\
+                                            <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + (GetQueryString('postType') == 'have' ? post.haveId : post.wantId) + '</td>\
+                                            <td>' + post.projectName + '</td>';
+                                    if(post.postType == 'have'){
+                                        $('.houseWant').addClass('hide');
+                                        tableHtml += '<td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userHaveId + '" role="button">' + post.userHaveName + '</td>';
+                                    }else{
+                                        $('.houseHave').addClass('hide');
+                                        tableHtml += '<td><a class="chat btn btn-default btn-xs mb0" data-id="' + post.userWantId + '" role="button">' + post.userWantName + '</td>';
+                                    }
+                                    tableHtml += '<td>' + post.unitType + '</td>\
+                                            <td>' + post.floorLow + '</td>\
+                                            <td>' + post.floorHigh + '</td>\
+                                            <td>' + post.price + '</td>\
+                                            <td>' + post.exposure + '</td>\
+                                            <td>' + post.coop + '</td>\
+                                            <td>' + post.action + '</td>\
+                                            <td>' + post.unitStatus + '</td>\
+                                        </tr>';
                                 }
                                 $('#tableData').html(tableHtml);
-                                //根据project name获取match list
-                                matchListUrl = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
-                                matchListUrlCache = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
                                 //判断该房源是否在前端被match
                                 if(post.userHaveId && post.userWantId){
+                                    //根据project name获取match list
+                                    matchListUrl = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName + '&action=Pending&unit_status=Pending';
+                                    matchListUrlCache = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName + '&action=Pending&unit_status=Pending';
+                                    $('.actionTab').addClass('hide');
+                                    $('.unitStatusTab').addClass('hide');
                                     $('#alreadyMatch').removeClass('hide');
                                     $('#showCanMatch').removeClass('hide');
                                     $.ajax({
@@ -382,6 +391,9 @@
                                         }
                                     });
                                 }else{
+                                    //根据project name获取match list
+                                    matchListUrl = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
+                                    matchListUrlCache = apiUrl + '/crmapi/searchhouse?post_type=' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '&project_id=' + post.projectId + '&project_name=' + post.projectName;
                                     $('#canMatch').removeClass('hide');
                                     readyList(matchListUrl);
                                     //聊天
