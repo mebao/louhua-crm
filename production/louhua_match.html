@@ -269,7 +269,7 @@
                                                     <td>' + users[i].cell + '</td>\
                                                     <td>' + users[i].roleText + '</td>\
                                                     <td>' + users[i].subscribe + '</td>\
-                                                    <td><a class="match btn btn-default btn-xs mb0" data-wantId="' + users[i].userId + '" role="button">match</a></td>\
+                                                    <td><a class="completeMatch btn btn-default btn-xs mb0" data-houseId="' + users[i].houseId + '" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" role="button">match</a></td>\
                                                 </tr>';
                                     }
                                 }
@@ -278,7 +278,7 @@
                                 $('.chat').click(function(){
                                     chat($(this).attr('data-id'));
                                 });
-                                readyMatch();
+                                completeMatch();
                             }else{
                                 new PNotify({
                                     title: 'Oh No!',
@@ -292,12 +292,11 @@
                     });
                 }
 
-                function readyMatch(){
-                    $('.match').click(function(){
+                function completeMatch(){
+                    $('.completeMatch').click(function(){
                         $.ajax({
-                            type: 'post',
-                            url: apiUrl + '/crmapi/adminmacth',
-                            data: {post_type: 'want', id: $(this).attr('data-wantId'), user_id: $('.house').attr('data-userId'), house_id: $('.house').attr('data-id')},
+                            type: 'get',
+                            url: apiUrl + '/crmapi/matchsuccess/' + $(this).attr('data-houseId') + '?type=' + GetQueryString('type'),
                             success: function(res){
                                 if(res.status == 'ok'){
                                     new PNotify({
@@ -307,6 +306,9 @@
                                         styling: 'bootstrap3',
                                         timerHide: '20',
                                     });
+                                    setTimeout(function(){
+                                        location.href = 'louhua_ihave.html';
+                                    }, 1000);
                                 }else{
                                     new PNotify({
                                         title: 'No',
@@ -316,9 +318,6 @@
                                         timerHide: '20',
                                     });
                                 }
-                            },
-                            error: function(res){
-
                             }
                         });
                     });
