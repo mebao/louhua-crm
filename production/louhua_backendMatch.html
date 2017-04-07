@@ -207,8 +207,8 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Project name</th>
-                                            <th>I have agent</th>
-                                            <th>I want agent</th>
+                                            <th class="matchHave">I have agent</th>
+                                            <th class="matchWant">I want agent</th>
                                             <th>Unit type</th>
                                             <th>Floor Low</th>
                                             <th>Floor High</th>
@@ -351,6 +351,12 @@
                                         </tr>';
                                 }
                                 $('#tableData').html(tableHtml);
+                                // matchList区别展示agent
+                                if(GetQueryString('postType') == 'have'){
+                                    $('.matchHave').addClass('hide');
+                                }else{
+                                    $('.matchWant').addClass('hide');
+                                }
                                 //判断该房源是否在前端被match
                                 if(post.userHaveId && post.userWantId){
                                     //根据project name获取match list
@@ -377,7 +383,7 @@
                                                                     <td>' + users[i].cell + '</td>\
                                                                     <td>' + users[i].roleText + '</td>\
                                                                     <td>' + users[i].subscribe + '</td>\
-                                                                    <td><a class="match btn btn-default btn-xs mb0" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" data-haveId="' + users[i].userId + '" data-wantId="' + users[i].userId + '" role="button">match</a></td>\
+                                                                    <td><a class="completeMatch btn btn-default btn-xs mb0" data-houseId="' + users[i].houseId + '" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" role="button">match</a></td>\
                                                                 </tr>';
                                                     }
                                                 }
@@ -386,7 +392,7 @@
                                                 $('.chat').click(function(){
                                                     chat($(this).attr('data-id'));
                                                 });
-                                                readyMatch(1);
+                                                completeMatch();
                                             }
                                         }
                                     });
@@ -623,10 +629,13 @@
                         for(var i = 0; i < list.length; i++){
                             matchListMatch += '<tr>\
                                                 <td>' + (list[i].postType == 'have' ? list[i].haveId : list[i].wantId)  + '</td>\
-                                                <td>' + list[i].projectName + '</td>\
-                                                <td><a class="chat btn btn-default btn-xs mb0" role="button" data-id="' + list[i].userHaveId + '">' + list[i].userHaveName + '</a></td>\
-                                                <td><a class="chat btn btn-default btn-xs mb0" role="button" data-id="' + list[i].userWantId + '">' + list[i].userWantName + '</a></td>\
-                                                <td>' + list[i].unitType + '</td>\
+                                                <td>' + list[i].projectName + '</td>';
+                            if(GetQueryString('postType') == 'have'){
+                                matchListMatch += '<td><a class="chat btn btn-default btn-xs mb0" role="button" data-id="' + list[i].userWantId + '">' + list[i].userWantName + '</a></td>';
+                            }else{
+                                matchListMatch += '<td><a class="chat btn btn-default btn-xs mb0" role="button" data-id="' + list[i].userHaveId + '">' + list[i].userHaveName + '</a></td>';
+                            }
+                            matchListMatch += '<td>' + list[i].unitType + '</td>\
                                                 <td>' + list[i].floorLow + '</td>\
                                                 <td>' + list[i].floorHigh + '</td>\
                                                 <td>' + list[i].price + '</td>\
@@ -643,7 +652,7 @@
                     $('#matchList').find('.chat').click(function(){
                         chat($(this).attr('data-id'));
                     });
-                    readyMatch(2);
+                    readyMatch();
                 }
 
                 function readyProjectList(projectList){
@@ -726,60 +735,75 @@
                     });
                 }
 
-                function readyMatch(type){
-                    var $matchDom;
-                    /*
-                     * 通过type判断是哪部分绑定match时间
-                     * 1: 前端match列表
-                     * 2: 后端可match列表
-                     */
-                    if(type == 1){
-                        $matchDom = $('#alreadyMatchList').find('.match');
-                    }else{
-                        $matchDom = $('#matchList').find('.match');
-                    }
-
-                    $matchDom.click(function(){
+                function readyMatch(){
+                    $('#matchList').find('.match').click(function(){
                         var _postType = $(this).attr('data-type');
                         var _haveId = $(this).attr('data-haveId');
                         var _wantId = $(this).attr('data-wantId');
-                        reqMatch(_postType, _haveId, _wantId);
+                        var _data = '';
+                        if(GetQueryString('postType') == 'have'){
+                            _data = {post_type: _postType, id: _wantId, user_id: $('.house').attr('data-userHaveId'), house_id: $('.house').attr('data-id')};
+                        }else if(GetQueryString('postType') == 'want'){
+                            _data = {post_type: _postType, id: _haveId, user_id: $('.house').attr('data-userWantId'), house_id: $('.house').attr('data-id')};
+                        }
+                        $.ajax({
+                            type: 'post',
+                            url: apiUrl + '/crmapi/adminmacth',
+                            data: _data,
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Match success',
+                                        type: 'success',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }else{
+                                    new PNotify({
+                                        title: 'No',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
+                            },
+                            error: function(res){
+
+                            }
+                        });
                     });
                 }
 
-                function reqMatch(_postType, _haveId, _wantId){
-                    var _data = '';
-                    if(GetQueryString('postType') == 'have'){
-                        _data = {post_type: _postType, id: _wantId, user_id: $('.house').attr('data-userHaveId'), house_id: $('.house').attr('data-id')};
-                    }else if(GetQueryString('postType') == 'want'){
-                        _data = {post_type: _postType, id: _haveId, user_id: $('.house').attr('data-userWantId'), house_id: $('.house').attr('data-id')};
-                    }
-                    $.ajax({
-                        type: 'post',
-                        url: apiUrl + '/crmapi/adminmacth',
-                        data: _data,
-                        success: function(res){
-                            if(res.status == 'ok'){
-                                new PNotify({
-                                    title: 'Success',
-                                    text: 'Match success',
-                                    type: 'success',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }else{
-                                new PNotify({
-                                    title: 'No',
-                                    text: res.errorMsg,
-                                    type: 'error',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
+                function completeMatch(){
+                    $('.completeMatch').click(function(){
+                        $.ajax({
+                            type: 'get',
+                            url: apiUrl + '/crmapi/matchsuccess/' + $(this).attr('data-houseId') + '?type=' + GetQueryString('postType'),
+                            success: function(res){
+                                if(res.status == 'ok'){
+                                    new PNotify({
+                                        title: 'Success',
+                                        text: 'Match success',
+                                        type: 'success',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                    setTimeout(function(){
+                                        location.href = 'louhua_myTask.html';
+                                    }, 1000);
+                                }else{
+                                    new PNotify({
+                                        title: 'No',
+                                        text: res.errorMsg,
+                                        type: 'error',
+                                        styling: 'bootstrap3',
+                                        timerHide: '20',
+                                    });
+                                }
                             }
-                        },
-                        error: function(res){
-
-                        }
+                        });
                     });
                 }
             }
