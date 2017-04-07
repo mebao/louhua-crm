@@ -111,6 +111,8 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
+                                        <th>Real Name</th>
                                         <th>Project Name</th>
                                         <th>Floor Low</th>
                                         <th>Floor High</th>
@@ -131,6 +133,7 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Real Name</th>
                                         <th>Username</th>
                                         <th>Wechat Name</th>
                                         <th>Full Name</th>
@@ -242,6 +245,8 @@
                         success: function(res){
                             if(res.status == 'ok'){
                                 var info = '<tr>\
+                                                <td>' + res.results.post.showId + '</td>\
+                                                <td><a class="chat btn btn-default btn-xs mb0" data-id="' + res.results.post.user_id + '">' + res.results.post.userName + '</a></td>\
                                                 <td class="house" data-id="' + res.results.post.id + '" data-userId="' + res.results.post.user_id + '">' + res.results.post.projectName + '</td>\
                                                 <td>' + res.results.post.floorLow + '</td>\
                                                 <td>' + res.results.post.floorHigh + '</td>\
@@ -257,6 +262,7 @@
                                 if(users.length > 0){
                                     for(var i = 0; i < users.length; i++){
                                         list += '<tr>\
+                                                    <td><a class="chat btn btn-default btn-xs mb0" data-id="' + users[i].userId + '">' + users[i].realName + '</a></td>\
                                                     <td>' + users[i].username + '</td>\
                                                     <td>' + users[i].wechatName + '</td>\
                                                     <td>' + users[i].realName + '</td>\
@@ -268,6 +274,10 @@
                                     }
                                 }
                                 $('#matchList').html(list);
+                                //聊天
+                                $('.chat').click(function(){
+                                    chat($(this).attr('data-id'));
+                                });
                                 readyMatch();
                             }else{
                                 new PNotify({
