@@ -245,6 +245,24 @@
                             </div>
                         </div>
                     </div>
+                    <div id="matchSuccessModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to complete the match?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button id="confirmMatchSuccess" type="button" class="btn btn-primary">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
@@ -383,7 +401,7 @@
                                                                     <td>' + users[i].cell + '</td>\
                                                                     <td>' + users[i].roleText + '</td>\
                                                                     <td>' + users[i].subscribe + '</td>\
-                                                                    <td><a class="completeMatch btn btn-default btn-xs mb0" data-houseId="' + users[i].houseId + '" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" role="button">match</a></td>\
+                                                                    <td><a class="completeMatch btn btn-default btn-xs mb0" data-houseId="' + users[i].houseId + '" data-type="' + (GetQueryString('postType') == 'have' ? 'want' : 'have') + '" role="button">match success</a></td>\
                                                                 </tr>';
                                                     }
                                                 }
@@ -778,34 +796,41 @@
 
                 function completeMatch(){
                     $('.completeMatch').click(function(){
-                        $.ajax({
-                            type: 'get',
-                            url: apiUrl + '/crmapi/matchsuccess/' + $(this).attr('data-houseId') + '?type=' + GetQueryString('postType'),
-                            success: function(res){
-                                if(res.status == 'ok'){
-                                    new PNotify({
-                                        title: 'Success',
-                                        text: 'Match success',
-                                        type: 'success',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                    setTimeout(function(){
-                                        location.href = 'louhua_myTask.html';
-                                    }, 1000);
-                                }else{
-                                    new PNotify({
-                                        title: 'No',
-                                        text: res.errorMsg,
-                                        type: 'error',
-                                        styling: 'bootstrap3',
-                                        timerHide: '20',
-                                    });
-                                }
-                            }
-                        });
+                        $('#confirmMatchSuccess').attr('data-houseId', $(this).attr('data-houseId'));
+                        $('#matchSuccessModal').modal('show');
                     });
                 }
+                
+                $('#confirmMatchSuccess').click(function(){
+                    $('#matchSuccessModal').modal('hide');
+                    $.ajax({
+                        type: 'get',
+                        url: apiUrl + '/crmapi/matchsuccess/' + $(this).attr('data-houseId') + '?type=' + GetQueryString('postType'),
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                new PNotify({
+                                    title: 'Success',
+                                    text: 'Matching housing success, the end of this task.',
+                                    type: 'success',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                                setTimeout(function(){
+                                    location.href = 'louhua_myTask.html';
+                                }, 1000);
+                            }else{
+                                new PNotify({
+                                    title: 'No',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        }
+                    });
+
+                });
             }
         </script>
     </body>

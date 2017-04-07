@@ -287,7 +287,6 @@
                                             tableHtml += '<td>\
                                                         <a class="match btn btn-default btn-xs mb0" data-id="' + list[i].id + '" data-type="' + list[i].postType + '" role="button">match</a>\
                                                         <a class="update btn btn-default btn-xs mb0" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" data-type="' + list[i].postType + '" role="button">update</a>\
-                                                        <a class="complete btn btn-default btn-xs mb0" data-id="' + list[i].id + '" role="button">complete</a>\
                                                     </td>\
                                                 </tr>';
                                         }
@@ -351,42 +350,42 @@
                             }
                         });
                     });
-                    $('.complete').click(function(){
-                        $('#confirmComplete').attr('data-id', $(this).attr('data-id'));
-                        $('#completeModal').modal('show');
-                    });
+                    // $('.complete').click(function(){
+                    //     $('#confirmComplete').attr('data-id', $(this).attr('data-id'));
+                    //     $('#completeModal').modal('show');
+                    // });
                 }
-                $('#confirmComplete').click(function(){
-                    $('#completeModal').modal('hide');
-                    $.ajax({
-                        type: 'post',
-                        url: apiUrl + '/crmapi/taskfinish/' + $(this).attr('data-id'),
-                        data: {username: username, token: token},
-                        success: function(res){
-                            if(res.status == 'ok'){
-                                requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
-                                new PNotify({
-                                    title: 'Success',
-                                    text: 'Complete success',
-                                    type: 'success',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }else{
-                                new PNotify({
-                                    title: 'Oh No!',
-                                    text: res.errorMsg,
-                                    type: 'error',
-                                    styling: 'bootstrap3',
-                                    timerHide: '20',
-                                });
-                            }
-                        },
-                        error: function(res){
+                // $('#confirmComplete').click(function(){
+                //     $('#completeModal').modal('hide');
+                //     $.ajax({
+                //         type: 'post',
+                //         url: apiUrl + '/crmapi/taskfinish/' + $(this).attr('data-id'),
+                //         data: {username: username, token: token},
+                //         success: function(res){
+                //             if(res.status == 'ok'){
+                //                 requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
+                //                 new PNotify({
+                //                     title: 'Success',
+                //                     text: 'Complete success',
+                //                     type: 'success',
+                //                     styling: 'bootstrap3',
+                //                     timerHide: '20',
+                //                 });
+                //             }else{
+                //                 new PNotify({
+                //                     title: 'Oh No!',
+                //                     text: res.errorMsg,
+                //                     type: 'error',
+                //                     styling: 'bootstrap3',
+                //                     timerHide: '20',
+                //                 });
+                //             }
+                //         },
+                //         error: function(res){
 
-                        }
-                    });
-                });
+                //         }
+                //     });
+                // });
             }
         </script>
     </body>
