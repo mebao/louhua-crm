@@ -174,7 +174,7 @@
 
         <script>
             if(signIn){
-                if(localStorage.getItem('role') != 1){
+                if(!(localStorage.getItem('role') == 1 || localStorage.getItem('role') == 2)){
                     $('#roleIntercept').modal({backdrop: 'static', keyboard: false});
                 }else{
                     var username = localStorage.getItem('username');

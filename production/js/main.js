@@ -1,6 +1,5 @@
-// var apiUrl = 'http://192.168.1.3/xinlouhua';
-var apiUrl = 'http://192.168.1.6/xinlouhua';
-// var apiUrl = 'http://api.louhua.meb168.com';
+// var apiUrl = 'http://192.168.1.2/xinlouhua';
+var apiUrl = 'http://api.louhua.meb168.com';
 
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -236,16 +235,18 @@ function chat(id){
 
 //left sider共用
 // 通过角色
-var menuHtml = '<ul class="nav side-menu">';
+var menuHtml = '<ul class="nav side-menu">\
+    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>\
+        <ul class="nav child_menu">';
 if(localStorage.getItem('role') == 1){
-    menuHtml += '<li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>\
-        <ul class="nav child_menu">\
-            <li><a href="louhua_adminlist.html">Admin List</a></li>\
-            <li><a href="louhua_agentlist.html">Agent List</a></li>\
-        </ul>\
-    </li>';
+    menuHtml += '<li><a href="louhua_adminlist.html">Admin List</a></li>\
+            <li><a href="louhua_agentlist.html">Agent List</a></li>';
+}else if(localStorage.getItem('role') == 2){
+    menuHtml += '<li><a href="louhua_agentlist.html">Agent List</a></li>';
 }
-menuHtml += '<li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>\
+menuHtml += '</ul>\
+    </li>\
+    <li><a><i class="fa fa-edit"></i> Project Manage <span class="fa fa-chevron-down"></span></a>\
         <ul class="nav child_menu">\
             <li>\
                 <a href="louhua_projectList.html">Project List</a>\

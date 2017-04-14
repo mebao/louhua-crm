@@ -338,7 +338,7 @@
 
         <script>
             if(signIn){
-                if(localStorage.getItem('role') != 1){
+                if(!(localStorage.getItem('role') == 1 || localStorage.getItem('role') == 2)){
                     $('#roleIntercept').modal({backdrop: 'static', keyboard: false});
                 }else{
                     var url = apiUrl + '/crmapi/searchagents?getcount=1';
@@ -411,7 +411,7 @@
                     var dataTable = '';
 
                     function requestData(_url){
-                        if(localStorage.getItem('role') == 1){
+                        if(localStorage.getItem('role') == 1 || localStorage.getItem('role') == 2){
                             $.ajax({
                                 type: 'get',
                                 url: _url,
