@@ -308,6 +308,12 @@
                             });
                             return;
                         }
+                        if($('#iHaveAgent').val() == ''){
+                            $('input[name="user_have_name"]').val('');
+                        }
+                        if($('#iWantAgent').val() == ''){
+                            $('input[name="user_want_name"]').val('');
+                        }
                         $.ajax({
                             type: 'post',
                             url: apiUrl + '/crmapi/addhouse',
