@@ -349,7 +349,7 @@
                                 var tableHtml = '';
                                 if(post != null){
                                     tableHtml += '<tr>\
-                                            <td class="house" data-type="' + post.postType + '" data-userHaveId="' + post.userHaveId + '" data-userWantId="' + post.userWantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + (GetQueryString('postType') == 'have' ? post.haveId : post.wantId) + '</td>\
+                                            <td class="house" data-type="' + post.postType + '" data-haveId="' + post.haveId + '" data-wantId="' + post.wantId + '" data-id="' + post.id + '" data-projectId="' + post.projectId + '" data-projectName="' + post.projectName + '">' + (GetQueryString('postType') == 'have' ? post.haveId : post.wantId) + '</td>\
                                             <td>' + post.projectName + '</td>';
                                     if(post.postType == 'have'){
                                         $('.houseWant').addClass('hide');
@@ -661,7 +661,7 @@
                                                 <td>' + list[i].coop + '</td>\
                                                 <td>' + list[i].action + '</td>\
                                                 <td>' + list[i].unitStatus + '</td>\
-                                                <td><a class="match btn btn-default btn-xs mb0" data-type="' + list[i].postType + '" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" role="button">match</a></td>\
+                                                <td><a class="match btn btn-default btn-xs mb0" data-type="' + list[i].postType + '" data-userHaveId="' + list[i].userHaveId + '" data-userWantId="' + list[i].userWantId + '" role="button">match</a></td>\
                                             </tr>';
                         }
                     }
@@ -755,14 +755,11 @@
 
                 function readyMatch(){
                     $('#matchList').find('.match').click(function(){
-                        var _postType = $(this).attr('data-type');
-                        var _haveId = $(this).attr('data-haveId');
-                        var _wantId = $(this).attr('data-wantId');
                         var _data = '';
                         if(GetQueryString('postType') == 'have'){
-                            _data = {post_type: _postType, id: _wantId, user_id: $('.house').attr('data-userHaveId'), house_id: $('.house').attr('data-id')};
+                            _data = {post_type: 'have', id: $('.house').attr('data-haveId'), user_id: $(this).attr('data-userWantId'), house_id: $('.house').attr('data-id')};
                         }else if(GetQueryString('postType') == 'want'){
-                            _data = {post_type: _postType, id: _haveId, user_id: $('.house').attr('data-userWantId'), house_id: $('.house').attr('data-id')};
+                            _data = {post_type: 'want', id: $('.house').attr('data-wantId'), user_id: $(this).attr('data-userHaveId'), house_id: $('.house').attr('data-id')};
                         }
                         $.ajax({
                             type: 'post',
