@@ -148,6 +148,20 @@
                             </div>
                         </div>
                     </div>
+                    <div id="completeIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Notice</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Action or Unit status status is not passed, action must be Deal Done or Deal Failed, Unit status must be Matched, please modify the status.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="loginIntercept" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
@@ -360,13 +374,7 @@
                             $('#confirmComplete').attr('data-id', $(this).attr('data-id'));
                             $('#completeModal').modal('show');
                         }else{
-                            new PNotify({
-                                title: 'Oh No!',
-                                text: 'Action or Unit status status is not passed, action must be Deal Done or Deal Failed, Unit status must be Matched, please modify the status.',
-                                type: 'error',
-                                styling: 'bootstrap3',
-                                timerHide: '20',
-                            });
+                            $('#completeIntercept').modal('show');
                         }
                     });
                 }
