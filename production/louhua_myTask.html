@@ -287,6 +287,7 @@
                                             tableHtml += '<td>\
                                                         <a class="match btn btn-default btn-xs mb0" data-id="' + list[i].id + '" data-type="' + list[i].postType + '" role="button">match</a>\
                                                         <a class="update btn btn-default btn-xs mb0" data-haveId="' + list[i].haveId + '" data-wantId="' + list[i].wantId + '" data-type="' + list[i].postType + '" role="button">update</a>\
+                                                        <a class="complete btn btn-default btn-xs mb0" data-id="' + list[i].id + '" data-action="' + list[i].action + '" data-unitStatus="' + list[i].unitStatus + '" role="button">complete</a>\
                                                     </td>\
                                                 </tr>';
                                         }
@@ -335,6 +336,7 @@
                                         type: 'success',
                                         styling: 'bootstrap3'
                                     });
+                                    requestData();
                                 }else{
                                     new PNotify({
                                         title: 'Oh No!',
@@ -350,42 +352,55 @@
                             }
                         });
                     });
-                    // $('.complete').click(function(){
-                    //     $('#confirmComplete').attr('data-id', $(this).attr('data-id'));
-                    //     $('#completeModal').modal('show');
-                    // });
+                    $('.complete').click(function(){
+                        var action = $(this).attr('data-action');
+                        var unitStatus = $(this).attr('data-unitStatus');
+                        //action 为Deal Done || Deal Failed，unitStatus为 Matched 的可操作完成
+                        if((action == 'Deal Done' || action == 'Deal Failed') && unitStatus == 'Matched'){
+                            $('#confirmComplete').attr('data-id', $(this).attr('data-id'));
+                            $('#completeModal').modal('show');
+                        }else{
+                            new PNotify({
+                                title: 'Oh No!',
+                                text: 'Action or Unit status status is not passed, action must be Deal Done or Deal Failed, Unit status must be Matched, please modify the status.',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                timerHide: '20',
+                            });
+                        }
+                    });
                 }
-                // $('#confirmComplete').click(function(){
-                //     $('#completeModal').modal('hide');
-                //     $.ajax({
-                //         type: 'post',
-                //         url: apiUrl + '/crmapi/taskfinish/' + $(this).attr('data-id'),
-                //         data: {username: username, token: token},
-                //         success: function(res){
-                //             if(res.status == 'ok'){
-                //                 requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
-                //                 new PNotify({
-                //                     title: 'Success',
-                //                     text: 'Complete success',
-                //                     type: 'success',
-                //                     styling: 'bootstrap3',
-                //                     timerHide: '20',
-                //                 });
-                //             }else{
-                //                 new PNotify({
-                //                     title: 'Oh No!',
-                //                     text: res.errorMsg,
-                //                     type: 'error',
-                //                     styling: 'bootstrap3',
-                //                     timerHide: '20',
-                //                 });
-                //             }
-                //         },
-                //         error: function(res){
+                $('#confirmComplete').click(function(){
+                    $('#completeModal').modal('hide');
+                    $.ajax({
+                        type: 'post',
+                        url: apiUrl + '/crmapi/taskfinish/' + $(this).attr('data-id'),
+                        data: {username: username, token: token},
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                requestData(apiUrl + '/crmapi/searchhouse?post_type=have');
+                                new PNotify({
+                                    title: 'Success',
+                                    text: 'Complete success',
+                                    type: 'success',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        },
+                        error: function(res){
 
-                //         }
-                //     });
-                // });
+                        }
+                    });
+                });
             }
         </script>
     </body>
