@@ -352,7 +352,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                        <button id="confirmListUpdate" type="button" class="btn btn-primary">Send</button>
+                                        <button id="confirmListUpdate" type="button" class="btn btn-primary">Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -931,45 +931,8 @@
                     //在列表中修改
                     $('.listUpdate').change(function(){
                         $('#onlistUpdate').modal('show');
-                        var _id = $('.showMatch').attr('data-haveId');
-                        var _projectName = $('.showMatch').attr('data-projectName');
-                        var _name = $(this).attr('data-name');
-                        var _value = $(this).val();
-                        var _data = {};
-                        if(_name == 'action'){
-                            _data = {project_name: _projectName, post_type: 'have', action: _value};
-                        }else if(_name == 'unit_status'){
-                            _data = {project_name: _projectName, post_type: 'have', unit_status: _value};
-                        }
-                        $('#confirmListUpdate').click(function(){
-                            $('#onlistUpdate').modal('hide');
-                            $.ajax({
-                                type: 'post',
-                                url: apiUrl + '/crmapi/updatehouse/' + _id,
-                                data: _data,
-                                success: function(res){
-                                    if(res.status == 'ok'){
-                                        new PNotify({
-                                          title: 'Success',
-                                          text: 'Update success',
-                                          type: 'success',
-                                          styling: 'bootstrap3'
-                                        });
-                                    }else{
-                                        new PNotify({
-                                            title: 'Oh No!',
-                                            text: res.errorMsg,
-                                            type: 'error',
-                                            styling: 'bootstrap3',
-                                            timerHide: '20',
-                                        });
-                                    }
-                                },
-                                error: function(res){
-
-                                }
-                            });
-                        });
+                        $('#confirmListUpdate').attr('data-name', $(this).attr('data-name'));
+                        $('#confirmListUpdate').attr('data-value', $(this).val());
                     });
                     $('.delete').click(function(){
                         var type = $(this).attr('data-type');
@@ -982,6 +945,47 @@
                         $('#deleteModal').modal('show');
                     });
                 }
+
+                $('#confirmListUpdate').click(function(){
+                    var _id = $('.showMatch').attr('data-haveId');
+                    var _projectName = $('.showMatch').attr('data-projectName');
+                    var _name = $(this).attr('data-name');
+                    var _value = $(this).attr('data-value');
+                    var _data = {};
+                    if(_name == 'action'){
+                        _data = {project_name: _projectName, post_type: 'have', action: _value};
+                    }else if(_name == 'unit_status'){
+                        _data = {project_name: _projectName, post_type: 'have', unit_status: _value};
+                    }
+                    $('#onlistUpdate').modal('hide');
+                    $.ajax({
+                        type: 'post',
+                        url: apiUrl + '/crmapi/updatehouse/' + _id,
+                        data: _data,
+                        success: function(res){
+                            if(res.status == 'ok'){
+                                new PNotify({
+                                  title: 'Success',
+                                  text: 'Update success',
+                                  type: 'success',
+                                  styling: 'bootstrap3'
+                                });
+                            }else{
+                                new PNotify({
+                                    title: 'Oh No!',
+                                    text: res.errorMsg,
+                                    type: 'error',
+                                    styling: 'bootstrap3',
+                                    timerHide: '20',
+                                });
+                            }
+                        },
+                        error: function(res){
+
+                        }
+                    });
+                });
+
                 $('#confirmDelete').click(function(){
                     $('#deleteModal').modal('hide');
                     $.ajax({

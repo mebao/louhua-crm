@@ -10,6 +10,7 @@
 .pt5{padding-top: 5px;}
 .pt8{padding-top: 8px;}
 .pt10{padding-top: 10px;}
+.pl0{padding-left: 0px;}
 .pl20{padding-left: 20px;}
 .pb10{padding-bottom: 10px;}
 .pb20{padding-bottom: 20px;}
@@ -18,6 +19,8 @@
 .mt20{margin-top: 20px;}
 .mb0{margin-bottom: 0px;}
 .mb10{margin-bottom: 10px;}
+
+.text-left{text-align: left!important;}
 
 .hide{display: hidden;}
 
