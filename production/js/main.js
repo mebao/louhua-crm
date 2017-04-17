@@ -1,5 +1,5 @@
-// var apiUrl = 'http://192.168.1.2/xinlouhua';
-var apiUrl = 'http://api.louhua.meb168.com';
+var apiUrl = 'http://192.168.1.2/xinlouhua';
+// var apiUrl = 'http://api.louhua.meb168.com';
 
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
