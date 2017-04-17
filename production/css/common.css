@@ -70,3 +70,9 @@
 .profile_info h2{
 	word-wrap: break-word;
 }
+
+.logo{
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+}
